@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { zhCN } from "@/app/utils/zhCN";
 
 const OutlinksSubTable = ({ data }: { data: any }) => {
   const tableRef = useRef<HTMLTableElement>(null);
@@ -69,8 +70,8 @@ const OutlinksSubTable = ({ data }: { data: any }) => {
     const uniqueStatusCodes = Array.from(uniqueMap.values());
 
     if (!uniqueStatusCodes.length) {
-      await message("No data to export", {
-        title: "Export Error",
+      await message(zhCN.global.subtables.noDataToExport, {
+        title: zhCN.global.subtables.exportError,
         type: "error",
       });
       return;
@@ -117,15 +118,15 @@ const OutlinksSubTable = ({ data }: { data: any }) => {
         await writeTextFile(filePath, csvContent);
 
         // Show success message
-        await message("CSV file saved successfully!", {
-          title: "Export Complete",
+        await message(zhCN.global.subtables.csvSaved, {
+          title: zhCN.global.subtables.exportComplete,
           type: "info",
         });
       }
     } catch (error) {
       console.error("Export failed:", error);
-      await message(`Failed to export CSV: ${error}`, {
-        title: "Export Error",
+      await message(`${zhCN.global.subtables.exportFailedPrefix}${error}`, {
+        title: zhCN.global.subtables.exportError,
         type: "error",
       });
     }
@@ -150,7 +151,7 @@ const OutlinksSubTable = ({ data }: { data: any }) => {
         }}
       >
         <p className="dark:text-white/50 text-black/50 text-xs">
-          Select a URL from the HTML table to view details
+          {zhCN.global.subtables.selectUrlToViewDetails}
         </p>
       </div>
     );
@@ -162,7 +163,7 @@ const OutlinksSubTable = ({ data }: { data: any }) => {
         onClick={exportCSV}
         className="absolute top-1   right-2 z-50 text-xs border dark:border-brand-bright  border-brand-bright px-3 h-5 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors  dark:text-white/50"
       >
-        Export
+        {zhCN.global.subtables.export}
       </button>
       <Table
         ref={tableRef}

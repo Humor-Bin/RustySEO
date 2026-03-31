@@ -27,6 +27,7 @@ import GlobalSettings from "../components/ui/GeneralSettings/GeneralSettings";
 import { PiShuffleAngularLight } from "react-icons/pi";
 import { LuMicroscope } from "react-icons/lu";
 import { useDiffStore } from "@/store/DiffStore";
+import { zhCN } from "@/app/utils/zhCN";
 // import KeywordTrackingDeepCrawlContainer from "./_components/KeywordTracking/KeywordTrackingDeepCrawlContainer";
 
 interface CrawlResult {
@@ -258,7 +259,7 @@ export default function Page() {
         <div className="relative">
           <input
             type="text"
-            placeholder="Search..."
+            placeholder={zhCN.global.searchPlaceholder}
             value={search}
             onChange={handleSearchChange}
             className="mb-4 p-2 border rounded text-xs"
@@ -273,11 +274,10 @@ export default function Page() {
             >
               <Tabs.Tab value="first">
                 <FaGlobe className="inline-block mr-2" />
-                Deep Crawl
+                {zhCN.global.tabs.deepCrawl}
               </Tabs.Tab>
               <Tabs.Tab value="tasks">
-                <FaTasks className="inline-block mr-1 text-sm mb-[2px]" /> Task
-                Manager
+                <FaTasks className="inline-block mr-1 text-sm mb-[2px]" /> {zhCN.global.tabs.taskManager}
               </Tabs.Tab>
               <Tabs.Tab value="analytics">
                 <FaChartBar className="inline-block mr-2" />
@@ -295,15 +295,15 @@ export default function Page() {
               )}
               <Tabs.Tab value="gsc">
                 <SlSocialGoogle className="inline-block mr-2 mb-[2px] text-sm" />
-                Search Console
+                {zhCN.global.tabs.searchConsole}
               </Tabs.Tab>
               <Tabs.Tab value="kws">
                 <IoKeyOutline className="inline-block mr-2 mb-[2px] text-sm" />
-                Tracking
+                {zhCN.global.tabs.tracking}
               </Tabs.Tab>
               <Tabs.Tab value="content">
                 <GrPlan className="inline-block mr-2 mb-[2px] text-sm" />
-                Content
+                {zhCN.global.tabs.content}
               </Tabs.Tab>
             </Tabs.List>
           </aside>
@@ -358,7 +358,7 @@ export default function Page() {
                       src={powerBiUrl}
                       frameBorder="0"
                       allowFullScreen={true}
-                      title="Power BI Report"
+                      title="Power BI 报表"
                     ></iframe>
                   </div>
                 ) : null}

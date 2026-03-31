@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import type { Column } from "../types/table";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface ColumnSelectorProps {
   columns: Column[];
@@ -69,9 +70,9 @@ const ColumnSelector: React.FC<ColumnSelectorProps> = ({
       </PopoverTrigger>
       <PopoverContent className="w-[200px] dark:bg-brand-darker dark:text-white/50 p-0">
         <Command>
-          <CommandInput placeholder="Search columns..." />
+          <CommandInput placeholder={zhCN.global.shared.searchColumns} />
           <CommandList>
-            <CommandEmpty>No column found.</CommandEmpty>
+            <CommandEmpty>{zhCN.global.shared.noColumnFound}</CommandEmpty>
             <CommandGroup>
               {columns.map((column) => (
                 <CommandItem

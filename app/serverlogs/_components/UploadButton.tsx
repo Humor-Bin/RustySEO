@@ -26,6 +26,7 @@ import ProjectsDBManager from "./LogsDBprojectsManager";
 import GSCuploadManager from "./GSCuploadManager";
 import { SiGooglesearchconsole } from "react-icons/si";
 import GSCcontainer from "@/app/components/ui/GSCcontainer/GSCcontainer";
+import { zhCN } from "@/app/utils/zhCN";
 
 function UploadButton() {
   const [uploadOpen, setUploadOpen] = useState(false);
@@ -42,7 +43,7 @@ function UploadButton() {
     setLogsFromDB([]);
     setStoredLogsFromDBStore([]);
     reset();
-    toast.success("All previous logs have been removed from cache");
+    toast.success(zhCN.serverlogs.upload.cacheCleared);
   };
 
   return (
@@ -56,7 +57,7 @@ function UploadButton() {
               className="bg-brand-bright rounded-l-2xl text-xs w-32 h-7 text-white flex justify-center items-center hover:bg-brand-bright/90 transition-colors active:scale-95"
             >
               <Plus size={18} className="text-xs mr-1 dark:text-white" />
-              Upload Logs
+              {zhCN.serverlogs.upload.uploadLogs}
             </button>
           </DialogTrigger>
           <DialogContent className="p-8 dark:bg-brand-darker dark:border-brand-bright">
@@ -68,7 +69,7 @@ function UploadButton() {
         <Tooltip
           id="upload-tooltip"
           place="top"
-          content="Upload or append logs"
+          content={zhCN.serverlogs.upload.uploadTooltip}
           className="!bg-gray-800 !text-xs"
         />
       </>
@@ -78,7 +79,7 @@ function UploadButton() {
       <Tooltip
         id="gsc-tooltip"
         place="top"
-        content="View Google Search Console data"
+        content={zhCN.serverlogs.upload.gscTooltip}
         className="!bg-gray-800 !text-xs"
       />
       <Dialog className="w-[1200px]" open={gscOpen} onOpenChange={setGscOpen}>
@@ -97,7 +98,7 @@ function UploadButton() {
 
       {/* Settings Button */}
       <>
-        <Tooltip id="settings-tooltip" place="top" content="Settings" />
+        <Tooltip id="settings-tooltip" place="top" content={zhCN.serverlogs.upload.settingsTooltip} />
         <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
           <DialogTrigger asChild>
             <button
@@ -114,13 +115,13 @@ function UploadButton() {
                   className="hover:bg-brand-bright/70 hover:text-white"
                   value="domain"
                 >
-                  Domain
+                  {zhCN.serverlogs.upload.tabs.domain}
                 </TabsTrigger>
-                <TabsTrigger value="taxonomy">Content Segments</TabsTrigger>
+                <TabsTrigger value="taxonomy">{zhCN.serverlogs.upload.tabs.taxonomy}</TabsTrigger>
                 {/* <TabsTrigger value="ips">Google IPs</TabsTrigger> */}
-                <TabsTrigger value="logs">Stored Logs</TabsTrigger>
-                <TabsTrigger value="gsc">GSC Sync</TabsTrigger>
-                <TabsTrigger value="projects">Projects</TabsTrigger>
+                <TabsTrigger value="logs">{zhCN.serverlogs.upload.tabs.logs}</TabsTrigger>
+                <TabsTrigger value="gsc">{zhCN.serverlogs.upload.tabs.gsc}</TabsTrigger>
+                <TabsTrigger value="projects">{zhCN.serverlogs.upload.tabs.projects}</TabsTrigger>
               </TabsList>
 
               {/* SEPARATOR */}
@@ -159,12 +160,12 @@ function UploadButton() {
           className="dark:bg-red-800  bg-red-700 w-32 h-7 text-xs flex items-center justify-center text-white rounded-sm cursor-pointer active:scale-95 p-2 rounded-r-xl pr-4"
         >
           <FaRegTrashCan className="mr-2" />
-          Remove Logs
+          {zhCN.serverlogs.upload.clearLogs}
         </aside>
         <Tooltip
           id="reload-tooltip"
           place="top"
-          content="Clear all logs"
+          content={zhCN.serverlogs.upload.clearLogsTooltip}
           className="!bg-gray-800 !text-xs"
         />
       </>

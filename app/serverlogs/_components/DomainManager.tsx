@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { invoke } from "@tauri-apps/api/core";
 import { useRouter } from "next/navigation";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface DomainManagerProps {
   closeDialog: () => void;
@@ -26,19 +27,19 @@ export default function DomainManager({ closeDialog }: DomainManagerProps) {
 
   const handleAddDomain = () => {
     if (!inputValue.trim()) {
-      toast.error("Domain cannot be empty");
+      toast.error(zhCN.serverlogs.domain.empty);
       return;
     }
 
     // Basic domain validation
     if (!/^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$/i.test(inputValue)) {
-      toast.error("Please enter a valid domain");
+      toast.error(zhCN.serverlogs.domain.invalid);
       return;
     }
 
     setDomain(inputValue);
     setInputValue("");
-    toast.success(`Domain "${inputValue}" has been added`);
+    toast.success(`${zhCN.serverlogs.domain.added} "${inputValue}"`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -50,7 +51,7 @@ export default function DomainManager({ closeDialog }: DomainManagerProps) {
 
   const handleSubmitDomain = async () => {
     if (!domain.trim()) {
-      toast.error("No domain to submit");
+      toast.error(zhCN.serverlogs.domain.noDomain);
       return;
     }
 
@@ -61,12 +62,12 @@ export default function DomainManager({ closeDialog }: DomainManagerProps) {
       localStorage.setItem("domain", domain);
       localStorage.setItem("showOnTables", JSON.stringify(showOnTables));
 
-      toast.success("Settings saved", {
-        description: `Domain: ${domain} | Show on tables: ${showOnTables ? "Yes" : "No"}`,
+      toast.success(zhCN.serverlogs.domain.saved, {
+        description: `Domain: ${domain} | Show on tables: ${showOnTables ? zhCN.serverlogs.domain.showOnTablesYes : zhCN.serverlogs.domain.showOnTablesNo}`,
       });
     } catch (error) {
-      toast.error("Failed to save settings", {
-        description: "Please try again later",
+      toast.error(zhCN.serverlogs.domain.saveFailed, {
+        description: zhCN.serverlogs.domain.retryLater,
       });
       console.error("Error saving settings:", error);
     } finally {
@@ -94,10 +95,10 @@ export default function DomainManager({ closeDialog }: DomainManagerProps) {
       <CardContent className="grid gap-6 h-[490px]">
         {/* Domain Input Section */}
         <div className="space-y-4">
-          <h3 className="text-sm font-medium dark:text-white">Set Domain</h3>
+          <h3 className="text-sm font-medium dark:text-white">{zhCN.serverlogs.domain.title}</h3>
           <div className="flex gap-2">
             <Input
-              placeholder="Enter your domain (e.g., example.com)"
+              placeholder={zhCN.serverlogs.domain.placeholder}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -110,14 +111,14 @@ export default function DomainManager({ closeDialog }: DomainManagerProps) {
               disabled={isSubmitting}
             >
               <PlusCircle className="h-4 w-4" />
-              <span>Add</span>
+              <span>{zhCN.serverlogs.domain.add}</span>
             </Button>
           </div>
 
           {/* Current Domain Display */}
           <div className="space-y-4 mt-6">
             <h3 className="text-sm font-medium dark:text-white">
-              Current Domain
+              {zhCN.serverlogs.domain.currentDomain}
             </h3>
             <div className="border dark:border-brand-dark rounded-md p-4">
               {domain ? (
@@ -132,7 +133,7 @@ export default function DomainManager({ closeDialog }: DomainManagerProps) {
                     variant="ghost"
                     size="icon"
                     onClick={() => setDomain("")}
-                    aria-label="Remove domain"
+                    aria-label={zhCN.serverlogs.domain.removeDomain}
                     disabled={isSubmitting}
                   >
                     <X className="h-4 w-4 text-red-500" />
@@ -140,7 +141,7 @@ export default function DomainManager({ closeDialog }: DomainManagerProps) {
                 </div>
               ) : (
                 <div className="text-sm text-muted-foreground py-4 text-center dark:text-white/50">
-                  No domain set yet
+                  {zhCN.serverlogs.domain.noDomainYet}
                 </div>
               )}
             </div>
@@ -156,15 +157,13 @@ export default function DomainManager({ closeDialog }: DomainManagerProps) {
               className="data-[state=checked]:bg-blue-500 data-[state=unchecked]:bg-gray-300 dark:data-[state=checked]:bg-blue-700"
             />
             <Label className="dark:text-white/50" htmlFor="show-on-tables">
-              Show domain on tables
+              {zhCN.serverlogs.domain.showOnTables}
             </Label>
           </div>
 
           <div className="py-2 bg-neutral-100 dark:bg-brand-dark dark:text-white/50 px-2 rounded-md mt-4">
             <p className="text-xs text-muted-foreground dark:text-white/50">
-              Enter your primary domain to enable site-wide features. This
-              should be your root domain without protocol (e.g.,
-              &quot;example.com&quot; not &quot;https://example.com&quot;).
+              {zhCN.serverlogs.domain.help}
             </p>
           </div>
         </div>
@@ -179,12 +178,12 @@ export default function DomainManager({ closeDialog }: DomainManagerProps) {
           {isSubmitting ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              <span>Saving Settings...</span>
+              <span>{zhCN.serverlogs.domain.saving}</span>
             </>
           ) : (
             <>
               <Save className="h-4 w-4" />
-              <span>Save Settings & Reload</span>
+              <span>{zhCN.serverlogs.domain.saveReload}</span>
             </>
           )}
         </Button>

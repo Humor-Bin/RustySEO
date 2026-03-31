@@ -26,6 +26,7 @@ import {
 import { IoKey } from "react-icons/io5";
 import { invoke } from "@tauri-apps/api/core";
 import { emit, listen } from "@tauri-apps/api/event";
+import { zhCN } from "@/app/utils/zhCN";
 
 const RankingMenus = ({
   children,
@@ -67,7 +68,7 @@ const RankingMenus = ({
 
   const handleCopy = useCallback((url: string) => {
     navigator?.clipboard.writeText(url);
-    toast.success("Copied to clipboard");
+    toast.success(zhCN.global.sidebar.queryMenu.copied);
   }, []);
 
   const openSearchConsoleUrl = (query: string) => {
@@ -117,11 +118,11 @@ const RankingMenus = ({
         });
 
         // Immediate validation and feedback
-        toast.loading("Processing keyword...");
+        toast.loading("处理中…");
 
         // Validate required parameters
         if (!query || query.trim() === "") {
-          toast.error("Cannot add keyword: Query is required");
+          toast.error(zhCN.global.sidebar.queryMenu.queryRequired);
           console.error("❌ Invalid query parameter:", query);
           return;
         }
@@ -165,7 +166,7 @@ const RankingMenus = ({
 
         const mainOperation = async () => {
           console.log("🔍 Step 2: Invoking Tauri command...");
-          toast.loading("Saving to database...");
+          toast.loading("正在保存到数据库…");
 
           const result = await invoke("add_gsc_data_to_kw_tracking_command", {
             data,
@@ -173,7 +174,7 @@ const RankingMenus = ({
 
           console.log("✅ Backend result:", result);
           console.log("🔍 Step 3: Syncing tracking tables...");
-          toast.loading("Syncing data...");
+          toast.loading("正在同步数据…");
 
           // Trigger data refresh to sync tracking tables
           await invoke("match_tracked_with_gsc_command");
@@ -181,7 +182,7 @@ const RankingMenus = ({
           console.log("✅ Step 3 completed. Tables synced");
           console.log("🔍 Step 4: Emitting events...");
 
-          toast.success("Keyword added to Tracking Dashboard");
+          toast.success(zhCN.global.sidebar.queryMenu.addedToTracking);
           await emit("keyword-tracked", { action: "add", data });
 
           console.log("✅ Step 4 completed");
@@ -209,14 +210,14 @@ const RankingMenus = ({
         // More specific error messages
         const errorMessage = String(error);
         if (errorMessage.includes("UNIQUE constraint")) {
-          toast.error("Keyword already exists in tracking");
+          toast.error(zhCN.global.sidebar.queryMenu.alreadyTracked);
         } else if (errorMessage.includes("NOT NULL")) {
-          toast.error("Missing required data for keyword tracking");
+          toast.error(zhCN.global.sidebar.queryMenu.missingRequired);
         } else if (errorMessage.includes("timed out")) {
-          toast.error("Request timed out - please try again");
+          toast.error(zhCN.global.sidebar.queryMenu.operationTimeout);
         } else {
           toast.error(
-            "Failed to add keyword to tracking: " +
+            zhCN.global.sidebar.queryMenu.addFailedPrefix +
               (error instanceof Error ? error.message : errorMessage),
           );
         }
@@ -247,7 +248,7 @@ const RankingMenus = ({
                 clicks,
                 credentials: !!credentials,
               });
-              toast.info("Click registered - starting process...");
+              toast.info("已接收点击，开始处理…");
 
               handleTrackKeyword(
                 url,
@@ -259,24 +260,24 @@ const RankingMenus = ({
               );
             } catch (error) {
               console.error("❌ Error in click handler:", error);
-              toast.error("Click handler failed: " + error.message);
+              toast.error("点击处理失败：" + error.message);
             }
           }}
           className="hover:bg-brand-bright hover:text-white"
         >
           <IoKey className="mr-2" />
-          {""} Track Keyword
+          {zhCN.global.sidebar.queryMenu.addToTracking}
         </DropdownMenuItem>
         <DropdownMenuItem
           className="hover:bg-brand-bright hover:text-white"
           onClick={() => openSearchConsoleUrl(query)}
         >
           <FiBarChart className="mr-2" />
-          Open in Console
+          {zhCN.global.sidebar.queryMenu.openInSearchConsole}
         </DropdownMenuItem>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="hover:bg-brand-bright hover:text-white text-xs">
-            <FiCheckSquare className="mr-2" /> SERP results
+            <FiCheckSquare className="mr-2" /> {zhCN.global.sidebar.queryMenu.serpResults}
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent className="w-48 ml-1 bg-white dark:bg-brand-darker dark:border-brand-dark">
             <DropdownMenuItem
@@ -325,7 +326,7 @@ const RankingMenus = ({
         </DropdownMenuSub>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger className="hover:bg-brand-bright hover:text-white text-xs">
-            <FiLink className="mr-2" /> Backlinks
+            <FiLink className="mr-2" /> {zhCN.global.sidebar.queryMenu.backlinks}
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent className="w-48 ml-1 bg-white dark:bg-brand-darker dark:border-brand-dark">
             <DropdownMenuItem className="hover:bg-brand-bright hover:text-white">

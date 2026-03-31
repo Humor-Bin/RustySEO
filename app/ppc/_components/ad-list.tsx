@@ -17,6 +17,7 @@ import { Copy, Edit, Trash } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Ad, AdType } from "@/types/ad";
 import { Badge } from "@/components/ui/badge";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface AdListProps {
   ads: Ad[];
@@ -52,10 +53,10 @@ export function AdList({ ads, onSelect, onClone, onDelete }: AdListProps) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
         <h3 className="text-lg font-medium dark:text-white/50">
-          No ads created yet
+          {zhCN.ppc.adList.emptyTitle}
         </h3>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          Create your first ad to get started
+          {zhCN.ppc.adList.emptyDescription}
         </p>
       </div>
     );
@@ -99,20 +100,28 @@ export function AdList({ ads, onSelect, onClone, onDelete }: AdListProps) {
         className="w-full"
       >
         <TabsList>
-          <TabsTrigger value="all">All Ads ({processedAds.length})</TabsTrigger>
-          <TabsTrigger value="search">Search ({searchAdsCount})</TabsTrigger>
-          <TabsTrigger value="pmax">
-            Performance Max ({pmaxAdsCount})
+          <TabsTrigger value="all">
+            {zhCN.ppc.adList.allAds} ({processedAds.length})
           </TabsTrigger>
-          <TabsTrigger value="display">Display ({displayAdsCount})</TabsTrigger>
+          <TabsTrigger value="search">
+            {zhCN.ppc.adTypes.search} ({searchAdsCount})
+          </TabsTrigger>
+          <TabsTrigger value="pmax">
+            {zhCN.ppc.adTypes.pmax} ({pmaxAdsCount})
+          </TabsTrigger>
+          <TabsTrigger value="display">
+            {zhCN.ppc.adTypes.display} ({displayAdsCount})
+          </TabsTrigger>
         </TabsList>
       </Tabs>
 
       {filteredAds.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-10">
-          <h3 className="text-base font-bold">No {adTypeFilter} ads found</h3>
+          <h3 className="text-base font-bold">
+            {zhCN.ppc.adList.noAdsFound.replace("{type}", adTypeFilter)}
+          </h3>
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-            Create a new ad or switch to a different category
+            {zhCN.ppc.adList.noAdsFoundDescription}
           </p>
         </div>
       ) : (
@@ -143,26 +152,27 @@ export function AdList({ ads, onSelect, onClone, onDelete }: AdListProps) {
                     {ad.name}
                   </h3>
                   <p className="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">
-                    Updated {new Date(parseInt(ad.id)).toLocaleDateString()}
+                    {zhCN.ppc.adList.updated}{" "}
+                    {new Date(parseInt(ad.id)).toLocaleDateString()}
                   </p>
                 </div>
 
                 <div className="space-y-3">
                   <div>
                     <div className="text-[9px] uppercase tracking-widest font-bold text-gray-400 dark:text-gray-500 mb-1.5">
-                      Primary Headline
+                      {zhCN.ppc.adList.primaryHeadline}
                     </div>
                     <p className="text-xs font-medium text-gray-700 dark:text-gray-200 line-clamp-1 italic">
                       "
                       {(ad.headlines || []).find((h) => h.trim()) ||
-                        "No headlines"}
+                        zhCN.ppc.adList.noHeadlines}
                       "
                     </p>
                   </div>
 
                   <div>
                     <div className="text-[9px] uppercase tracking-widest font-bold text-gray-400 dark:text-gray-500 mb-1.5">
-                      Assets
+                      {zhCN.ppc.adList.assets}
                     </div>
                     <div className="flex gap-3">
                       <div className="flex flex-col">
@@ -170,7 +180,7 @@ export function AdList({ ads, onSelect, onClone, onDelete }: AdListProps) {
                           {(ad.headlines || []).filter((h) => h.trim()).length}
                         </span>
                         <span className="text-[9px] text-gray-500">
-                          Headlines
+                          {zhCN.ppc.adList.headlines}
                         </span>
                       </div>
                       <div className="flex flex-col">
@@ -180,14 +190,16 @@ export function AdList({ ads, onSelect, onClone, onDelete }: AdListProps) {
                               .length
                           }
                         </span>
-                        <span className="text-[9px] text-gray-500">Descs</span>
+                        <span className="text-[9px] text-gray-500">
+                          {zhCN.ppc.adList.descriptionsShort}
+                        </span>
                       </div>
                       <div className="flex flex-col">
                         <span className="text-xs font-bold text-gray-900 dark:text-white">
                           {(ad.keywords || []).length}
                         </span>
                         <span className="text-[9px] text-gray-500">
-                          Keywords
+                          {zhCN.ppc.adList.keywords}
                         </span>
                       </div>
                     </div>
@@ -203,7 +215,7 @@ export function AdList({ ads, onSelect, onClone, onDelete }: AdListProps) {
                   className="text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-bold text-[11px] h-8 px-3 rounded-lg"
                 >
                   <Edit className="h-3.5 w-3.5 mr-1.5" />
-                  Edit Ad
+                  {zhCN.ppc.adList.editAd}
                 </Button>
 
                 <div className="flex items-center gap-0.5">
@@ -216,7 +228,7 @@ export function AdList({ ads, onSelect, onClone, onDelete }: AdListProps) {
                       onClone(ad);
                     }}
                     className="h-7 w-7 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 rounded-md"
-                    title="Clone ad"
+                    title={zhCN.ppc.adList.cloneAd}
                   >
                     <Copy className="h-3.5 w-3.5" />
                   </Button>
@@ -231,8 +243,8 @@ export function AdList({ ads, onSelect, onClone, onDelete }: AdListProps) {
                     }`}
                     title={
                       confirmDelete === ad.id
-                        ? "Click to confirm deletion"
-                        : "Delete ad"
+                        ? zhCN.ppc.adList.confirmDelete
+                        : zhCN.ppc.adList.deleteAd
                     }
                   >
                     <Trash className="h-3.5 w-3.5" />

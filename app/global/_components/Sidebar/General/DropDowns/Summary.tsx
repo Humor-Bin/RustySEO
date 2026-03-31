@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import debounce from "lodash.debounce";
 import useGlobalCrawlStore from "@/store/GlobalCrawlDataStore";
+import { zhCN } from "@/app/utils/zhCN";
 
 import { FiChevronDown, FiChevronRight, FiChevronUp } from "react-icons/fi";
 
@@ -133,17 +134,17 @@ const Summary: React.FC = () => {
   const summaryData: SummaryItem[] = useMemo(
     () => [
       {
-        label: "Pages crawled",
+        label: zhCN.global.sidebar.dropdowns.pagesCrawled,
         value: totalPagesCrawled,
         percentage: "100%",
       },
       {
-        label: "Total Links Found",
+        label: zhCN.global.sidebar.dropdowns.totalLinksFound,
         value: state.internalLinks + state.externalLinks,
         percentage: "100%",
       },
       {
-        label: "Total Internal Links",
+        label: zhCN.global.sidebar.dropdowns.totalInternalLinks,
         value: state.internalLinks,
         percentage:
           state.internalLinks + state.externalLinks
@@ -151,7 +152,7 @@ const Summary: React.FC = () => {
             : "0%",
       },
       {
-        label: "Total External Links",
+        label: zhCN.global.sidebar.dropdowns.totalExternalLinks,
         value: state.externalLinks,
         percentage:
           state.internalLinks + state.externalLinks
@@ -159,14 +160,14 @@ const Summary: React.FC = () => {
             : "0%",
       },
       {
-        label: "Total Indexable Pages",
+        label: zhCN.global.sidebar.dropdowns.totalIndexablePages,
         value: state.totalIndexablePages,
         percentage: totalPagesCrawled
           ? `${((state.totalIndexablePages / totalPagesCrawled) * 100).toFixed(0)}%`
           : "0%",
       },
       {
-        label: "Total Not Indexable Pages",
+        label: zhCN.global.sidebar.dropdowns.totalNotIndexablePages,
         value: totalNotIndexablePages,
         percentage: totalPagesCrawled
           ? `${((totalNotIndexablePages / totalPagesCrawled) * 100).toFixed(0)}%`
@@ -187,9 +188,11 @@ const Summary: React.FC = () => {
               <FiChevronRight size={14} />
             )}
           </span>
-          <span className="ml-1">Summary</span>
+          <span className="ml-1">{zhCN.global.sidebar.dropdowns.summary}</span>
           {state.isProcessing && (
-            <span className="ml-2 text-xs text-gray-500">Processing...</span>
+            <span className="ml-2 text-xs text-gray-500">
+              {zhCN.global.sidebar.dropdowns.processing}
+            </span>
           )}
         </div>
       </div>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle, ArrowLeft } from "lucide-react";
 import type { Ad } from "@/types/ad";
 import { FileImportExport } from "./file-import-export";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface DashboardHeaderProps {
   heading: string;
@@ -68,7 +69,7 @@ export function DashboardHeader({
             className="h-9 px-4 bg-blue-600 hover:bg-blue-700 dark:text-white text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-700 dark:hover:bg-blue-800" // Google Ads-like primary button
           >
             <PlusCircle className="mr-2 h-4 w-4 dark:text-white" />
-            Add New Ad
+            {zhCN.ppc.dashboard.newAd}
           </Button>
         )}
       </div>

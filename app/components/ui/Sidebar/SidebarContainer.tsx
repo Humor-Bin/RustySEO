@@ -20,6 +20,7 @@ import PopUpTable from "../CrawlHistory/PopUpTable";
 import RankingInfo from "./RankingInfo";
 import GeneralOverview from "./GeneralOverview";
 import Topics from "./Topics/Topics";
+import { zhCN } from "@/app/utils/zhCN";
 
 // Define prop types for better type checking
 interface SidebarContainerProps {
@@ -87,11 +88,11 @@ const SidebarContainer: React.FC<SidebarContainerProps> = ({
           <Tabs defaultValue="summary" className="text-xs aside-tabs">
             <Tabs.List grow justify="left" className="dark:text-white">
               <Tabs.Tab className="text-[8px]" value="summary">
-                General
+                {zhCN.sidebar.topTabs.general}
               </Tabs.Tab>
-              <Tabs.Tab value="first">Content</Tabs.Tab>
-              <Tabs.Tab value="suggestions">Suggestions</Tabs.Tab>
-              <Tabs.Tab value="third">Queries</Tabs.Tab>
+              <Tabs.Tab value="first">{zhCN.sidebar.topTabs.content}</Tabs.Tab>
+              <Tabs.Tab value="suggestions">{zhCN.sidebar.topTabs.suggestions}</Tabs.Tab>
+              <Tabs.Tab value="third">{zhCN.sidebar.topTabs.queries}</Tabs.Tab>
             </Tabs.List>
             <Tabs.Panel
               value="first"
@@ -137,10 +138,10 @@ const SidebarContainer: React.FC<SidebarContainerProps> = ({
               justify="left"
               className="dark:text-white text-xs sidebar-tabs"
             >
-              <Tabs.Tab value="first">Checkllist</Tabs.Tab>
-              <Tabs.Tab value="second">Redirects</Tabs.Tab>
-              <Tabs.Tab value="third">Robots</Tabs.Tab>
-              <Tabs.Tab value="forth">Domain</Tabs.Tab>
+              <Tabs.Tab value="first">{zhCN.sidebar.bottomTabs.checklist}</Tabs.Tab>
+              <Tabs.Tab value="second">{zhCN.sidebar.bottomTabs.redirects}</Tabs.Tab>
+              <Tabs.Tab value="third">{zhCN.sidebar.bottomTabs.robots}</Tabs.Tab>
+              <Tabs.Tab value="forth">{zhCN.sidebar.bottomTabs.domain}</Tabs.Tab>
             </Tabs.List>
 
             <Tabs.Panel value="first">

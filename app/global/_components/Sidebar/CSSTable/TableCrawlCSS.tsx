@@ -27,6 +27,7 @@ import { save } from "@tauri-apps/plugin-dialog";
 import { invoke } from "@tauri-apps/api/core";
 import { writeFile } from "@tauri-apps/plugin-fs";
 import { toast } from "sonner";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface TableCrawlProps {
   rows: Array<{
@@ -493,7 +494,7 @@ const TableCrawlCSS = ({
       <div className="text-xs dark:bg-brand-darker sticky top-0 flex gap-1 not-selectable z-20 pb-1 ">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder={zhCN.global.sidebar.cssTable.searchPlaceholder}
           onChange={(e) => debouncedSearch(e.target.value)}
           className="w-full p-1 pl-2 h-6 bg-white dark:bg-brand-darker border dark:border-brand-dark dark:text-white rounded-r outline-none focus:border-blue-500"
         />

@@ -25,6 +25,7 @@ import { readTextFile } from "@tauri-apps/plugin-fs";
 import { open } from "@tauri-apps/plugin-dialog";
 import { writeTextFile, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { save } from "@tauri-apps/plugin-dialog";
+import { zhCN } from "@/app/utils/zhCN";
 
 // Utility functions
 const adsToJson = (ads: Ad[]): string => JSON.stringify(ads, null, 2);
@@ -196,15 +197,20 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
       }
 
       toast({
-        title: "Export successful",
-        description: `Exported ${ads.length} ads as ${format.toUpperCase()}`,
+        title: zhCN.ppc.importExport.exportSuccess,
+        description: zhCN.ppc.importExport.exportSuccessDescription
+          .replace("{count}", String(ads.length))
+          .replace("{format}", format.toUpperCase()),
         variant: "success",
       });
     } catch (error) {
       console.error("Export error:", error);
       toast({
-        title: "Export failed",
-        description: error instanceof Error ? error.message : "Unknown error",
+        title: zhCN.ppc.importExport.exportFailed,
+        description:
+          error instanceof Error
+            ? error.message
+            : zhCN.ppc.importExport.unknownError,
         variant: "destructive",
       });
     }
@@ -221,14 +227,14 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
           multiple: false,
           filters: [
             {
-              name: "Data Files",
+              name: zhCN.ppc.importExport.dataFiles,
               extensions: ["json", "csv"],
             },
           ],
         });
 
         if (!selected) {
-          throw new Error("No file selected");
+          throw new Error(zhCN.ppc.importExport.noFileSelected);
         }
 
         const content = await readTextFile(selected as string);
@@ -240,7 +246,7 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
         } else if ((selected as string).endsWith(".csv")) {
           importedAds = csvToAds(content);
         } else {
-          throw new Error("Unsupported file format. Please use JSON or CSV.");
+          throw new Error(zhCN.ppc.importExport.unsupportedFormat);
         }
 
         console.log("Imported ads count:", importedAds.length);
@@ -248,8 +254,11 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
         setIsImportDialogOpen(false);
 
         toast({
-          title: "Import successful",
-          description: `Imported ${importedAds.length} ads`,
+          title: zhCN.ppc.importExport.importSuccess,
+          description: zhCN.ppc.importExport.importSuccessDescription.replace(
+            "{count}",
+            String(importedAds.length),
+          ),
           variant: "success",
         });
       } else {
@@ -265,7 +274,8 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
         const content = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = (e) => resolve(e.target?.result as string);
-          reader.onerror = () => reject(new Error("Failed to read file"));
+          reader.onerror = () =>
+            reject(new Error(zhCN.ppc.importExport.readFailed));
           reader.readAsText(file);
         });
 
@@ -277,7 +287,7 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
         } else if (file.name.endsWith(".csv")) {
           importedAds = csvToAds(content);
         } else {
-          throw new Error("Unsupported file format. Please use JSON or CSV.");
+          throw new Error(zhCN.ppc.importExport.unsupportedFormat);
         }
 
         console.log("Imported ads count:", importedAds.length);
@@ -285,16 +295,22 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
         setIsImportDialogOpen(false);
 
         toast({
-          title: "Import successful",
-          description: `Imported ${importedAds.length} ads`,
+          title: zhCN.ppc.importExport.importSuccess,
+          description: zhCN.ppc.importExport.importSuccessDescription.replace(
+            "{count}",
+            String(importedAds.length),
+          ),
           variant: "success",
         });
       }
     } catch (error) {
       console.error("Import error:", error);
       toast({
-        title: "Import failed",
-        description: error instanceof Error ? error.message : "Unknown error",
+        title: zhCN.ppc.importExport.importFailed,
+        description:
+          error instanceof Error
+            ? error.message
+            : zhCN.ppc.importExport.unknownError,
         variant: "destructive",
       });
     } finally {
@@ -316,7 +332,7 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
             size="sm"
           >
             <Download className="h-4 w-4 mr-2" />
-            Export
+            {zhCN.ppc.importExport.export}
             <ChevronDown className="h-4 w-4 ml-2" />
           </Button>
         </DropdownMenuTrigger>
@@ -328,13 +344,13 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
             className="hover:text-white"
             onClick={() => handleExport("json")}
           >
-            Export as JSON
+            {zhCN.ppc.importExport.exportJson}
           </DropdownMenuItem>
           <DropdownMenuItem
             className="hover:text-white"
             onClick={() => handleExport("csv")}
           >
-            Export as CSV
+            {zhCN.ppc.importExport.exportCsv}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -348,14 +364,14 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
             size="sm"
           >
             <Upload className="h-4 w-4 mr-2" />
-            Import
+            {zhCN.ppc.importExport.import}
           </Button>
         </DialogTrigger>
         <DialogContent className="dark:bg-brand-darker dark:text-white">
           <DialogHeader>
-            <DialogTitle>Import Ads</DialogTitle>
+            <DialogTitle>{zhCN.ppc.importExport.importTitle}</DialogTitle>
             <DialogDescription>
-              Upload a JSON or CSV file containing your ads data.
+              {zhCN.ppc.importExport.importDescription}
             </DialogDescription>
           </DialogHeader>
 
@@ -363,7 +379,7 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
             <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-md p-8">
               <Upload className="h-8 w-8 mb-4 text-muted-foreground" />
               <p className="text-sm text-muted-foreground mb-2">
-                Drag and drop your file here, or click to browse
+                {zhCN.ppc.importExport.dragAndDrop}
               </p>
               <input
                 ref={fileInputRef}
@@ -374,7 +390,7 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
                 id="file-upload"
               />
               <Button variant="secondary" onClick={handleFileChange}>
-                Browse Files
+                {zhCN.ppc.importExport.browseFiles}
               </Button>
             </div>
           </div>
@@ -384,7 +400,7 @@ export function FileImportExport({ ads, onImport }: FileImportExportProps) {
               variant="outline"
               onClick={() => setIsImportDialogOpen(false)}
             >
-              Cancel
+              {zhCN.ppc.importExport.cancel}
             </Button>
           </DialogFooter>
         </DialogContent>

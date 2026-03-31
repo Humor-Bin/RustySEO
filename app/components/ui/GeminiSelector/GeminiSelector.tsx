@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { zhCN } from "@/app/utils/zhCN";
 import { invoke } from "@tauri-apps/api/core";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -30,11 +31,11 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
 
   // Default fallback models (latest as of Jan 2026)
   const defaultGeminiModels = [
-    { value: "gemini-2.0-flash-exp", label: "Gemini 2.0 Flash (Experimental - Latest)" },
-    { value: "gemini-1.5-flash", label: "Gemini 1.5 Flash (Fast & Efficient)" },
-    { value: "gemini-1.5-flash-8b", label: "Gemini 1.5 Flash-8B (Lightweight)" },
-    { value: "gemini-1.5-pro", label: "Gemini 1.5 Pro (Advanced Reasoning)" },
-    { value: "gemini-pro", label: "Gemini Pro (Stable)" },
+    { value: "gemini-2.0-flash-exp", label: "Gemini 2.0 Flash（实验版，最新）" },
+    { value: "gemini-1.5-flash", label: "Gemini 1.5 Flash（快速高效）" },
+    { value: "gemini-1.5-flash-8b", label: "Gemini 1.5 Flash-8B（轻量）" },
+    { value: "gemini-1.5-pro", label: "Gemini 1.5 Pro（高级推理）" },
+    { value: "gemini-pro", label: "Gemini Pro（稳定版）" },
   ];
 
   // Load existing config on mount
@@ -97,16 +98,16 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
             let label = modelName;
             if (modelName.includes("2.0")) {
               label = modelName.includes("flash")
-                ? "Gemini 2.0 Flash (Latest - Experimental)"
-                : "Gemini 2.0 (Latest)";
+                ? "Gemini 2.0 Flash（最新实验版）"
+                : "Gemini 2.0（最新版）";
             } else if (modelName.includes("1.5-flash-8b")) {
-              label = "Gemini 1.5 Flash-8B (Lightweight)";
+              label = "Gemini 1.5 Flash-8B（轻量）";
             } else if (modelName.includes("1.5-flash")) {
-              label = "Gemini 1.5 Flash (Fast & Efficient)";
+              label = "Gemini 1.5 Flash（快速高效）";
             } else if (modelName.includes("1.5-pro")) {
-              label = "Gemini 1.5 Pro (Advanced Reasoning)";
+              label = "Gemini 1.5 Pro（高级推理）";
             } else if (modelName.includes("pro")) {
-              label = "Gemini Pro (Stable)";
+              label = "Gemini Pro（稳定版）";
             }
 
             return {
@@ -135,8 +136,8 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
       }
     } catch (error) {
       console.error("Error fetching models:", error);
-      toast.error("Could not fetch models", {
-        description: "Using default model list. Check your API key."
+      toast.error(zhCN.integrations.gemini.fetchModelsFailed, {
+        description: zhCN.integrations.gemini.fetchModelsFallback,
       });
       setAvailableModels(defaultGeminiModels);
     } finally {
@@ -146,7 +147,7 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
 
   const handleSaveSettings = async () => {
     if (!apiKey) {
-      toast.error("Please enter an API key");
+      toast.error(zhCN.integrations.gemini.enterApiKey);
       return;
     }
 
@@ -162,8 +163,8 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
         geminiModel: model,
       });
 
-      toast.success("Gemini Settings Saved", {
-        description: "Google Gemini is now your active AI provider.",
+      toast.success(zhCN.integrations.gemini.saveSuccess, {
+        description: zhCN.integrations.gemini.saveSuccessDesc,
         icon: <Sparkles className="w-4 h-4 text-yellow-500" />
       });
 
@@ -171,7 +172,7 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
       closeGemini();
     } catch (error) {
       console.error("Error saving Gemini settings:", error);
-      toast.error("Failed to save settings", {
+      toast.error(zhCN.integrations.gemini.saveFailed, {
         description: error.toString()
       });
     } finally {
@@ -181,7 +182,7 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
 
   const testConnection = async () => {
     if (!apiKey) {
-      toast.error("Enter an API key first to test");
+      toast.error(zhCN.integrations.gemini.testNeedKey);
       return;
     }
 
@@ -213,18 +214,21 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
       const data = await response.json();
 
       if (data.candidates && data.candidates.length > 0) {
-        toast.success("Connection Successful", {
-          description: `${model} responded correctly.`
+        toast.success(zhCN.integrations.gemini.testSuccess, {
+          description: zhCN.integrations.gemini.testSuccessDesc.replace(
+            "{model}",
+            model,
+          ),
         });
 
         // Now fetch available models since the key works
         await fetchAvailableModels(apiKey);
       } else {
-        throw new Error("No response from model");
+        throw new Error(zhCN.integrations.gemini.noResponse);
       }
     } catch (error) {
       console.error("Test error:", error);
-      toast.error("Connection Failed", {
+      toast.error(zhCN.integrations.gemini.testFailed, {
         description: error.message || error.toString()
       });
     } finally {
@@ -236,7 +240,9 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
     return (
       <div className="flex flex-col items-center justify-center p-12 space-y-4">
         <Loader2 className="w-8 h-8 animate-spin text-brand-bright" />
-        <Text size="sm" color="dimmed">Loading configuration...</Text>
+        <Text size="sm" color="dimmed">
+          {zhCN.integrations.gemini.loading}
+        </Text>
       </div>
     );
   }
@@ -255,8 +261,12 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
             <Sparkles className="w-6 h-6 text-brand-bright" />
           </div>
           <div>
-            <Text fw={700} size="lg" className="text-gray-900 dark:text-gray-100">Google Gemini</Text>
-            <Text size="xs" className="text-gray-500 dark:text-gray-400">Configure your Google AI Studio integration</Text>
+            <Text fw={700} size="lg" className="text-gray-900 dark:text-gray-100">
+              {zhCN.integrations.gemini.title}
+            </Text>
+            <Text size="xs" className="text-gray-500 dark:text-gray-400">
+              {zhCN.integrations.gemini.subtitle}
+            </Text>
           </div>
         </div>
         <ActionIcon onClick={closeGemini} variant="subtle" color="gray" radius="xl" className="hover:bg-gray-100 dark:hover:bg-white/5">
@@ -267,14 +277,17 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
       <Stack gap="md">
         <section>
           <Group justify="space-between" mb={8} wrap="nowrap">
-            <Text size="sm" fw={600} className="dark:text-gray-300">API Key</Text>
+            <Text size="sm" fw={600} className="dark:text-gray-300">
+              {zhCN.integrations.gemini.apiKey}
+            </Text>
             <Anchor
               href="https://aistudio.google.com/app/apikey"
               target="_blank"
               size="xs"
               className="flex items-center space-x-1"
             >
-              <span>Get Key</span> <ExternalLink className="w-3 h-3" />
+              <span>{zhCN.integrations.gemini.getKey}</span>{" "}
+              <ExternalLink className="w-3 h-3" />
             </Anchor>
           </Group>
 
@@ -285,7 +298,13 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
             onChange={(e) => setApiKey(e.target.value)}
             icon={<Key className="w-4 h-4 opacity-50" />}
             rightSection={
-              <Tooltip label={showApiKey ? "Hide Key" : "Show Key"}>
+              <Tooltip
+                label={
+                  showApiKey
+                    ? zhCN.integrations.gemini.hideKey
+                    : zhCN.integrations.gemini.showKey
+                }
+              >
                 <ActionIcon onClick={() => setShowApiKey(!showApiKey)} variant="transparent">
                   {showApiKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </ActionIcon>
@@ -303,7 +322,9 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
 
         <section>
           <Group justify="space-between" mb={8} wrap="nowrap">
-            <Text size="sm" fw={600} className="dark:text-gray-300">Choose Model</Text>
+            <Text size="sm" fw={600} className="dark:text-gray-300">
+              {zhCN.integrations.gemini.chooseModel}
+            </Text>
             {apiKey && (
               <Button
                 size="xs"
@@ -313,12 +334,12 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
                 leftIcon={<RefreshCw className="w-3 h-3" />}
                 onClick={() => fetchAvailableModels()}
               >
-                Refresh Models
+                {zhCN.integrations.gemini.refreshModels}
               </Button>
             )}
           </Group>
           <Select
-            placeholder="Select a model"
+            placeholder={zhCN.integrations.gemini.selectModel}
             value={model}
             data={modelsToDisplay}
             onChange={(val) => val && setModel(val)}
@@ -337,7 +358,7 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
           />
           {availableModels.length === 0 && (
             <Text size="xs" color="dimmed" mt={4}>
-              Using default models. Enter API key and click "Refresh Models" to see all available options.
+              {zhCN.integrations.gemini.usingDefaultModels}
             </Text>
           )}
         </section>
@@ -346,7 +367,7 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
           <Group gap="sm" wrap="nowrap" align="flex-start">
             <ShieldCheck className="w-5 h-5 text-brand-bright mt-0.5" />
             <Text size="xs" className="text-brand-bright/80 dark:text-brand-bright/60 leading-relaxed">
-              Your API key is stored securely on your local machine and never transmitted to our servers. Only sent directly to Google's API during requests.
+              {zhCN.integrations.gemini.secureNotice}
             </Text>
           </Group>
         </Paper>
@@ -362,7 +383,7 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
           leftIcon={<RefreshCw className="w-4 h-4" />}
           onClick={testConnection}
         >
-          Test
+          {zhCN.integrations.gemini.test}
         </Button>
         <Button
           fullWidth
@@ -373,7 +394,7 @@ const GeminiSelector = ({ closeGemini }: { closeGemini: () => void }) => {
           onClick={handleSaveSettings}
           className="bg-brand-bright hover:opacity-90 transition-opacity"
         >
-          Save & Activate
+          {zhCN.integrations.gemini.save}
         </Button>
       </footer>
     </motion.div>

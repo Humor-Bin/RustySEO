@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { zhCN } from "@/app/utils/zhCN";
 import { Select } from "@mantine/core";
 import { invoke } from "@tauri-apps/api/core";
 import React, { useEffect, useState } from "react";
@@ -34,7 +35,7 @@ const OllamaSelect: React.FC<OllamaSelectProps> = ({ closeOllama }) => {
       console.log(result, "This is the model");
       if (result.success) {
         console.log("Model selected successfully");
-        toast("Model selected successfully");
+        toast(zhCN.integrations.ollama.selectedSuccess);
       }
 
       // Call the Tauri command with the model parameter
@@ -45,7 +46,7 @@ const OllamaSelect: React.FC<OllamaSelectProps> = ({ closeOllama }) => {
       setModel(selectedModel);
     } catch (error) {
       console.error("Failed to save model:", error);
-      toast.error("Failed to save model");
+      toast.error(zhCN.integrations.ollama.saveFailed);
     }
   };
 
@@ -65,36 +66,19 @@ const OllamaSelect: React.FC<OllamaSelectProps> = ({ closeOllama }) => {
     <section className="w-full h-full pb-3 overflow-hidden">
       <div className="p-4">
         <h2 className="font-semibold text-sm dark:text-white">
-          To enhance your experience, you&apos;ll need to download Ollama.
+          {zhCN.integrations.ollama.title}
         </h2>
 
         <ol className="text-sm mt-2 list-decimal list-inside dark:text-white">
-          <li>
-            Visit Ollama&apos;s Website:{" "}
-            <a
-              href="https://ollama.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-            >
-              ollama.com
-            </a>{" "}
-            download page.
-          </li>
-          <li>
-            Select Your Model: Choose the AI model that best fits your needs.
-          </li>
-          <li>
-            Download and Install: Follow the installation instructions provided.
-          </li>
-          <li>Once installed you can select the model below.</li>
-          <li>Restart the app.</li>
+          {zhCN.integrations.ollama.steps.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
         </ol>
       </div>
       <div className="p-2 px-4">
         <Select
-          label="Ollama AI Model"
-          placeholder="Select Model"
+          label={zhCN.integrations.ollama.modelLabel}
+          placeholder={zhCN.integrations.ollama.modelPlaceholder}
           value={model}
           data={ollamaModels}
           className="w-full dark:bg-brand-darker dark:text-white"
@@ -113,7 +97,7 @@ const OllamaSelect: React.FC<OllamaSelectProps> = ({ closeOllama }) => {
           !prevSelected && !model ? "bg-gray-500" : ""
         } ${!model ? "cursor-not-allowed" : "cursor-pointer"}`}
       >
-        Connect model
+        {zhCN.integrations.ollama.connect}
       </button>
     </section>
   );

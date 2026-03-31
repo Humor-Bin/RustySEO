@@ -4,6 +4,7 @@ import React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Popover, Text, Button } from "@mantine/core";
 import openBrowserWindow from "../Hooks/OpenBrowserWindow";
+import { zhCN, zhStatusMap } from "@/app/utils/zhCN";
 
 const TbtEl = ({
   stat,
@@ -134,19 +135,19 @@ const TbtEl = ({
 
                   // Determine label based on score
                   if (score < 50) {
-                    label = "Poor";
+                    label = zhStatusMap.Poor;
                   } else if (score >= 50 && score < 70) {
-                    label = "Average";
+                    label = "一般";
                   } else if (score >= 70) {
-                    label = "Good";
+                    label = zhStatusMap.Good;
                   }
 
                   // Determine the background color and text color based on the label
                   const labelClass =
                     {
-                      Poor: "bg-red-500 text-white",
-                      Average: "bg-orange-500 text-white",
-                      Good: "bg-green-500 text-white",
+                      [zhStatusMap.Poor]: "bg-red-500 text-white",
+                      一般: "bg-orange-500 text-white",
+                      [zhStatusMap.Good]: "bg-green-500 text-white",
                     }[label] || "bg-gray-200 text-black"; // Default styling if label is not found
 
                   return (
@@ -171,12 +172,12 @@ const TbtEl = ({
             onClick={() =>
               openBrowserWindow(
                 "https://pagespeed.web.dev/report?url=" + url ||
-                  "No URL provided",
+                  zhCN.page.noUrlProvided,
               )
             }
             className="text-xs underline  cursor-pointer font-semibold text-gray-500"
           >
-            Blocking Time:
+            阻塞时间：
           </h2>
           <span className="inline text-xs">
             {stat?.lighthouseResult?.audits?.["total-blocking-time"]

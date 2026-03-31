@@ -22,6 +22,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { save } from "@tauri-apps/plugin-dialog";
 import { writeFile } from "@tauri-apps/plugin-fs";
 import { toast } from "sonner";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface TruncatedCellProps {
   text: string;
@@ -534,7 +535,7 @@ const ImagesCrawlTable = ({
       <div className="text-xs dark:bg-brand-darker relative top-0 flex gap-1 pb-1">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder={zhCN.global.searchPlaceholder}
           onChange={(e) => debouncedSearch(e.target.value)}
           className="w-full p-1 pl-3 h-6 dark:bg-brand-darker border dark:border-brand-dark dark:text-white  rounded-r relative"
         />

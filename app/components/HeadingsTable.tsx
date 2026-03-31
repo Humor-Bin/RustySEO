@@ -10,6 +10,7 @@ import { invoke } from "@tauri-apps/api/core";
 import HeadingsTableAI from "./HeadingsTableAI";
 import { v4 as uuidv4 } from "uuid";
 import { debounce } from "lodash"; // Import debounce from lodash
+import { zhCN } from "@/app/utils/zhCN";
 
 const HeadingsTable = ({
   headings,
@@ -80,7 +81,7 @@ const HeadingsTable = ({
           } else {
             console.error("❌ Empty response from AI headings command");
             setViewAIHeadings(
-              "No AI headings were generated. Please check your API key and try again.",
+              zhCN.page.headings.noAiGenerated,
             );
           }
         } else {
@@ -97,14 +98,13 @@ const HeadingsTable = ({
         });
 
         // Show user-friendly error with more details
-        let errorMessage = "Error generating AI headings. ";
+        let errorMessage = zhCN.page.headings.errorGeneratingPrefix;
         if (error?.message?.includes("not found")) {
-          errorMessage +=
-            "Command not found - please check backend is running.";
+          errorMessage += zhCN.page.headings.commandNotFound;
         } else if (error?.message?.includes("API")) {
-          errorMessage += "API error - please check your API key.";
+          errorMessage += zhCN.page.headings.apiError;
         } else {
-          errorMessage += "Please try again or check console for details.";
+          errorMessage += zhCN.page.headings.genericRetry;
         }
 
         setViewAIHeadings(errorMessage);
@@ -144,7 +144,7 @@ const HeadingsTable = ({
 
     if (firstColonIndex === -1) {
       return {
-        headingType: "Unknown",
+        headingType: zhCN.page.headings.unknown,
         headingText: link,
       };
     }
@@ -183,7 +183,7 @@ const HeadingsTable = ({
       className={`table_container relative headings ${Visible.headings ? "block" : "hidden"} `}
     >
       <h2 className="text-base text-left pl-1 pt-3 font-bold w-full text-black/60 flex items-center">
-        <LiaHeadingSolid className="mr-1.5" /> Headings
+        <LiaHeadingSolid className="mr-1.5" /> {zhCN.page.headings.title}
       </h2>
 
       {/* Custom Dropdown Trigger */}
@@ -199,7 +199,7 @@ const HeadingsTable = ({
         <div className="custom-dropdown absolute right-4 mt-2 w-[8rem] bg-white z-10 dark:bg-brand-darker border border-gray-300 dark:border-brand-dark shadow">
           <div className="p-1">
             <p className="text-xs font-semibold text-gray-700 dark:text-white px-2 py-1 border-b dark:border-b-white/20">
-              Headings
+              {zhCN.page.headings.menuTitle}
             </p>
             <button
               onClick={() => {
@@ -226,7 +226,9 @@ const HeadingsTable = ({
               className="w-full text-left px-2 py-1 text-xs text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-brand-dark cursor-pointer rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!headings || headings.length === 0 || isLoadingAI}
             >
-              {isLoadingAI ? "Generating..." : "Improve Headings"}
+              {isLoadingAI
+                ? zhCN.page.headings.generating
+                : zhCN.page.headings.improve}
             </button>
           </div>
         </div>
@@ -289,9 +291,9 @@ const HeadingsTable = ({
         <table className="w-full">
           <thead className="text-xs text-left">
             <tr className="w-full">
-              <th>Anchor</th>
+              <th>{zhCN.page.headings.anchor}</th>
               <th className="ml-0 w-[20px]" colSpan={8}>
-                Text
+                {zhCN.page.headings.text}
               </th>
             </tr>
           </thead>
@@ -317,7 +319,7 @@ const HeadingsTable = ({
         </div>
         <footer className="border-t border-t-gray-100 dark:border-0 text-xs flex justify-end text-black/50 space-x-4 pt-2">
           <p className="text-xs">
-            Headings Found:{" "}
+            {zhCN.page.headings.found}:{" "}
             <span className="px-1 py-0.5 bg-gray-400 text-white rounded-md">
               {headings?.length}
             </span>

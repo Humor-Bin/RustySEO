@@ -3,6 +3,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Bot } from "lucide-react";
 import useOnPageSeo from "@/store/storeOnPageSeo";
 import usePageSpeedStore from "@/store/StorePerformance";
+import { zhCN, zhStatusMap } from "@/app/utils/zhCN";
 
 const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
   const [feedback, setFeedback] = useState(null);
@@ -114,10 +115,10 @@ const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
   useEffect(() => {
     const getSummaryText = (score) => {
       if (score >= 85)
-        return "The page is performing excellently, with just a few minor areas for improvement.";
+        return "页面整体表现优秀，仅有少量细节可继续优化。";
       if (score >= 60)
-        return "The page shows promise but has room for improvement in key areas.";
-      return "The page needs significant improvement in several key areas to enhance performance.";
+        return "页面整体表现不错，但在关键环节仍有优化空间。";
+      return "页面在多个关键项上仍需明显改进，才能提升整体表现。";
     };
 
     const getContentQuality = (level) => {
@@ -127,33 +128,33 @@ const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
           return {
             status: "Excellent",
             description:
-              "Content is very easy to read and understand, suitable for a wide audience.",
+              "内容非常易读，理解成本低，适合更广泛的受众。"
           };
         case "Fairly Easy":
         case "Standard":
           return {
             status: "Good",
             description:
-              "Content is fairly easy to read, appropriate for most readers.",
+              "内容较易阅读，适合大多数用户。"
           };
         case "Fairly Difficult":
           return {
             status: "Needs Improvement",
             description:
-              "Content may be challenging for some readers. Consider simplifying.",
+              "内容对部分用户可能偏难，建议适当简化表达。"
           };
         case "Difficult":
         case "Very Confusing":
           return {
             status: "Poor",
             description:
-              "Content is difficult to read. Significant simplification is recommended.",
+              "内容阅读门槛较高，建议明显简化。"
           };
         default:
           return {
             status: "Unknown",
             description:
-              "Unable to determine content readability. Please review manually.",
+              "暂时无法判断内容可读性，建议人工复核。"
           };
       }
     };
@@ -163,25 +164,25 @@ const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
         return {
           status: "Poor",
           description:
-            "Webpage performance is critical, causing significant user experience issues. Immediate action is required.",
+            "网页性能较差，已明显影响用户体验，建议优先处理。"
         };
       } else if (score < 50) {
         return {
           status: "Needs Improvement",
           description:
-            "Webpage performance is below average, with noticeable delays. Optimization is recommended.",
+            "网页性能低于平均水平，存在明显延迟，建议尽快优化。"
         };
       } else if (score < 75) {
         return {
           status: "Acceptable",
           description:
-            "Webpage performance is adequate, but there may be room for improvement in load times or responsiveness.",
+            "网页性能处于可接受范围，但加载速度和响应性仍有提升空间。"
         };
       } else {
         return {
           status: "Optimal",
           description:
-            "Webpage performance is excellent, ensuring fast load times and a smooth user experience.",
+            "网页性能优秀，可提供较快加载速度和流畅体验。"
         };
       }
     };
@@ -191,25 +192,25 @@ const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
         return {
           status: "Unacceptable",
           description:
-            "SEO performance is critically low, potentially harming search rankings and visibility. Urgent optimization is necessary.",
+            "SEO 表现严重偏低，可能影响搜索排名与曝光，需尽快优化。"
         };
       } else if (score < 0.5) {
         return {
           status: "Poor",
           description:
-            "SEO performance is suboptimal, likely affecting search engine rankings. Focus on enhancing meta tags, content quality, and site structure.",
+            "SEO 表现不理想，可能影响搜索引擎排名，建议优先优化元标签、内容质量和站点结构。"
         };
       } else if (score < 0.75) {
         return {
           status: "Acceptable",
           description:
-            "SEO performance is moderate, but there's room for improvement. Consider refining keyword strategies and improving content relevance.",
+            "SEO 表现中等，仍有提升空间，可继续优化关键词策略与内容相关性。"
         };
       } else {
         return {
           status: "Optimal",
           description:
-            "SEO performance is excellent, supporting strong search engine visibility. Continue monitoring and adjusting strategies to maintain high rankings.",
+            "SEO 表现优秀，有助于保持较强的搜索可见度，建议持续监控并微调策略。"
         };
       }
     };
@@ -223,7 +224,7 @@ const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
       summary: getSummaryText(globalPercentageScore),
       insights: [
         {
-          aspect: "Core Web Vitals",
+          aspect: "核心网页指标",
           status: performanceRating.status,
           description: performanceRating.description,
         },
@@ -233,13 +234,13 @@ const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
           description: seoRating.description,
         },
         {
-          aspect: "Content Quality",
+          aspect: "内容质量",
           status: contentQuality.status,
           description: contentQuality.description,
         },
       ],
       topRecommendation:
-        "Focus on improving page load speed and expanding content depth.",
+        zhCN.sidebar.topRecommendation,
     };
 
     setFeedback(aiFeedback);
@@ -249,12 +250,12 @@ const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
     <div className="p-4 dark:text-gray-300 dark:bg-gray-900 h-screen bg-brand-bright/5">
       <div className="flex items-center mb-2">
         <Bot className="w-6 h-6 mr-2 text-blue-400" />
-        <h2 className="text-sm font-semibold">Rusty Feedback</h2>
+        <h2 className="text-sm font-semibold">{zhCN.sidebar.rustyFeedback}</h2>
       </div>
 
       <div className="mb-4">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-xs font-medium">Overall Score</span>
+          <span className="text-xs font-medium">{zhCN.sidebar.overallScore}</span>
 
           <span
             className={`text-sm font-bold ${feedback?.overallScore >= 80 ? "text-green-500" : "text-red-500"} text-blue-400`}
@@ -264,7 +265,7 @@ const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
             ) : pageSpeed ? (
               `${feedback?.overallScore}%`
             ) : (
-              "n/a"
+              zhCN.sidebar.notAvailable
             )}
           </span>
         </div>
@@ -300,11 +301,13 @@ const AIFeedbackTab = ({ pageSpeed, loading, seo }) => {
                         : "bg-red-900 text-red-300"
                 }`}
               >
-                {(pageSpeed && insight.status) || "n/a"}
+                {(pageSpeed &&
+                  (zhStatusMap[insight.status] || insight.status)) ||
+                  zhCN.sidebar.notAvailable}
               </span>
             </div>
             <p className="text-xs mt-2 text-gray-800 dark:text-white/50">
-              {(pageSpeed && insight.description) || "n/a"}
+              {(pageSpeed && insight.description) || zhCN.sidebar.notAvailable}
             </p>
           </div>
         ))}

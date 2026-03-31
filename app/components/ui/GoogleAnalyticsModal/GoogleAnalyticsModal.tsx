@@ -3,6 +3,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { zhCN } from "@/app/utils/zhCN";
 
 const GoogleAnalyticsModal = ({ onSubmit, close }) => {
   const [number, setNumber] = useState("");
@@ -17,14 +18,14 @@ const GoogleAnalyticsModal = ({ onSubmit, close }) => {
     const result = await invoke("set_google_analytics_id", {
       id: number,
     });
-    toast("GA4 ID has been added successfully");
+    toast(zhCN.page.analyticsModal.saved);
     close();
   };
 
   return (
     <section>
       <div className="max-w-md mx-auto -mt-3 p-2 px-3 pb-5 bg-white dark:bg-brand-darker dark:text-white rounded-lg text-xs">
-        <p>Enter your Google Analytics 4 Property ID</p>
+        <p>{zhCN.page.analyticsModal.prompt}</p>
         <div className="mb-4 relative mt-4">
           <label
             htmlFor="number"
@@ -52,7 +53,7 @@ const GoogleAnalyticsModal = ({ onSubmit, close }) => {
           type="submit"
           className="w-full active:scale-95 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
         >
-          Connect
+          {zhCN.page.analyticsModal.connect}
         </button>
       </div>
     </section>

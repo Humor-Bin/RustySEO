@@ -12,11 +12,12 @@ import openBrowserWindow from "@/app/Hooks/OpenBrowserWindow";
 import Onboarding from "../Onboarding";
 import { useOnboardingStore } from "@/store/OnboardingStore";
 import { toast } from "sonner";
+import { zhCN } from "@/app/utils/zhCN";
 
 function MenuDrawer() {
   const [opened, setOpened] = useState(false);
   const mobile = useMediaQuery("(max-width: 768px)");
-  const [badge, setBadge] = useState("Page Crawler");
+  const [badge, setBadge] = useState(zhCN.nav.defaultBadge);
   const pathname = usePathname();
   const router = useRouter();
   const { Visible } = useStore();
@@ -25,26 +26,21 @@ function MenuDrawer() {
   const { toggle, setCompleted } = useOnboardingStore();
   const completed = useOnboardingStore((state) => state.completed);
 
-  const options = [
-    { name: "Shallow Crawler", route: "/" },
-    { name: "Deep Crawler", route: "/global" },
-    { name: "Log Analyser", route: "/serverlogs" },
-    { name: "PPC Simulator", route: "/ppc" },
-  ];
+  const options = zhCN.nav.options;
 
   async function fullReset() {
     try {
       await invoke("delete_config_folders_command");
       // Optionally: toast.success("Reset successful");
       localStorage.clear();
-      toast.success("Full reset! RustySEO will reload in 3 seconds");
+      toast.success(zhCN.nav.resetSuccess);
 
       setTimeout(() => {
         window.location.reload();
       }, 3000);
     } catch (error) {
       console.error("Error during full reset:", error);
-      toast.error("Failed to reset RustySEO. Please try again.");
+      toast.error(zhCN.nav.resetError);
     }
   }
 
@@ -132,9 +128,9 @@ function MenuDrawer() {
     if (currentOption) {
       setBadge(currentOption.name);
     } else if (path === "/images") {
-      setBadge("Image Converter");
+      setBadge(zhCN.nav.imageConverter);
     } else if (path === "/serverlogs") {
-      setBadge("Log Analyzer");
+      setBadge(zhCN.nav.logAnalyzer);
     }
   }, [path]);
 
@@ -190,7 +186,7 @@ function MenuDrawer() {
         try {
           localStorage.clear();
           console.log("Clear successful");
-          toast.success("Cleared RustySEO cache");
+          toast.success(zhCN.nav.cacheCleared);
         } catch (error) {
           console.error("Clear failed:", error);
         }

@@ -22,6 +22,7 @@ import useGlobalCrawlStore from "@/store/GlobalCrawlDataStore";
 import { invoke } from "@tauri-apps/api/core";
 import { save } from "@tauri-apps/plugin-dialog";
 import { writeFile } from "@tauri-apps/plugin-fs";
+import { zhCN } from "@/app/utils/zhCN";
 import { toast } from "sonner";
 import { exportPSIDataCSV } from "./exportPSIDataCsv";
 
@@ -545,7 +546,7 @@ const CoreWebVitalsTable = ({
       <div className="text-xs dark:bg-brand-darker sticky top-0 flex gap-1">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder={zhCN.global.searchPlaceholder}
           onChange={(e) => debouncedSearch(e.target.value)}
           className="w-full p-1 pl-2 h-6 bg-white dark:bg-brand-darker border dark:border-brand-dark dark:text-white  rounded-r"
         />

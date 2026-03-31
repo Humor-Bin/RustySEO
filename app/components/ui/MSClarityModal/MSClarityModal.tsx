@@ -4,6 +4,7 @@ import { invoke } from "@tauri-apps/api/core";
 import { log } from "console";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { zhCN } from "@/app/utils/zhCN";
 
 const MSClarity = ({ onSubmit, close }) => {
   const [endpoint, setEndpoint] = useState("");
@@ -25,7 +26,7 @@ const MSClarity = ({ onSubmit, close }) => {
       endpoint,
       token,
     });
-    toast("Microsoft Clarity Credentials saved successfully");
+    toast(zhCN.page.clarityModal.saved);
     console.log(endpoint, token);
     close();
   };
@@ -38,14 +39,14 @@ const MSClarity = ({ onSubmit, close }) => {
           target="_blank"
           className="text-blue-500 hover:underline pl-1"
         >
-          Get your token here
+          {zhCN.page.clarityModal.getToken}
         </a>
         <div className="mb-4 relative mt-2 space-y-4">
           <label
             htmlFor="number"
             className="block text-gray-700 text-[10px] font-bold mb-2 absolute top-[8px] px-1 bg-white left-[10px] dark:bg-brand-darker dark:text-white"
           >
-            Endpoint
+            {zhCN.page.clarityModal.endpoint}
           </label>
           <input
             type="text"
@@ -66,7 +67,7 @@ const MSClarity = ({ onSubmit, close }) => {
               htmlFor="number"
               className="block text-gray-700 text-[10px] font-bold mb-2 absolute bottom-[17px] px-1 bg-white left-[10px] dark:bg-brand-darker dark:text-white"
             >
-              Token
+              {zhCN.page.clarityModal.token}
             </label>
             <input
               type="text"
@@ -79,7 +80,7 @@ const MSClarity = ({ onSubmit, close }) => {
                   ? "border-red-500 focus:ring-red-200"
                   : "focus:ring-blue-200"
               }`}
-              placeholder="Your token here"
+              placeholder={zhCN.page.clarityModal.tokenPlaceholder}
             />
           </div>
 
@@ -91,7 +92,7 @@ const MSClarity = ({ onSubmit, close }) => {
           type="submit"
           className="w-full active:scale-95 bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200 mt-4"
         >
-          Connect
+          {zhCN.page.clarityModal.connect}
         </button>
       </div>
     </section>

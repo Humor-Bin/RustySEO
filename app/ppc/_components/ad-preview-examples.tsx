@@ -1,6 +1,7 @@
 import React from "react";
 import type { Ad } from "@/types/ad";
 import { Play, Youtube as YoutubeIcon } from "lucide-react";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface PreviewProps {
   ad: Ad;
@@ -49,7 +50,7 @@ export function SearchPreview({
                 <span className="font-bold tracking-tight">{domain}</span>
               </div>
               <div className="flex items-center text-[12px] text-[#4d5156] dark:text-gray-400 mt-0.5">
-                <span className="font-black mr-1 text-[10px] uppercase tracking-tighter text-blue-600 dark:text-blue-400">Sponsored</span>
+                <span className="font-black mr-1 text-[10px] uppercase tracking-tighter text-blue-600 dark:text-blue-400">{zhCN.ppc.preview.sponsored}</span>
                 <span className="mx-1.5 opacity-30">·</span>
                 <span className="flex items-center truncate max-w-[250px] font-medium opacity-80">
                   {displayUrl}
@@ -77,7 +78,7 @@ export function SearchPreview({
               {currentHeadlines.join(" - ")}
             </h3>
           ) : (
-            <h3 className="text-[22px] text-gray-300 dark:text-gray-700 italic font-medium">[Add your headlines in the form]</h3>
+            <h3 className="text-[22px] text-gray-300 dark:text-gray-700 italic font-medium">{zhCN.ppc.preview.addHeadlinesHint}</h3>
           )}
         </div>
 
@@ -94,7 +95,7 @@ export function SearchPreview({
               ))}
             </p>
           ) : (
-            <p className="text-gray-300 dark:text-gray-700 italic">[Your description will appear here]</p>
+            <p className="text-gray-300 dark:text-gray-700 italic">{zhCN.ppc.preview.addDescriptionHint}</p>
           )}
         </div>
 
@@ -104,7 +105,7 @@ export function SearchPreview({
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
               <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z" />
             </svg>
-            <span>Call: {ad.extensions.find(e => e.type === 'call')?.value}</span>
+            <span>{zhCN.ppc.preview.call}: {ad.extensions.find(e => e.type === 'call')?.value}</span>
           </div>
         )}
 
@@ -161,7 +162,7 @@ export function YoutubePreview({
 
           {/* Skip Ad Overlay - Redesigned */}
           <div className="absolute bottom-6 right-0 bg-black/70 backdrop-blur-xl text-white py-3 px-6 border-l-[3px] border-amber-400 flex items-center gap-3 animate-in slide-in-from-right duration-1000">
-            <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Skip in</span>
+            <span className="text-[10px] font-black uppercase tracking-widest opacity-60">{zhCN.ppc.preview.skipIn}</span>
             <span className="text-xl font-black italic tabular-nums">5</span>
           </div>
 
@@ -187,13 +188,13 @@ export function YoutubePreview({
           </div>
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-black text-gray-900 dark:text-white line-clamp-2 mb-1 tracking-tight">
-              {currentHeadlines[0] || "[Cinematic Headline Ready]"}
+              {currentHeadlines[0] || zhCN.ppc.preview.youtubeHeadline}
             </h3>
             <p className="text-[13px] text-gray-500 dark:text-gray-400 line-clamp-2 mb-4 font-medium italic opacity-70">
-              {currentDescription || "[Engagement description pending marketing copy]"}
+              {currentDescription || zhCN.ppc.preview.youtubeDescription}
             </p>
             <button className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-sm font-black transition-all duration-300 shadow-xl shadow-blue-500/20 active:scale-95">
-              Experience Now
+              {zhCN.ppc.preview.experienceNow}
             </button>
           </div>
         </div>
@@ -251,7 +252,7 @@ export function MobilePreview({
                       {domain}
                     </span>
                     <div className="flex items-center text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">
-                      <span className="text-blue-500">Sponsored</span>
+                      <span className="text-blue-500">{zhCN.ppc.preview.sponsored}</span>
                     </div>
                   </div>
                 </div>
@@ -265,11 +266,11 @@ export function MobilePreview({
               <h3 className="text-[#1a0dab] dark:text-[#8ab4f8] text-[20px] font-bold leading-[1.2] mb-3 group-hover:underline">
                 {currentHeadlines.length > 0
                   ? currentHeadlines.slice(0, 3).join(" - ")
-                  : "[Viral Headline]"}
+                  : zhCN.ppc.preview.mobileHeadline}
               </h3>
 
               <p className="text-[14px] text-[#4d5156] dark:text-[#bdc1c6] leading-relaxed font-medium line-clamp-3 opacity-90">
-                {currentDescription || "[Compelling ad copy that converts users on the first glance]"}
+                {currentDescription || zhCN.ppc.preview.mobileDescription}
               </p>
 
               {/* Mobile Sitelinks - Premium Carousel Pills */}
@@ -307,9 +308,12 @@ export function MobilePreview({
 
 export function AdThumbnail({ ad }: { ad: Ad }) {
   // Get first valid headline and description
-  const headline = (ad.headlines || []).find((h) => h.trim()) || "[No headline]";
+  const headline =
+    (ad.headlines || []).find((h) => h.trim()) ||
+    zhCN.ppc.preview.thumbnailNoHeadline;
   const description =
-    (ad.descriptions || []).find((d) => d.trim()) || "[No description]";
+    (ad.descriptions || []).find((d) => d.trim()) ||
+    zhCN.ppc.preview.thumbnailNoDescription;
   const displayUrl =
     ad.displayPath || (ad.finalUrl ? ad.finalUrl.replace(/^https?:\/\//, "") : "example.com");
 
@@ -335,7 +339,10 @@ export function AdThumbnail({ ad }: { ad: Ad }) {
           {ad.type}
         </span>
         <span className="text-[10px] text-gray-400">
-          {(ad.headlines || []).length} headlines
+          {zhCN.ppc.preview.headlineCount.replace(
+            "{count}",
+            String((ad.headlines || []).length),
+          )}
         </span>
       </div>
     </div>
@@ -349,7 +356,7 @@ export function DisplayPreview({
   displayUrl,
 }: PreviewProps) {
   const businessName = ad.businessName || displayUrl.split(".")[0];
-  const headline = currentHeadlines[0] || "[Impactful Business Headline]";
+  const headline = currentHeadlines[0] || zhCN.ppc.preview.displayHeadline;
   const marketingImage = ad.images && ad.images.length > 0 ? ad.images[0].url : "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200";
   const logoUrl = ad.logos && ad.logos.length > 0 ? ad.logos[0].url : null;
 
@@ -397,11 +404,11 @@ export function DisplayPreview({
               {headline}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 font-medium line-clamp-2 mb-6 opacity-90">
-              {currentDescription || "[Your compelling display ad description will attract attention here]"}
+              {currentDescription || zhCN.ppc.preview.displayDescription}
             </p>
 
             <button className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-black transition-all duration-300 shadow-xl shadow-indigo-500/20 active:scale-95 group-hover:px-8">
-              Explore Now
+              {zhCN.ppc.preview.exploreNow}
             </button>
           </div>
         </div>

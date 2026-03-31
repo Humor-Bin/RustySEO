@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { Plus, Trash, Phone, Type, Tag, DollarSign, LayoutList } from "lucide-react";
 import type { AdExtension } from "@/types/ad";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface ExtensionsEditorProps {
     extensions: AdExtension[];
@@ -47,8 +48,8 @@ export function ExtensionsEditor({ extensions, onChange }: ExtensionsEditorProps
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <div>
-                    <h4 className="text-sm font-bold text-gray-900 dark:text-white">Ad Extensions</h4>
-                    <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-black opacity-60">Add assets to improve ad performance</p>
+                    <h4 className="text-sm font-bold text-gray-900 dark:text-white">{zhCN.ppc.extensions.title}</h4>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-black opacity-60">{zhCN.ppc.extensions.description}</p>
                 </div>
                 <div className="flex gap-2">
                     <select
@@ -63,17 +64,17 @@ export function ExtensionsEditor({ extensions, onChange }: ExtensionsEditorProps
                             paddingRight: '32px'
                         }}
                     >
-                        <option value="callout">Callout</option>
-                        <option value="structured_snippet">Structured Snippet</option>
-                        <option value="call">Call</option>
-                        <option value="promotion">Promotion</option>
+                        <option value="callout">{zhCN.ppc.extensions.types.callout}</option>
+                        <option value="structured_snippet">{zhCN.ppc.extensions.types.structured_snippet}</option>
+                        <option value="call">{zhCN.ppc.extensions.types.call}</option>
+                        <option value="promotion">{zhCN.ppc.extensions.types.promotion}</option>
                     </select>
                     <button
                         type="button"
                         onClick={handleAdd}
                         className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-all shadow-md shadow-blue-500/20 active:scale-95 flex items-center gap-1.5"
                     >
-                        <Plus className="h-3.5 w-3.5" /> <span>Add</span>
+                        <Plus className="h-3.5 w-3.5" /> <span>{zhCN.ppc.extensions.add}</span>
                     </button>
                 </div>
             </div>
@@ -88,7 +89,7 @@ export function ExtensionsEditor({ extensions, onChange }: ExtensionsEditorProps
                         <div className="flex-1 min-w-0 space-y-3">
                             <div className="flex justify-between items-center">
                                 <span className="text-[10px] uppercase font-black tracking-widest text-blue-500/70">
-                                    {ext.type.replace('_', ' ')}
+                                    {zhCN.ppc.extensions.types[ext.type] || ext.type.replace('_', ' ')}
                                 </span>
                                 <button
                                     onClick={() => handleRemove(ext.id)}
@@ -101,7 +102,7 @@ export function ExtensionsEditor({ extensions, onChange }: ExtensionsEditorProps
                             <input
                                 value={ext.value}
                                 onChange={(e) => handleUpdate(ext.id, e.target.value, ext.extra)}
-                                placeholder={ext.type === 'call' ? "Phone number" : "Extension text"}
+                                placeholder={ext.type === 'call' ? zhCN.ppc.extensions.placeholders.call : zhCN.ppc.extensions.placeholders.default}
                                 className="w-full px-3 h-9 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-brand-darker focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-medium placeholder:text-gray-400 text-gray-900 dark:text-gray-100"
                             />
 
@@ -109,7 +110,7 @@ export function ExtensionsEditor({ extensions, onChange }: ExtensionsEditorProps
                                 <input
                                     value={ext.extra || ""}
                                     onChange={(e) => handleUpdate(ext.id, ext.value, e.target.value)}
-                                    placeholder="Promotion code (Optional)"
+                                    placeholder={zhCN.ppc.extensions.placeholders.promotion}
                                     className="w-full px-3 h-9 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-brand-darker focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-medium placeholder:text-gray-400 mt-1 text-gray-900 dark:text-gray-100"
                                 />
                             )}
@@ -122,7 +123,7 @@ export function ExtensionsEditor({ extensions, onChange }: ExtensionsEditorProps
                         <div className="p-3 bg-gray-100 dark:bg-white/5 rounded-full">
                             <LayoutList className="h-6 w-6 text-gray-400" />
                         </div>
-                        <p className="text-xs font-bold text-gray-500">No extensions added yet</p>
+                        <p className="text-xs font-bold text-gray-500">{zhCN.ppc.extensions.empty}</p>
                     </div>
                 )}
             </div>

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useCallback, useImperativeHandle, forwardRef } from "react";
 import { message, save } from "@tauri-apps/plugin-dialog";
 import { writeTextFile } from "@tauri-apps/plugin-fs";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface InlinksSubTableProps {
   data: any[]; // [TargetPageObject, SourcePagesArray]
@@ -67,8 +68,8 @@ const InnerLinksDetailsTable = forwardRef<{ exportCSV: () => Promise<void> }, In
     try {
       // Check if we have valid data to export
       if (!data || data.length < 2 || !data[1]?.length) {
-        await message("No data to export", {
-          title: "Export Error",
+        await message(zhCN.global.subtables.noDataToExport, {
+          title: zhCN.global.subtables.exportError,
           type: "error",
         });
         return;
@@ -117,16 +118,16 @@ const InnerLinksDetailsTable = forwardRef<{ exportCSV: () => Promise<void> }, In
       if (filePath) {
         await writeTextFile(filePath, csvContent);
         await message("CSV exported successfully!", {
-          title: "Export Complete",
+          title: zhCN.global.subtables.exportComplete,
           type: "info",
         });
       }
     } catch (error) {
       console.error("Export failed:", error);
       await message(
-        `Export failed: ${error instanceof Error ? error.message : String(error)}`,
+        `${zhCN.global.subtables.exportFailedPrefix}${error instanceof Error ? error.message : String(error)}`,
         {
-          title: "Export Error",
+          title: zhCN.global.subtables.exportError,
           type: "error",
         },
       );
@@ -170,7 +171,7 @@ const InnerLinksDetailsTable = forwardRef<{ exportCSV: () => Promise<void> }, In
         }}
       >
         <p className="dark:text-white/50 text-black/50 text-xs">
-          Select a URL from the HTML table to view details
+          {zhCN.global.subtables.selectUrlToViewDetails}
         </p>
       </div>
     );

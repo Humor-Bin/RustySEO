@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { zhCN } from "@/app/utils/zhCN";
 import { toast } from "sonner";
 import { invoke } from "@tauri-apps/api/core";
 
@@ -54,7 +55,7 @@ export default function GA4ConnectionWizard({
 
   const handleConnect = async () => {
     if (!config.clientId || !config.clientSecret) {
-      toast.error("Please enter Client ID and Client Secret");
+      toast.error(zhCN.integrations.ga4Wizard.toasts.missingCredentials);
       return;
     }
 
@@ -88,7 +89,7 @@ export default function GA4ConnectionWizard({
           unlisten();
         } catch (error) {
           console.error("Exchange error:", error);
-          toast.error("Failed to exchange code for token");
+          toast.error(zhCN.integrations.ga4Wizard.toasts.exchangeFailed);
           setIsLoading(false);
           unlisten();
         }
@@ -100,10 +101,10 @@ export default function GA4ConnectionWizard({
       const { open } = await import("@tauri-apps/plugin-shell");
       await open(authUrl);
 
-      toast.info("Opening Google Login in your browser...");
+      toast.info(zhCN.integrations.ga4Wizard.toasts.openingLogin);
     } catch (error) {
       console.error("OAuth error:", error);
-      toast.error("Failed to start authentication process");
+      toast.error(zhCN.integrations.ga4Wizard.toasts.authStartFailed);
       setIsLoading(false);
     }
   };
@@ -120,12 +121,14 @@ export default function GA4ConnectionWizard({
         setProperties(formattedProps);
         setStep(4);
       } else {
-        toast.error("No GA4 properties found");
+        toast.error(zhCN.integrations.ga4Wizard.toasts.noProperties);
       }
     } catch (error) {
       console.error("Fetch properties error:", error);
       const errorMessage =
-        typeof error === "string" ? error : "Failed to fetch properties";
+        typeof error === "string"
+          ? error
+          : zhCN.integrations.ga4Wizard.toasts.fetchPropertiesFailed;
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -134,7 +137,7 @@ export default function GA4ConnectionWizard({
 
   const handleFinalize = async () => {
     if (!selectedProperty) {
-      toast.error("Please select a property");
+      toast.error(zhCN.integrations.ga4Wizard.toasts.selectProperty);
       return;
     }
 
@@ -153,12 +156,12 @@ export default function GA4ConnectionWizard({
       });
 
       toast.success(
-        "Google Analytics connected successfully! Please refresh the table.",
+        zhCN.integrations.ga4Wizard.toasts.connected,
       );
       onComplete();
     } catch (error) {
       console.error("Finalize error:", error);
-      toast.error("Failed to save connection settings");
+      toast.error(zhCN.integrations.ga4Wizard.toasts.saveFailed);
     } finally {
       setIsLoading(false);
     }
@@ -188,9 +191,14 @@ export default function GA4ConnectionWizard({
             <BarChart3 className="h-5 w-5 text-orange-600 dark:text-orange-400" />
           </div>
           <div>
-            <h2 className="text-lg font-bold dark:text-white">Connect GA4</h2>
+            <h2 className="text-lg font-bold dark:text-white">
+              {zhCN.integrations.ga4Wizard.title}
+            </h2>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Step {step} of 4
+              {zhCN.integrations.ga4Wizard.stepOf.replace(
+                "{step}",
+                String(step),
+              )}
             </p>
           </div>
         </div>
@@ -230,30 +238,29 @@ export default function GA4ConnectionWizard({
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-lg font-bold dark:text-white">
-                    Analyze User Behavior
+                    {zhCN.integrations.ga4Wizard.step1.title}
                   </h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed max-w-xs mx-auto">
-                    Connect Google Analytics 4 to track sessions, bounce rates,
-                    and user engagement.
+                    {zhCN.integrations.ga4Wizard.step1.description}
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-3 w-full pt-2">
                   <div className="p-3 bg-gray-50 dark:bg-brand-dark rounded-xl border border-gray-100 dark:border-brand-dark/50 text-left">
                     <Globe className="h-4 w-4 text-blue-500 mb-2" />
                     <p className="text-[10px] font-bold dark:text-white">
-                      User Insights
+                      {zhCN.integrations.ga4Wizard.step1.cards.insights.title}
                     </p>
                     <p className="text-[9px] text-gray-500">
-                      Understand your audience
+                      {zhCN.integrations.ga4Wizard.step1.cards.insights.description}
                     </p>
                   </div>
                   <div className="p-3 bg-gray-50 dark:bg-brand-dark rounded-xl border border-gray-100 dark:border-brand-dark/50 text-left">
                     <Key className="h-4 w-4 text-purple-500 mb-2" />
                     <p className="text-[10px] font-bold dark:text-white">
-                      Secure Auth
+                      {zhCN.integrations.ga4Wizard.step1.cards.secure.title}
                     </p>
                     <p className="text-[9px] text-gray-500">
-                      Official OAuth connection
+                      {zhCN.integrations.ga4Wizard.step1.cards.secure.description}
                     </p>
                   </div>
                 </div>
@@ -263,7 +270,7 @@ export default function GA4ConnectionWizard({
                   onClick={handleNext}
                   className="w-full bg-orange-600 hover:bg-orange-700 text-white py-5 rounded-xl group text-sm dark:bg-orange-600 dark:text-white dark:hover:bg-orange-600"
                 >
-                  Get Started
+                  {zhCN.integrations.ga4Wizard.step1.button}
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
@@ -283,16 +290,16 @@ export default function GA4ConnectionWizard({
               <div className="flex-1 space-y-4">
                 <div className="space-y-1">
                   <h3 className="text-md font-bold dark:text-white">
-                    API Configuration
+                    {zhCN.integrations.ga4Wizard.step2.title}
                   </h3>
                   <p className="text-[10px] text-gray-500 dark:text-gray-400">
-                    Enter your Google Cloud Project details for GA4.
+                    {zhCN.integrations.ga4Wizard.step2.description}
                   </p>
                 </div>
                 <div className="space-y-3">
                   <div className="space-y-1">
                     <label className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
-                      Client ID
+                      {zhCN.integrations.ga4Wizard.step2.fields.clientId}
                     </label>
                     <Input
                       value={config.clientId}
@@ -305,7 +312,7 @@ export default function GA4ConnectionWizard({
                   </div>
                   <div className="space-y-1">
                     <label className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
-                      Project ID
+                      {zhCN.integrations.ga4Wizard.step2.fields.projectId}
                     </label>
                     <Input
                       value={config.projectId}
@@ -318,7 +325,7 @@ export default function GA4ConnectionWizard({
                   </div>
                   <div className="space-y-1">
                     <label className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
-                      Client Secret
+                      {zhCN.integrations.ga4Wizard.step2.fields.clientSecret}
                     </label>
                     <Input
                       type="password"
@@ -338,13 +345,13 @@ export default function GA4ConnectionWizard({
                   onClick={handleBack}
                   className="flex-1 py-5 rounded-xl text-xs dark:bg-slate-700 dark:text-white"
                 >
-                  Back
+                  {zhCN.integrations.ga4Wizard.step2.back}
                 </Button>
                 <Button
                   onClick={handleNext}
                   className="flex-[2] bg-orange-600 hover:bg-orange-700 text-white py-5 rounded-xl text-xs dark:hover:bg-orange-600 dark:hover:text-white dark:bg-orange-600 dark:text-white"
                 >
-                  Continue
+                  {zhCN.integrations.ga4Wizard.step2.continue}
                 </Button>
               </div>
             </motion.div>
@@ -366,10 +373,10 @@ export default function GA4ConnectionWizard({
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-lg font-bold dark:text-white">
-                    Authorize GA4 Access
+                    {zhCN.integrations.ga4Wizard.step3.title}
                   </h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400 max-w-xs mx-auto">
-                    We'll now open a secure Google login window.
+                    {zhCN.integrations.ga4Wizard.step3.description}
                   </p>
                 </div>
                 <Button
@@ -387,7 +394,7 @@ export default function GA4ConnectionWizard({
                         alt="Google"
                       />
                       <span className="font-bold text-sm">
-                        Connect with Google
+                        {zhCN.integrations.ga4Wizard.step3.connect}
                       </span>
                     </>
                   )}
@@ -397,7 +404,7 @@ export default function GA4ConnectionWizard({
                 <div className="p-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-900/30 rounded-lg">
                   <p className="text-[9px] text-amber-800 dark:text-amber-200 flex items-center gap-1.5 justify-center">
                     <AlertCircle className="h-3 w-3" />
-                    If popup fails, check blocked popups.
+                    {zhCN.integrations.ga4Wizard.step3.popupTip}
                   </p>
                 </div>
               </div>
@@ -417,10 +424,10 @@ export default function GA4ConnectionWizard({
               <div className="flex-1 space-y-4">
                 <div className="space-y-1">
                   <h3 className="text-md font-bold dark:text-white">
-                    Select GA4 Property
+                    {zhCN.integrations.ga4Wizard.step4.title}
                   </h3>
                   <p className="text-[10px] text-gray-500 dark:text-gray-400">
-                    Choose the GA4 property you want to track.
+                    {zhCN.integrations.ga4Wizard.step4.description}
                   </p>
                 </div>
                 <div className="max-h-[220px] overflow-y-auto space-y-1.5 pr-1 custom-scrollbar">
@@ -465,7 +472,7 @@ export default function GA4ConnectionWizard({
                   {isLoading ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
-                    "Complete Setup"
+                    zhCN.integrations.ga4Wizard.step4.complete
                   )}
                 </Button>
               </div>

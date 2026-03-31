@@ -1,4 +1,5 @@
 "use client";
+import { zhCN } from "@/app/utils/zhCN";
 import { invoke } from "@tauri-apps/api/core";
 import React, { useState } from "react";
 import { toast } from "sonner";
@@ -26,10 +27,10 @@ const PageSpeedInsigthsApi = ({ close }: any) => {
       if (result && pathname === "/") {
         console.log("API key added successfully");
 
-        toast.success("API key added successfully");
+        toast.success(zhCN.integrations.pageSpeed.added);
         // Perform any additional actions on success
       } else if (result && pathname !== "/") {
-        toast.success("API key added, toggle to enable CWV analysis");
+        toast.success(zhCN.integrations.pageSpeed.addedEnableCwv);
       } else {
         console.log("Failed to add API key");
         // Handle the failure case
@@ -44,13 +45,13 @@ const PageSpeedInsigthsApi = ({ close }: any) => {
   return (
     <div className="flex flex-col space-y-3 px-4 pb-4">
       <h2 className="dark:text-white">
-        Paste your{" "}
+        {zhCN.integrations.pageSpeed.title}{" "}
         <a
           href="https://developers.google.com/speed/docs/insights/v5/get-started"
           target="_blank"
           className="underline dark:text-white"
         >
-          Google PageSpeed Insights API key
+          Google PageSpeed Insights API 密钥
         </a>
       </h2>
       <input
@@ -64,7 +65,7 @@ const PageSpeedInsigthsApi = ({ close }: any) => {
         type="button"
         className="w-full flex items-center pt-1 h-9 justify-center font-semibold border bg-blue-500 text-white rounded-md dark:border-white/10"
       >
-        Connect
+        {zhCN.integrations.pageSpeed.connect}
       </button>
     </div>
   );

@@ -2,6 +2,7 @@
 import React from "react";
 import { toast } from "sonner";
 import { CopyIcon } from "@radix-ui/react-icons";
+import { zhCN } from "@/app/utils/zhCN";
 
 type HeadingData = {
   type: string;
@@ -27,7 +28,7 @@ const HeadingsTableAI = ({
   ) {
     return (
       <div className="p-4">
-        Click &quot;Improve Headings&quot; to generate AI-powered suggestions.
+        {zhCN.page.headings.aiEmpty}
       </div>
     );
   }
@@ -64,7 +65,7 @@ const HeadingsTableAI = ({
 
     if (firstColonIndex === -1) {
       return {
-        headingType: "Unknown",
+        headingType: zhCN.page.headings.unknown,
         headingText: link,
       };
     }
@@ -80,7 +81,7 @@ const HeadingsTableAI = ({
 
   const handleCopy = (text: string = "") => {
     navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard");
+    toast.success(zhCN.page.headings.copied);
   };
 
   // Process original headings to match format
@@ -111,16 +112,18 @@ const HeadingsTableAI = ({
         <thead className="sticky top-0 bg-white z-0 shadow-sm border-0 text-sm">
           <tr>
             <th className="w-10 py-3 px-2 text-brand-bright font-semibold border-b border-l text-center border-t">
-              Type
+              {zhCN.page.headings.type}
             </th>
             <th className="w-1/2 py-3 px-4 font-semibold border-b text-left">
-              Original Text
+              {zhCN.page.headings.originalText}
             </th>
             <th className="w-10 py-3 px-2 text-brand-bright font-semibold border-b border-l text-center">
-              Type
+              {zhCN.page.headings.type}
             </th>
             <th className="w-1/2 py-3 px-4 font-semibold border-b border-l text-left">
-              {isLoading ? "Generating..." : "Recommended Text"}
+              {isLoading
+                ? zhCN.page.headings.generating
+                : zhCN.page.headings.recommendedText}
             </th>
           </tr>
         </thead>
@@ -157,7 +160,7 @@ const HeadingsTableAI = ({
                       style={{ animationDelay: "0.4s" }}
                     ></div>
                     <span className="text-gray-500 text-sm">
-                      AI is generating suggestions...
+                      {zhCN.page.headings.aiGenerating}
                     </span>
                   </div>
                 ) : (

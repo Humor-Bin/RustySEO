@@ -3,6 +3,7 @@ import React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Popover, Text } from "@mantine/core";
 import openBrowserWindow from "../Hooks/OpenBrowserWindow";
+import { zhCN, zhStatusMap } from "@/app/utils/zhCN";
 
 const NetworkRequests = ({
   stat,
@@ -23,19 +24,19 @@ const NetworkRequests = ({
   // Determine the label based on the number of network requests
   let label = "";
   if (networkRequestCount <= 20) {
-    label = "Good";
+    label = zhStatusMap.Good;
   } else if (networkRequestCount > 20 && networkRequestCount <= 50) {
-    label = "Average";
+    label = "一般";
   } else {
-    label = "Poor";
+    label = zhStatusMap.Poor;
   }
 
   // Determine the background color and text color based on the label
   const labelClass =
     {
-      Poor: "bg-red-500 text-white",
-      Average: "bg-orange-500 text-white",
-      Good: "bg-green-500 text-white",
+      [zhStatusMap.Poor]: "bg-red-500 text-white",
+      一般: "bg-orange-500 text-white",
+      [zhStatusMap.Good]: "bg-green-500 text-white",
     }[label] || "bg-gray-200 text-black";
 
   return (
@@ -167,7 +168,7 @@ const NetworkRequests = ({
             openBrowserWindow(
               url
                 ? `https://pagespeed.web.dev/report?url=${encodeURIComponent(url)}`
-                : "No URL provided",
+                : zhCN.page.noUrlProvided,
             )
           }
           className="text-xs text-black/50 dark:text-white/50 underline cursor-pointer hover:text-blue-600 transition-colors duration-200 mt-1"

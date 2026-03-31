@@ -2,6 +2,7 @@
 import useGlobalCrawlStore from "@/store/GlobalCrawlDataStore";
 import React, { useMemo, useState, memo } from "react";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { zhCN } from "@/app/utils/zhCN";
 
 const Performance = () => {
     const { crawlData } = useGlobalCrawlStore((state) => ({
@@ -49,10 +50,10 @@ const Performance = () => {
         });
 
         return {
-            avgPerformance: perfCount > 0 ? (totalPerformance / perfCount).toFixed(0) : "N/A",
-            avgAccessibility: accCount > 0 ? (totalAccessibility / accCount).toFixed(0) : "N/A",
-            avgBestPractices: bpCount > 0 ? (totalBestPractices / bpCount).toFixed(0) : "N/A",
-            avgSeo: seoCount > 0 ? (totalSeo / seoCount).toFixed(0) : "N/A",
+            avgPerformance: perfCount > 0 ? (totalPerformance / perfCount).toFixed(0) : zhCN.global.diffChecker.notAvailable,
+            avgAccessibility: accCount > 0 ? (totalAccessibility / accCount).toFixed(0) : zhCN.global.diffChecker.notAvailable,
+            avgBestPractices: bpCount > 0 ? (totalBestPractices / bpCount).toFixed(0) : zhCN.global.diffChecker.notAvailable,
+            avgSeo: seoCount > 0 ? (totalSeo / seoCount).toFixed(0) : zhCN.global.diffChecker.notAvailable,
             perfCount,
             good,
             needsImprovement,
@@ -61,13 +62,13 @@ const Performance = () => {
     }, [crawlData]);
 
     const performanceSections = useMemo(() => [
-        { label: "Performance Score ", value: stats.avgPerformance, suffix: "" },
-        { label: "Accessibility Score ", value: stats.avgAccessibility, suffix: "" },
-        { label: "Best Practices ", value: stats.avgBestPractices, suffix: "" },
-        { label: "SEO Score ", value: stats.avgSeo, suffix: "" },
-        { label: "Good (90-100)", value: stats.good, percentage: stats.perfCount > 0 ? `${((stats.good / stats.perfCount) * 100).toFixed(0)}%` : "0%" },
-        { label: "Needs Improvement", value: stats.needsImprovement, percentage: stats.perfCount > 0 ? `${((stats.needsImprovement / stats.perfCount) * 100).toFixed(0)}%` : "0%" },
-        { label: "Poor (0-49)", value: stats.poor, percentage: stats.perfCount > 0 ? `${((stats.poor / stats.perfCount) * 100).toFixed(0)}%` : "0%" },
+        { label: zhCN.global.sidebar.dropdowns.performanceScore, value: stats.avgPerformance, suffix: "" },
+        { label: zhCN.global.sidebar.dropdowns.accessibilityScore, value: stats.avgAccessibility, suffix: "" },
+        { label: zhCN.global.sidebar.dropdowns.bestPractices, value: stats.avgBestPractices, suffix: "" },
+        { label: zhCN.global.sidebar.dropdowns.seoScore, value: stats.avgSeo, suffix: "" },
+        { label: zhCN.global.sidebar.dropdowns.goodRange, value: stats.good, percentage: stats.perfCount > 0 ? `${((stats.good / stats.perfCount) * 100).toFixed(0)}%` : "0%" },
+        { label: zhCN.global.sidebar.dropdowns.needsImprovement, value: stats.needsImprovement, percentage: stats.perfCount > 0 ? `${((stats.needsImprovement / stats.perfCount) * 100).toFixed(0)}%` : "0%" },
+        { label: zhCN.global.sidebar.dropdowns.poorRange, value: stats.poor, percentage: stats.perfCount > 0 ? `${((stats.poor / stats.perfCount) * 100).toFixed(0)}%` : "0%" },
     ], [stats]);
 
     return (
@@ -77,7 +78,7 @@ const Performance = () => {
                     <span>
                         {isOpen ? <FiChevronDown size={14} /> : <FiChevronRight size={14} />}
                     </span>
-                    <span className="ml-1">Chrome UX Report</span>
+                    <span className="ml-1">{zhCN.global.sidebar.dropdowns.chromeUxReport}</span>
                 </div>
             </div>
 

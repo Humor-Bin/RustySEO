@@ -18,6 +18,7 @@ import useGSCStatusStore from "@/store/GSCStatusStore";
 import useGA4StatusStore from "@/store/GA4StatusStore";
 import useSettingsStore from "@/store/SettingsStore";
 import { invoke } from "@tauri-apps/api/core";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface LogEntry {
   id: number;
@@ -44,43 +45,53 @@ const generateLogs = (
   return [
     {
       id: 1,
-      label: "Crawler Engine",
-      status: crawler || "Spider",
+      label: zhCN.global.sidebar.console.crawlerEngine,
+      status: crawler || zhCN.global.sidebar.console.spider,
       level: crawler === "Spider" ? "success" : "warning",
       icon: <Cpu size={14} />,
     },
     {
       id: 2,
-      label: "AI Neural",
+      label: zhCN.global.sidebar.console.aiNeural,
       status: aiModelLog === "gemini" ? "Gemini" : "Ollama",
       level: "success",
       icon: <Bot size={14} />,
     },
     {
       id: 3,
-      label: "PSI Insights",
-      status: pageSpeedKey ? "Connected" : "Offline",
+      label: zhCN.global.sidebar.console.psiInsights,
+      status: pageSpeedKey
+        ? zhCN.global.sidebar.console.connected
+        : zhCN.global.sidebar.console.offline,
       level: pageSpeedKey ? "success" : "error",
       icon: <Zap size={14} />,
     },
     {
       id: 4,
-      label: "Google Analytics",
-      status: isGa4Configured || ga4ID ? "Running" : "Not Configured",
+      label: zhCN.global.sidebar.console.googleAnalytics,
+      status:
+        isGa4Configured || ga4ID
+          ? zhCN.global.sidebar.console.running
+          : zhCN.global.sidebar.console.notConfigured,
       level: isGa4Configured || ga4ID ? "success" : "warning",
       icon: <Activity size={14} />,
     },
     {
       id: 5,
-      label: "MS Clarity",
-      status: clarityApi !== "" ? "Running" : "Not Configured",
+      label: zhCN.global.sidebar.console.msClarity,
+      status:
+        clarityApi !== ""
+          ? zhCN.global.sidebar.console.running
+          : zhCN.global.sidebar.console.notConfigured,
       level: clarityApi !== "" ? "success" : "warning",
       icon: <Globe size={14} />,
     },
     {
       id: 6,
-      label: "Search Console",
-      status: isGscConfigured ? "Authorized" : "Required",
+      label: zhCN.global.sidebar.console.searchConsole,
+      status: isGscConfigured
+        ? zhCN.global.sidebar.console.authorized
+        : zhCN.global.sidebar.console.required,
       level: isGscConfigured ? "success" : "error",
       details: gscCredentials?.project_id
         ? `ID: ${gscCredentials.project_id}`
@@ -89,8 +100,12 @@ const generateLogs = (
     },
     {
       id: 7,
-      label: "Operation Status",
-      status: isGlobalCrawling ? "Busy" : isFinishedDeepCrawl ? "Done" : "Idle",
+      label: zhCN.global.sidebar.console.operationStatus,
+      status: isGlobalCrawling
+        ? zhCN.global.sidebar.console.busy
+        : isFinishedDeepCrawl
+          ? zhCN.global.sidebar.console.done
+          : zhCN.global.sidebar.console.idle,
       level: isGlobalCrawling
         ? "info"
         : isFinishedDeepCrawl
@@ -100,8 +115,11 @@ const generateLogs = (
     },
     {
       id: 8,
-      label: "Workload Queue",
-      status: tasks === 0 ? "Empty" : `${tasks} Tasks`,
+      label: zhCN.global.sidebar.console.workloadQueue,
+      status:
+        tasks === 0
+          ? zhCN.global.sidebar.console.empty
+          : zhCN.global.sidebar.console.tasks.replace("{count}", String(tasks)),
       level: tasks === 0 ? "success" : "warning",
       icon: <Settings2 size={14} />,
     },
@@ -130,7 +148,25 @@ function UptimeTimer() {
   }, []);
 
   return (
-    <div className="text-zinc-500 dark:text-zinc-400">UPTIME: {uptime}</div>
+    <div className="text-zinc-500 dark:text-zinc-400">
+      {zhCN.global.sidebar.console.uptime}: {uptime}
+    </div>
+  );
+}
+
+function FooterStatusBadge({
+  label,
+  accentClass,
+}: {
+  label: string;
+  accentClass: string;
+}) {
+  return (
+    <div
+      className={`px-2 py-0.5 rounded-full border text-[9px] uppercase tracking-wide ${accentClass}`}
+    >
+      {label}
+    </div>
   );
 }
 
@@ -199,7 +235,9 @@ export default function ConsoleLog() {
     <div className="text-xs w-full h-full flex flex-col bg-white dark:bg-brand-darker overflow-hidden">
       {/* App-standard header style */}
       <section className="w-full flex justify-end bg-gradient-to-r from-gray-100 to-white font-bold sticky top-0 py-1 dark:bg-gradient-to-l dark:from-brand-darker dark:to-blue-950/40 shadow dark:text-blue-500 flex-none z-10 px-2 uppercase tracking-tighter">
-        <div className="w-full pl-2">System Diagnostic</div>
+        <div className="w-full pl-2">
+          {zhCN.global.sidebar.console.systemDiagnostic}
+        </div>
         {/*<div className="w-[10.5em] text-right pr-4">Status</div>*/}
       </section>
 
@@ -257,11 +295,21 @@ export default function ConsoleLog() {
       <div className="flex items-center text-[10px] font-mono justify-between px-4 py-1.5 bg-zinc-100 dark:bg-zinc-800/50 border-t dark:border-zinc-700/80 flex-none">
         <UptimeTimer />
         <div className="flex items-center gap-2">
+          <FooterStatusBadge
+            label={zhCN.global.sidebar.console.secure}
+            accentClass="border-emerald-200 text-emerald-600 dark:border-emerald-900/50 dark:text-emerald-400"
+          />
+          <FooterStatusBadge
+            label={zhCN.global.sidebar.console.active}
+            accentClass="border-sky-200 text-sky-600 dark:border-sky-900/50 dark:text-sky-400"
+          />
           <div
             className={`w-1.5 h-1.5 rounded-full ${isGlobalCrawling ? "bg-orange-500 animate-pulse" : "bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.3)]"}`}
           />
           <span className="opacity-50 tracking-widest">
-            {isGlobalCrawling ? "CRAWLING" : "IDLE"}
+            {isGlobalCrawling
+              ? zhCN.global.sidebar.console.busy
+              : zhCN.global.sidebar.console.idle}
           </span>
         </div>
       </div>

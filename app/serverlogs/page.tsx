@@ -28,6 +28,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface CrawlResult {
   url: string;
@@ -87,7 +88,7 @@ export default function Page() {
       invoke("fetch_all_bot_ranges", {});
     } catch (error) {
       console.error("Error loading taxonomies:", error);
-      toast.error("RustySEO failed to load Google's IP ranges");
+      toast.error(zhCN.serverlogs.loadGoogleIpsFailed);
     }
   }, []);
 
@@ -135,14 +136,14 @@ export default function Page() {
     // REMOVE ALL THE LOGS FROM DB
     handleRemoveAllLogs();
 
-    toast.message("All logs have been removed from database");
+    toast.message(zhCN.serverlogs.allLogsRemoved);
   };
 
   const handleRemoveAllLogs = () => {
     try {
       invoke("remove_all_logs_from_serverlog_db", { dbName: "serverlog.db" });
       // setSaveLogs(false);
-      toast.success("All logs have been removed from database");
+      toast.success(zhCN.serverlogs.allLogsRemoved);
     } catch (error) {
       console.error(error);
       toast.error(error);
@@ -256,7 +257,7 @@ export default function Page() {
                         : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 focus:bg-gray-100 dark:focus:bg-slate-800"
                     }`}
                   >
-                    Overall Traffic
+                    {zhCN.serverlogs.chartViews.overall}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => setChartView("crawlers")}
@@ -266,7 +267,7 @@ export default function Page() {
                         : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 focus:bg-gray-100 dark:focus:bg-slate-800"
                     }`}
                   >
-                    AI Crawlers
+                    {zhCN.serverlogs.chartViews.crawlers}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => setChartView("status")}
@@ -276,7 +277,7 @@ export default function Page() {
                         : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 focus:bg-gray-100 dark:focus:bg-slate-800"
                     }`}
                   >
-                    HTTP Status
+                    {zhCN.serverlogs.chartViews.status}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

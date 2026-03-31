@@ -10,6 +10,7 @@ import {
     SectionHeader,
 } from "../fields/SettingFields";
 import { Gauge, Layers, ArrowDownUp, TrendingUp } from "lucide-react";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface Props {
     settings: AppSettings;
@@ -18,10 +19,10 @@ interface Props {
 
 const CrawlerSection = ({ settings, onUpdate }: Props) => (
     <div className="space-y-0.5">
-        <SectionHeader title="General" icon={<Gauge className="w-3.5 h-3.5" />} />
+        <SectionHeader title={zhCN.settings.sections.general} icon={<Gauge className="w-3.5 h-3.5" />} />
         <SettingField
-            label="Concurrent Requests"
-            description="Simultaneous HTTP connections"
+            label="并发请求数"
+            description="同时建立的 HTTP 连接数"
         >
             <NumberInput
                 value={settings.concurrent_requests}
@@ -32,8 +33,8 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Batch Size"
-            description="URLs processed per cycle"
+            label="批处理大小"
+            description="每轮处理的 URL 数量"
         >
             <NumberInput
                 value={settings.batch_size}
@@ -44,8 +45,8 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Max Crawl Depth"
-            description="How deep to follow links"
+            label="最大抓取深度"
+            description="跟随链接的最大层级"
         >
             <NumberInput
                 value={settings.max_depth}
@@ -56,8 +57,8 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Max URLs per Domain"
-            description="URL limit per domain"
+            label="单域名最大 URL 数"
+            description="每个域名允许抓取的 URL 上限"
         >
             <NumberInput
                 value={settings.max_urls_per_domain}
@@ -68,13 +69,13 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SectionHeader
-            title="Timing & Throttling"
+            title={zhCN.settings.sections.timing}
             icon={<TrendingUp className="w-3.5 h-3.5" />}
         />
 
         <SettingField
-            label="Adaptive Crawling"
-            description="Auto-adjust speed based on server"
+            label="自适应抓取"
+            description="根据服务器状态自动调整抓取速度"
         >
             <ToggleSwitch
                 checked={settings.adaptive_crawling}
@@ -82,7 +83,7 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
             />
         </SettingField>
 
-        <SettingField label="Base Delay" description="Delay between requests">
+        <SettingField label="基础延迟" description="请求之间的间隔">
             <NumberInput
                 value={settings.base_delay}
                 onChange={(v) => onUpdate("base_delay", v)}
@@ -92,7 +93,7 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
             />
         </SettingField>
 
-        <SettingField label="Max Delay" description="Maximum adaptive delay">
+        <SettingField label="最大延迟" description="自适应模式下的最大延迟">
             <NumberInput
                 value={settings.max_delay}
                 onChange={(v) => onUpdate("max_delay", v)}
@@ -102,7 +103,7 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
             />
         </SettingField>
 
-        <SettingField label="Min Crawl Delay" description="Floor delay in adaptive mode">
+        <SettingField label="最小抓取延迟" description="自适应模式下的最小延迟">
             <NumberInput
                 value={settings.min_crawl_delay}
                 onChange={(v) => onUpdate("min_crawl_delay", v)}
@@ -112,7 +113,7 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
             />
         </SettingField>
 
-        <SettingField label="Crawl Timeout" description="Total crawl job timeout">
+        <SettingField label="抓取超时" description="整个抓取任务的超时时间">
             <NumberInput
                 value={settings.crawl_timeout}
                 onChange={(v) => onUpdate("crawl_timeout", v)}
@@ -123,8 +124,8 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Stall Check Interval"
-            description="How often to check for stalls"
+            label="卡顿检查间隔"
+            description="检测任务卡住的频率"
         >
             <NumberInput
                 value={settings.stall_check_interval}
@@ -136,8 +137,8 @@ const CrawlerSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Max Pending Time"
-            description="Stall threshold per URL"
+            label="最大等待时间"
+            description="单个 URL 的卡顿判定阈值"
         >
             <NumberInput
                 value={settings.max_pending_time}

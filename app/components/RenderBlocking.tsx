@@ -3,6 +3,7 @@ import React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Popover, Text } from "@mantine/core";
 import openBrowserWindow from "../Hooks/OpenBrowserWindow";
+import { zhCN, zhStatusMap } from "@/app/utils/zhCN";
 
 interface RenderBlockingProps {
   stat: any;
@@ -30,19 +31,19 @@ const RenderBlocking: React.FC<RenderBlockingProps> = ({
   // Determine the label based on the number of render-blocking resources
   let label = "";
   if (renderBlockingCount === 0) {
-    label = "Good";
+    label = zhStatusMap.Good;
   } else if (renderBlockingCount > 0 && renderBlockingCount <= 3) {
-    label = "Average";
+    label = "一般";
   } else {
-    label = "Poor";
+    label = zhStatusMap.Poor;
   }
 
   // Determine the background color and text color based on the label
   const labelClass =
     {
-      Poor: "bg-red-500 text-white",
-      Average: "bg-orange-500 text-white",
-      Good: "bg-green-500 text-white",
+      [zhStatusMap.Poor]: "bg-red-500 text-white",
+      一般: "bg-orange-500 text-white",
+      [zhStatusMap.Good]: "bg-green-500 text-white",
     }[label] || "bg-gray-200 text-black";
 
   return (

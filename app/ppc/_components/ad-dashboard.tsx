@@ -10,6 +10,7 @@ import { DashboardLayout } from "./dashboard-layout";
 import { toast } from "./hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { zhCN } from "@/app/utils/zhCN";
 
 export function AdDashboard() {
   const [ads, setAds] = useState<Ad[]>([]);
@@ -67,7 +68,7 @@ export function AdDashboard() {
   const handleAddAd = () => {
     const newAd = {
       id: Date.now().toString(),
-      name: "New Ad",
+      name: zhCN.ppc.dashboard.newAd,
       type: "search", // Default type
       headlines: [""],
       descriptions: [""],
@@ -83,8 +84,11 @@ export function AdDashboard() {
     saveAdsToLocalStorage(updatedAds); // Save to localStorage
 
     toast({
-      title: "Ad created",
-      description: `"${newAd.name}" has been created successfully`,
+      title: zhCN.ppc.dashboard.adCreated,
+      description: zhCN.ppc.dashboard.adCreatedDescription.replace(
+        "{name}",
+        newAd.name,
+      ),
     });
   };
 
@@ -110,8 +114,11 @@ export function AdDashboard() {
     saveAdsToLocalStorage(updatedAds); // Save to localStorage
 
     toast.info({
-      title: "Ad cloned",
-      description: `"${ad.name}" has been cloned successfully`,
+      title: zhCN.ppc.dashboard.adCloned,
+      description: zhCN.ppc.dashboard.adClonedDescription.replace(
+        "{name}",
+        ad.name,
+      ),
     });
   };
 
@@ -173,10 +180,13 @@ export function AdDashboard() {
 
       // Show success toast
       toast({
-        title: "Ad deleted",
+        title: zhCN.ppc.dashboard.adDeleted,
         description: adToDelete
-          ? `"${adToDelete.name}" has been deleted`
-          : "Ad has been deleted",
+          ? zhCN.ppc.dashboard.adDeletedDescription.replace(
+              "{name}",
+              adToDelete.name,
+            )
+          : zhCN.ppc.dashboard.adDeletedFallback,
         variant: "success",
       });
 
@@ -185,8 +195,8 @@ export function AdDashboard() {
       console.error("Error deleting ad:", error);
 
       toast({
-        title: "Error",
-        description: "Failed to delete ad. Please try again.",
+        title: zhCN.ppc.dashboard.error,
+        description: zhCN.ppc.dashboard.deleteFailed,
         variant: "destructive",
       });
     }
@@ -201,8 +211,11 @@ export function AdDashboard() {
     saveAdsToLocalStorage(updatedAds); // Save to localStorage
 
     toast({
-      title: "Ad saved",
-      description: `"${updatedAd.name}" has been saved successfully`,
+      title: zhCN.ppc.dashboard.adSaved,
+      description: zhCN.ppc.dashboard.adSavedDescription.replace(
+        "{name}",
+        updatedAd.name,
+      ),
       variant: "success",
     });
   };
@@ -249,11 +262,11 @@ export function AdDashboard() {
                           <ArrowLeft className="h-4 w-4" />
                         </Button>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                          Ad Editor
+                          {zhCN.ppc.dashboard.editorTitle}
                         </h3>
                       </div>
                       <p className="text-sm text-gray-500 dark:text-gray-400 ml-11">
-                        Refine your headlines, descriptions and assets
+                        {zhCN.ppc.dashboard.editorDescription}
                       </p>
                     </div>
 
@@ -264,7 +277,7 @@ export function AdDashboard() {
                         className="rounded-lg font-semibold border-gray-200 dark:border-white/10 dark:text-white px-4"
                         onClick={() => setSidebarView("previews")}
                       >
-                        Preview
+                        {zhCN.ppc.dashboard.preview}
                       </Button>
                     </div>
                   </div>
@@ -327,16 +340,18 @@ export function AdDashboard() {
   const getHeaderTitle = () => {
     switch (sidebarView) {
       case "ads":
-        return selectedAd ? "Edit Ad" : "All Ads";
+        return selectedAd
+          ? zhCN.ppc.dashboard.headerEditAd
+          : zhCN.ppc.dashboard.headerAllAds;
       case "previews":
-        return "Ad Previews";
+        return zhCN.ppc.dashboard.headerPreviews;
       case "settings":
-        return "Settings";
+        return zhCN.ppc.dashboard.headerSettings;
       // case "help":
       //   return "";
       case "dashboard":
       default:
-        return "Dashboard";
+        return zhCN.ppc.dashboard.headerDashboard;
     }
   };
 
@@ -344,17 +359,17 @@ export function AdDashboard() {
     switch (sidebarView) {
       case "ads":
         return selectedAd
-          ? "Edit your ad details"
-          : "Manage your Google search ads";
+          ? zhCN.ppc.dashboard.descEditAd
+          : zhCN.ppc.dashboard.descManageAds;
       case "previews":
-        return "Preview how your ads will appear";
+        return zhCN.ppc.dashboard.descPreviews;
       case "settings":
-        return "Configure your account settings";
+        return zhCN.ppc.dashboard.descSettings;
       // case "help":
       //   return "Get help with using the platform";
       case "dashboard":
       default:
-        return "Overview of your Google search ads";
+        return zhCN.ppc.dashboard.descDashboard;
     }
   };
 

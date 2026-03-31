@@ -26,6 +26,7 @@ import { IoKey } from "react-icons/io5";
 import { invoke } from "@tauri-apps/api/core";
 import { emit, listen } from "@tauri-apps/api/event";
 import openBrowserWindow from "@/app/Hooks/OpenBrowserWindow";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface DeepCrawlQueryContextMenuProps {
   children: React.ReactNode;
@@ -71,13 +72,13 @@ const DeepCrawlQueryContextMenu: React.FC<DeepCrawlQueryContextMenuProps> = ({
   const handleCopy = useCallback((query: string) => {
     console.log("🔥 Copy Query clicked! Query:", query);
     navigator?.clipboard.writeText(query);
-    toast.success("Query copied to clipboard");
+    toast.success(zhCN.global.sidebar.queryMenu.copied);
     console.log("✅ Copy operation completed");
   }, []);
 
   const openSearchConsoleUrl = (query: string) => {
     if (!credentials) {
-      toast.error("Search Console credentials not found");
+      toast.error(zhCN.global.sidebar.queryMenu.credentialsMissing);
       return;
     }
 
@@ -126,7 +127,7 @@ const DeepCrawlQueryContextMenu: React.FC<DeepCrawlQueryContextMenuProps> = ({
 
       // Validate required parameters
       if (!query || query.trim() === "") {
-        toast.error("Cannot add keyword: Query is required");
+        toast.error(zhCN.global.sidebar.queryMenu.queryRequired);
         console.error("❌ Invalid query parameter:", query);
         return;
       }
@@ -250,7 +251,7 @@ const DeepCrawlQueryContextMenu: React.FC<DeepCrawlQueryContextMenuProps> = ({
 
       if (!allValid) {
         console.error("❌ Data validation failed! Details:", validation);
-        toast.error("Invalid data detected - check console for details");
+        toast.error(zhCN.global.sidebar.queryMenu.invalidData);
         return;
       }
 
@@ -314,7 +315,7 @@ const DeepCrawlQueryContextMenu: React.FC<DeepCrawlQueryContextMenuProps> = ({
           console.log("✅ Step 5 completed. Tables synced");
           console.log("🔍 Step 6: Emitting events...");
 
-          toast.success("Keyword added to Tracking Dashboard");
+          toast.success(zhCN.global.sidebar.queryMenu.addedToTracking);
 
           console.log("📡 Emitting keyword-tracked event...");
           await emit("keyword-tracked", { action: "add", data });
@@ -348,18 +349,18 @@ const DeepCrawlQueryContextMenu: React.FC<DeepCrawlQueryContextMenuProps> = ({
         // More specific error messages
         const errorMessage = String(error);
         if (errorMessage.includes("UNIQUE constraint")) {
-          toast.error("Keyword already exists in tracking");
+          toast.error(zhCN.global.sidebar.queryMenu.alreadyTracked);
         } else if (errorMessage.includes("NOT NULL")) {
-          toast.error("Missing required data for keyword tracking");
+          toast.error(zhCN.global.sidebar.queryMenu.missingRequired);
         } else if (errorMessage.includes("Database save timed out")) {
-          toast.error("Database save operation timed out - check backend");
+          toast.error(zhCN.global.sidebar.queryMenu.databaseTimeout);
         } else if (errorMessage.includes("Sync operation timed out")) {
-          toast.error("Table sync operation timed out - check backend");
+          toast.error(zhCN.global.sidebar.queryMenu.syncTimeout);
         } else if (errorMessage.includes("timed out after 5 seconds")) {
-          toast.error("Overall operation timed out - check backend connection");
+          toast.error(zhCN.global.sidebar.queryMenu.operationTimeout);
         } else {
           toast.error(
-            "Failed to add keyword to tracking: " +
+            zhCN.global.sidebar.queryMenu.addFailedPrefix +
               (error instanceof Error ? error.message : errorMessage),
           );
         }
@@ -385,7 +386,7 @@ const DeepCrawlQueryContextMenu: React.FC<DeepCrawlQueryContextMenuProps> = ({
           }}
           className="text-xs hover:bg-brand-bright hover:text-white"
         >
-          <FiClipboard className="mr-2" /> Copy Query
+          <FiClipboard className="mr-2" /> {zhCN.global.sidebar.queryMenu.copyQuery}
         </ContextMenuItem>
 
         <ContextMenuSeparator className="p-0 m-0 dark:bg-brand-dark" />
@@ -405,7 +406,7 @@ const DeepCrawlQueryContextMenu: React.FC<DeepCrawlQueryContextMenuProps> = ({
           className="text-xs hover:bg-brand-bright hover:text-white"
         >
           <IoKey className="mr-2" />
-          Add to Tracking
+          {zhCN.global.sidebar.queryMenu.addToTracking}
         </ContextMenuItem>
 
         <ContextMenuItem
@@ -413,14 +414,14 @@ const DeepCrawlQueryContextMenu: React.FC<DeepCrawlQueryContextMenuProps> = ({
           className="text-xs hover:bg-brand-bright hover:text-white"
         >
           <FiBarChart className="mr-2" />
-          Open in Search Console
+          {zhCN.global.sidebar.queryMenu.openInSearchConsole}
         </ContextMenuItem>
 
         <ContextMenuSeparator className="p-0 m-0 dark:bg-brand-dark" />
 
         <ContextMenuSub>
           <ContextMenuSubTrigger className="text-xs hover:bg-brand-bright hover:text-white">
-            <FiCheckSquare className="mr-2" /> SERP Results
+            <FiCheckSquare className="mr-2" /> {zhCN.global.sidebar.queryMenu.serpResults}
           </ContextMenuSubTrigger>
           <ContextMenuSubContent className="w-48 text-xs dark:bg-brand-darker dark:border-brand-dark">
             <ContextMenuItem
@@ -470,7 +471,7 @@ const DeepCrawlQueryContextMenu: React.FC<DeepCrawlQueryContextMenuProps> = ({
 
         <ContextMenuSub>
           <ContextMenuSubTrigger className="text-xs hover:bg-brand-bright hover:text-white">
-            <FiLink className="mr-2" /> Backlinks
+            <FiLink className="mr-2" /> {zhCN.global.sidebar.queryMenu.backlinks}
           </ContextMenuSubTrigger>
           <ContextMenuSubContent className="w-48 text-xs dark:bg-brand-darker dark:border-brand-dark">
             <ContextMenuItem className="text-xs hover:bg-brand-bright hover:text-white">

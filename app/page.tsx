@@ -93,6 +93,7 @@ import { PieChartIcon } from "lucide-react";
 import { BsFillPieChartFill } from "react-icons/bs";
 import { BiLogoMicrosoft } from "react-icons/bi";
 import { LuMicroscope } from "react-icons/lu";
+import { zhCN } from "@/app/utils/zhCN";
 
 const HeadAnalysis = React.lazy(() => import("./components/ui/HeadAnalysis"));
 
@@ -471,12 +472,12 @@ const Home: React.FC<HomeProps> = () => {
   const options = [
     {
       value: "DESKTOP",
-      label: "Desktop",
+      label: zhCN.page.deviceOptions.desktop,
       icon: <FaDesktop />,
     },
     {
       value: "mobile",
-      label: "Mobile",
+      label: zhCN.page.deviceOptions.mobile,
       icon: <FaMobile />,
     },
   ];
@@ -583,7 +584,7 @@ const Home: React.FC<HomeProps> = () => {
                   value={url}
                   type="url"
                   required
-                  placeholder={sessionUrl || "https://yourwebsite.com"}
+                  placeholder={sessionUrl || zhCN.page.placeholder}
                   onChange={handleChange}
                   onKeyPress={(event) => {
                     if (event.key === "Enter") {
@@ -610,7 +611,7 @@ const Home: React.FC<HomeProps> = () => {
                         className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white shadow-md"
                       />
                     ) : (
-                      "Crawl"
+                      zhCN.page.crawl
                     )}
                   </span>
                 </button>
@@ -628,19 +629,19 @@ const Home: React.FC<HomeProps> = () => {
               >
                 <Tabs.Tab value="first" className="pb-2 z-50">
                   <CgPerformance className="inline-block text-sm mr-1 mb-[1px]" />{" "}
-                  Diagnostics
+                  {zhCN.page.tabs.diagnostics}
                 </Tabs.Tab>
                 <Tabs.Tab value="third">
                   <AiOutlineRise className="inline-block mr-1 text-sm mb-[2px]" />{" "}
-                  Improvements
+                  {zhCN.page.tabs.improvements}
                 </Tabs.Tab>
                 <Tabs.Tab value="fourth">
                   <FaTasks className="inline-block mr-1 text-sm mb-[2px]" />{" "}
-                  Task Manager
+                  {zhCN.page.tabs.taskManager}
                 </Tabs.Tab>
                 <Tabs.Tab value="fifth">
                   <GoTable className="inline-block mr-1 text-sm mb-[2px]" />{" "}
-                  Crawl History
+                  {zhCN.page.tabs.crawlHistory}
                 </Tabs.Tab>
                 <Tabs.Tab value="analytics">
                   <FaChartBar className="inline-block mr-2" />
@@ -658,11 +659,11 @@ const Home: React.FC<HomeProps> = () => {
                 )}
                 <Tabs.Tab value="gsc">
                   <SlSocialGoogle className="inline-block mr-2 mb-[2px] text-sm" />
-                  Search Console
+                  {zhCN.page.tabs.searchConsole}
                 </Tabs.Tab>
                 <Tabs.Tab value="kws">
                   <IoKeyOutline className="inline-block mr-2 mb-[2px] text-sm" />
-                  Tracking
+                  {zhCN.page.tabs.tracking}
                 </Tabs.Tab>
                 {/* <Tabs.Tab value="semrush">
                   <SiSemrush className="inline-block mr-2 mb-[2px] text-sm" />
@@ -670,7 +671,7 @@ const Home: React.FC<HomeProps> = () => {
                 </Tabs.Tab> */}
                 <Tabs.Tab value="content">
                   <GrPlan className="inline-block mr-2 mb-[2px] text-sm" />
-                  Content
+                  {zhCN.page.tabs.content}
                 </Tabs.Tab>
                 {/* <Tabs.Tab value="topicModeling">
                   <AiOutlineCluster className="inline-block mr-2 mb-[2px] text-sm" />
@@ -688,7 +689,7 @@ const Home: React.FC<HomeProps> = () => {
                 className={`widgets ${Visible.widgets ? "block" : "hidden"} mb-2.5 -mt-1`}
               >
                 <h2 className="bottom-0 text-black/20 dark:text-white/20 font-semibold pb-1 ml-1 text-sm">
-                  Widgets
+                  {zhCN.page.widgets}
                 </h2>
 
                 <section

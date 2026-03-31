@@ -12,6 +12,7 @@ import { useDisclosure } from "@mantine/hooks";
 import TodoItems from "./TodoItems";
 import { updateTasks } from "@/app/Hooks/taskUtils";
 import { toast } from "sonner";
+import { zhCN } from "@/app/utils/zhCN";
 
 type Task = {
   id: number;
@@ -27,15 +28,19 @@ type Task = {
 
 const taskTypes = [
   "CWV",
-  "Head",
-  "Content",
-  "Links",
-  "Images",
-  "Headings",
-  "Keywords",
-  "Schema",
+  zhCN.page.todo.taskTypes.head,
+  zhCN.page.todo.taskTypes.content,
+  zhCN.page.todo.taskTypes.links,
+  zhCN.page.todo.taskTypes.images,
+  zhCN.page.todo.taskTypes.headings,
+  zhCN.page.todo.taskTypes.keywords,
+  zhCN.page.todo.taskTypes.schema,
 ];
-const priorities = ["Low", "Medium", "High"];
+const priorities = [
+  zhCN.page.todo.priorities.low,
+  zhCN.page.todo.priorities.medium,
+  zhCN.page.todo.priorities.high,
+];
 
 interface TodoProps {
   url: string;
@@ -57,7 +62,7 @@ const Todo: React.FC<TodoProps> = ({ strategy, url, close: closeModal }) => {
     priority: "",
     url: url,
     date: new Date().toISOString(),
-    status: "Todo",
+    status: zhCN.page.todo.statuses.todo,
     strategy: strategy || "DESKTOP",
   });
 
@@ -94,7 +99,7 @@ const Todo: React.FC<TodoProps> = ({ strategy, url, close: closeModal }) => {
         priority: "",
         url: url,
         date: new Date().toISOString(),
-        status: "Todo",
+        status: zhCN.page.todo.statuses.todo,
         strategy,
       });
       const event = new Event("tasksUpdated");
@@ -102,9 +107,9 @@ const Todo: React.FC<TodoProps> = ({ strategy, url, close: closeModal }) => {
       console.log("Task added", updatedTasks);
       updateTasks(updatedTasks);
       closeModal();
-      toast("Task added");
+      toast(zhCN.page.todo.taskAdded);
     } else {
-      toast.error("Please fill in all required fields");
+      toast.error(zhCN.page.todo.requiredFields);
     }
   };
 
@@ -115,7 +120,7 @@ const Todo: React.FC<TodoProps> = ({ strategy, url, close: closeModal }) => {
         radius="md"
         opened={opened}
         onClose={closeModal}
-        title="Todo"
+        title={zhCN.page.todo.drawerTitle}
         size="sm"
         className="overflow-hidden"
         overlayProps={{
@@ -138,8 +143,8 @@ const Todo: React.FC<TodoProps> = ({ strategy, url, close: closeModal }) => {
         <Box>
           <Box mb="lg">
             <TextInput
-              label="Task Title"
-              placeholder="Enter task title"
+              label={zhCN.page.todo.labels.title}
+              placeholder={zhCN.page.todo.placeholders.title}
               className="dark:text-white"
               value={newTask.title}
               onChange={(event) =>
@@ -148,8 +153,8 @@ const Todo: React.FC<TodoProps> = ({ strategy, url, close: closeModal }) => {
               mb="md"
             />
             <TextInput
-              label="Task Description"
-              placeholder="Enter task description"
+              label={zhCN.page.todo.labels.description}
+              placeholder={zhCN.page.todo.placeholders.description}
               className="dark:text-white"
               value={newTask.description}
               onChange={(event) =>
@@ -161,8 +166,8 @@ const Todo: React.FC<TodoProps> = ({ strategy, url, close: closeModal }) => {
               mb="md"
             />
             <MultiSelect
-              label="Type"
-              placeholder="Select task type"
+              label={zhCN.page.todo.labels.type}
+              placeholder={zhCN.page.todo.placeholders.type}
               className="dark:text-white text-black"
               data={taskTypes.map((type) => ({ value: type, label: type }))}
               value={newTask.type}
@@ -175,8 +180,8 @@ const Todo: React.FC<TodoProps> = ({ strategy, url, close: closeModal }) => {
               }}
             />
             <Select
-              label="Priority"
-              placeholder="Select priority"
+              label={zhCN.page.todo.labels.priority}
+              placeholder={zhCN.page.todo.placeholders.priority}
               className="dark:text-white"
               data={priorities.map((priority) => ({
                 value: priority,
@@ -194,13 +199,13 @@ const Todo: React.FC<TodoProps> = ({ strategy, url, close: closeModal }) => {
             />
             <TextInput
               className="dark:text-white dark:placeholder:text-white"
-              label="Page Url"
+              label={zhCN.page.todo.labels.pageUrl}
               placeholder={!url && !recrawlUrl ? "" : url || recrawlUrl || ""}
               value={url || recrawlUrl || "..."}
               readOnly
             />
             <Button className="mt-4 w-full" fullWidth onClick={handleAddTask}>
-              Add Task
+              {zhCN.page.todo.addTask}
             </Button>
           </Box>
         </Box>

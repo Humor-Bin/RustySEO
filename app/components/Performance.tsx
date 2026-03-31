@@ -4,6 +4,7 @@ import React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Popover, Text, Button } from "@mantine/core";
 import openBrowserWindow from "../Hooks/OpenBrowserWindow";
+import { zhCN, zhStatusMap } from "@/app/utils/zhCN";
 
 const PerformanceEl = ({
   stat,
@@ -134,18 +135,18 @@ const PerformanceEl = ({
                     let label = "";
 
                     if (score < 50) {
-                      label = "Poor";
+                      label = zhStatusMap.Poor;
                     } else if (score >= 50 && score < 70) {
-                      label = "Average";
+                      label = "一般";
                     } else if (score >= 70) {
-                      label = "Good";
+                      label = zhStatusMap.Good;
                     }
 
                     return (
                       <span className="flex items-center">
                         {score}%{" "}
                         <p
-                          className={` rounded-full ml-2 px-2 text-xs py-[1px] text-white ${label === "Poor" && "bg-red-500 text-white"} ${label === "Good" && "bg-green-500 text-white"}text-white ${label === "Average" && "bg-orange-500 text-white"}`}
+                          className={` rounded-full ml-2 px-2 text-xs py-[1px] text-white ${label === zhStatusMap.Poor && "bg-red-500 text-white"} ${label === zhStatusMap.Good && "bg-green-500 text-white"}text-white ${label === "一般" && "bg-orange-500 text-white"}`}
                         >
                           {label}
                         </p>
@@ -163,7 +164,7 @@ const PerformanceEl = ({
           onClick={() =>
             openBrowserWindow(
               "https://pagespeed.web.dev/report?url=" + url ||
-                "No URL provided",
+                zhCN.page.noUrlProvided,
             )
           }
           className="text-xs underline cursor-pointer"

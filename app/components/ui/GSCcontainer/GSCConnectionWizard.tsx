@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { zhCN } from "@/app/utils/zhCN";
 import { toast } from "sonner";
 import { invoke } from "@tauri-apps/api/core";
 
@@ -45,7 +46,7 @@ export default function GSCConnectionWizard({
 
   const handleConnect = async () => {
     if (!config.clientId || !config.clientSecret) {
-      toast.error("Please enter Client ID and Client Secret");
+      toast.error(zhCN.integrations.gscWizard.toasts.missingCredentials);
       return;
     }
 
@@ -79,7 +80,7 @@ export default function GSCConnectionWizard({
           unlisten();
         } catch (error) {
           console.error("Exchange error:", error);
-          toast.error("Failed to exchange code for token");
+          toast.error(zhCN.integrations.gscWizard.toasts.exchangeFailed);
           setIsLoading(false);
           unlisten();
         }
@@ -91,10 +92,10 @@ export default function GSCConnectionWizard({
       const { open } = await import("@tauri-apps/plugin-shell");
       await open(authUrl);
 
-      toast.info("Opening Google Login in your browser...");
+      toast.info(zhCN.integrations.gscWizard.toasts.openingLogin);
     } catch (error) {
       console.error("OAuth error:", error);
-      toast.error("Failed to start authentication process");
+      toast.error(zhCN.integrations.gscWizard.toasts.authStartFailed);
       setIsLoading(false);
     }
   };
@@ -112,11 +113,11 @@ export default function GSCConnectionWizard({
         setProperties(data.siteEntry.map((s: any) => s.siteUrl));
         setStep(4);
       } else {
-        toast.error("No Search Console properties found");
+        toast.error(zhCN.integrations.gscWizard.toasts.noProperties);
       }
     } catch (error) {
       console.error("Fetch properties error:", error);
-      toast.error("Failed to fetch properties");
+      toast.error(zhCN.integrations.gscWizard.toasts.fetchPropertiesFailed);
     } finally {
       setIsLoading(false);
     }
@@ -130,7 +131,7 @@ export default function GSCConnectionWizard({
       hasToken: !!accessToken,
     });
     if (!selectedProperty) {
-      toast.error("Please select a property");
+      toast.error(zhCN.integrations.gscWizard.toasts.selectProperty);
       return;
     }
 
@@ -155,12 +156,12 @@ export default function GSCConnectionWizard({
       });
       console.log("Credentials saved successfully");
 
-      toast.success("Search Console connected successfully!");
+      toast.success(zhCN.integrations.gscWizard.toasts.connected);
       console.log("Calling onComplete...");
       onComplete();
     } catch (error) {
       console.error("Finalize error:", error);
-      toast.error("Failed to save connection settings");
+      toast.error(zhCN.integrations.gscWizard.toasts.saveFailed);
     } finally {
       setIsLoading(false);
     }
@@ -191,10 +192,13 @@ export default function GSCConnectionWizard({
           </div>
           <div>
             <h2 className="text-lg font-bold dark:text-white">
-              Connect Search Console
+              {zhCN.integrations.gscWizard.title}
             </h2>
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              Step {step} of 4
+              {zhCN.integrations.gscWizard.stepOf.replace(
+                "{step}",
+                String(step),
+              )}
             </p>
           </div>
         </div>
@@ -234,30 +238,29 @@ export default function GSCConnectionWizard({
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold dark:text-white">
-                    Unlock Deep Insights
+                    {zhCN.integrations.gscWizard.step1.title}
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                    Connect your Google Search Console to see real-time
-                    rankings, impressions, and clicks directly in RustySEO.
+                    {zhCN.integrations.gscWizard.step1.description}
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-4 w-full pt-4">
                   <div className="p-3 bg-gray-50 dark:bg-brand-dark rounded-xl border border-gray-100 dark:border-brand-dark/50 text-left">
                     <Globe className="h-4 w-4 text-blue-500 mb-2" />
                     <p className="text-[10px] font-bold dark:text-white">
-                      Global Reach
+                      {zhCN.integrations.gscWizard.step1.cards.global.title}
                     </p>
                     <p className="text-[9px] text-gray-500">
-                      Track worldwide performance
+                      {zhCN.integrations.gscWizard.step1.cards.global.description}
                     </p>
                   </div>
                   <div className="p-3 bg-gray-50 dark:bg-brand-dark rounded-xl border border-gray-100 dark:border-brand-dark/50 text-left">
                     <Key className="h-4 w-4 text-purple-500 mb-2" />
                     <p className="text-[10px] font-bold dark:text-white">
-                      Secure Access
+                      {zhCN.integrations.gscWizard.step1.cards.secure.title}
                     </p>
                     <p className="text-[9px] text-gray-500">
-                      Official Google API connection
+                      {zhCN.integrations.gscWizard.step1.cards.secure.description}
                     </p>
                   </div>
                 </div>
@@ -267,7 +270,7 @@ export default function GSCConnectionWizard({
                   onClick={handleNext}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6 rounded-xl group dark:bg-blue-600 dark:text-white dark:hover:bg-blue-600/90 hover:text-white"
                 >
-                  Get Started
+                  {zhCN.integrations.gscWizard.step1.button}
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
@@ -287,22 +290,23 @@ export default function GSCConnectionWizard({
               <div className="flex-1 space-y-6">
                 <div className="space-y-2">
                   <h3 className="text-lg font-bold dark:text-white">
-                    API Configuration
+                    {zhCN.integrations.gscWizard.step2.title}
                   </h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Enter your Google Cloud Project details. Need help?
+                    {zhCN.integrations.gscWizard.step2.description}
                     <a
                       href="#"
                       className="text-blue-600 ml-1 inline-flex items-center"
                     >
-                      View Guide <ExternalLink className="h-3 w-3 ml-1" />
+                      {zhCN.integrations.gscWizard.step2.guide}
+                      <ExternalLink className="h-3 w-3 ml-1" />
                     </a>
                   </p>
                 </div>
                 <div className="space-y-4">
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                      Client ID
+                      {zhCN.integrations.gscWizard.step2.fields.clientId}
                     </label>
                     <Input
                       value={config.clientId}
@@ -315,7 +319,7 @@ export default function GSCConnectionWizard({
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                      Project ID
+                      {zhCN.integrations.gscWizard.step2.fields.projectId}
                     </label>
                     <Input
                       value={config.projectId}
@@ -328,7 +332,7 @@ export default function GSCConnectionWizard({
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                      Client Secret
+                      {zhCN.integrations.gscWizard.step2.fields.clientSecret}
                     </label>
                     <Input
                       type="password"
@@ -348,13 +352,13 @@ export default function GSCConnectionWizard({
                   onClick={handleBack}
                   className="flex-1 py-6 rounded-xl"
                 >
-                  Back
+                  {zhCN.integrations.gscWizard.step2.back}
                 </Button>
                 <Button
                   onClick={handleNext}
                   className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white py-6 rounded-xl dark:bg-blue-700 dark:text-white dark:hover:bg-brand-bright/90 dark:hover:text-white"
                 >
-                  Continue
+                  {zhCN.integrations.gscWizard.step2.continue}
                 </Button>
               </div>
             </motion.div>
@@ -376,11 +380,10 @@ export default function GSCConnectionWizard({
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold dark:text-white">
-                    Authorize Access
+                    {zhCN.integrations.gscWizard.step3.title}
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    We'll now open a secure Google login window to authorize
-                    RustySEO to read your Search Console data.
+                    {zhCN.integrations.gscWizard.step3.description}
                   </p>
                 </div>
                 <Button
@@ -399,21 +402,21 @@ export default function GSCConnectionWizard({
                           alt="Google"
                         />
                       </div>
-                      <span className="font-bold">Connect with Google</span>
+                      <span className="font-bold">
+                        {zhCN.integrations.gscWizard.step3.connect}
+                      </span>
                     </>
                   )}
                 </Button>
               </div>
               <div className="space-y-2 pt-8">
                 <p className="text-[10px] text-gray-400">
-                  RustySEO only requests read-only access to your Search Console
-                  data.
+                  {zhCN.integrations.gscWizard.step3.readOnly}
                 </p>
                 <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-900/30 rounded-lg">
                   <p className="text-[10px] text-amber-800 dark:text-amber-200 flex items-center gap-1.5 justify-center">
                     <AlertCircle className="h-3 w-3" />
-                    If the popup doesn't appear, please check if popups are
-                    blocked in your settings.
+                    {zhCN.integrations.gscWizard.step3.popupTip}
                   </p>
                 </div>
               </div>
@@ -433,11 +436,10 @@ export default function GSCConnectionWizard({
               <div className="flex-1 space-y-6">
                 <div className="space-y-2">
                   <h3 className="text-lg font-bold dark:text-white">
-                    Select Property
+                    {zhCN.integrations.gscWizard.step4.title}
                   </h3>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    Choose the website property you want to track in this
-                    workspace.
+                    {zhCN.integrations.gscWizard.step4.description}
                   </p>
                 </div>
                 <div className="max-h-[220px] overflow-y-auto space-y-2 pr-2 custom-scrollbar">
@@ -477,7 +479,7 @@ export default function GSCConnectionWizard({
                   {isLoading ? (
                     <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
-                    "Complete Setup"
+                    zhCN.integrations.gscWizard.step4.complete
                   )}
                 </Button>
               </div>

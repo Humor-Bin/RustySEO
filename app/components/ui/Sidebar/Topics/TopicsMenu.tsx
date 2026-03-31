@@ -13,13 +13,14 @@ import { SiDuckduckgo } from "react-icons/si";
 import { toast } from "sonner";
 
 import { BiLogoBing } from "react-icons/bi";
+import { zhCN } from "@/app/utils/zhCN";
 
 const TopicsMenu = ({ children, entry }: { children: any; entry: any }) => {
   const keyword = encodeURIComponent(entry?.keyword || "");
 
   const copyKeyword = () => {
     navigator.clipboard.writeText(decodeURIComponent(keyword));
-    toast.success("Keyword copied to clipboard");
+    toast.success(zhCN.page.topicsMenu.copied);
   };
 
   return (
@@ -31,14 +32,14 @@ const TopicsMenu = ({ children, entry }: { children: any; entry: any }) => {
           style={{ transformOrigin: "center" }}
         />
         <DropdownMenuLabel className="font-semibold text-xs">
-          Check Keyword
+          {zhCN.page.topicsMenu.title}
         </DropdownMenuLabel>
 
         <DropdownMenuItem
           onClick={copyKeyword}
           className="dark:hover:bg-brand-dark hover:text-white hover:bg-brand-highlight text-xs cursor-pointer"
         >
-          <FaCopy className="mr-2" /> Copy Keyword
+          <FaCopy className="mr-2" /> {zhCN.page.topicsMenu.copyKeyword}
         </DropdownMenuItem>
 
         <DropdownMenuSeparator className="dark:bg-white/20 bg-black/20" />
@@ -87,7 +88,7 @@ const TopicsMenu = ({ children, entry }: { children: any; entry: any }) => {
           }
           className="dark:hover:bg-brand-dark hover:text-white hover:bg-brand-highlight text-xs cursor-pointer"
         >
-          <FiTrendingUp className="mr-2" /> Google Trends
+          <FiTrendingUp className="mr-2" /> {zhCN.page.topicsMenu.googleTrends}
         </DropdownMenuItem>
 
         <DropdownMenuItem
@@ -109,7 +110,7 @@ const TopicsMenu = ({ children, entry }: { children: any; entry: any }) => {
           }
           className="dark:hover:bg-brand-dark hover:text-white hover:bg-brand-highlight text-xs cursor-pointer"
         >
-          <FaGoogle className="mr-2" /> Search Console
+          <FaGoogle className="mr-2" /> {zhCN.page.topicsMenu.searchConsole}
         </DropdownMenuItem>
 
         <DropdownMenuItem

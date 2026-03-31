@@ -10,6 +10,7 @@ import {
     SectionHeader,
 } from "../fields/SettingFields";
 import { Globe, Timer, RotateCcw } from "lucide-react";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface Props {
     settings: AppSettings;
@@ -19,13 +20,13 @@ interface Props {
 const NetworkSection = ({ settings, onUpdate }: Props) => (
     <div className="space-y-0.5">
         <SectionHeader
-            title="Request / Network"
+            title={zhCN.settings.sections.requestNetwork}
             icon={<Globe className="w-3.5 h-3.5" />}
         />
 
         <SettingField
-            label="Request Timeout"
-            description="Individual HTTP request timeout"
+            label="请求超时"
+            description="单次 HTTP 请求的超时时间"
         >
             <NumberInput
                 value={settings.client_timeout}
@@ -37,8 +38,8 @@ const NetworkSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Connect Timeout"
-            description="Connection establishment timeout"
+            label="连接超时"
+            description="建立连接时的超时时间"
         >
             <NumberInput
                 value={settings.client_connect_timeout}
@@ -50,8 +51,8 @@ const NetworkSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Max Redirects"
-            description="Number of redirects to follow"
+            label="最大重定向次数"
+            description="允许跟随的重定向次数"
         >
             <NumberInput
                 value={settings.redirect_policy}
@@ -62,8 +63,8 @@ const NetworkSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Max Retries"
-            description="Retries for failed requests"
+            label="最大重试次数"
+            description="请求失败后的重试次数"
         >
             <NumberInput
                 value={settings.max_retries}
@@ -74,13 +75,13 @@ const NetworkSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SectionHeader
-            title="JavaScript & Rendering"
+            title={zhCN.settings.sections.rendering}
             icon={<Timer className="w-3.5 h-3.5" />}
         />
 
         <SettingField
-            label="Expect HTML"
-            description="Expect HTML content type"
+            label="仅期望 HTML"
+            description="期望返回内容为 HTML 类型"
         >
             <ToggleSwitch
                 checked={settings.html}
@@ -89,8 +90,8 @@ const NetworkSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="JS Rendering"
-            description="Use headless Chrome for JS pages"
+            label="JS 渲染"
+            description="对 JavaScript 页面使用无头 Chrome 渲染"
         >
             <ToggleSwitch
                 checked={settings.javascript_rendering}
@@ -99,8 +100,8 @@ const NetworkSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="JS Concurrency"
-            description="Headless Chrome concurrency"
+            label="JS 并发数"
+            description="无头 Chrome 的并发任务数"
         >
             <NumberInput
                 value={settings.javascript_concurrency}

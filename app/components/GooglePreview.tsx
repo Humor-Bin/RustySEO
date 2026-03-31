@@ -1,4 +1,5 @@
 "use client";
+import { zhCN } from "@/app/utils/zhCN";
 import useStore from "@/store/Panes";
 import { useEffect, useState } from "react";
 import { ImGoogle2 } from "react-icons/im";
@@ -47,7 +48,7 @@ const GooglePreview = ({
     >
       <h2 className="flex items-center">
         <ImGoogle2 className="mr-1.5" />
-        SERP Preview
+        {zhCN.page.serpPreview}
       </h2>
 
       <section

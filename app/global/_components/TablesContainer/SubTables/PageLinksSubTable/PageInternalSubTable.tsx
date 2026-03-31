@@ -2,6 +2,7 @@
 import { message, save } from "@tauri-apps/plugin-dialog";
 import { writeTextFile } from "@tauri-apps/plugin-fs";
 import { useEffect, useRef, forwardRef, useImperativeHandle } from "react";
+import { zhCN } from "@/app/utils/zhCN";
 
 const PageInternalSubTable = forwardRef<
   { exportCSV: () => Promise<void> },
@@ -66,8 +67,8 @@ const PageInternalSubTable = forwardRef<
     const uniqueStatusCodes = Array.from(uniqueMap.values());
 
     if (!uniqueStatusCodes.length) {
-      await message("No data to export", {
-        title: "Export Error",
+      await message(zhCN.global.subtables.noDataToExport, {
+        title: zhCN.global.subtables.exportError,
         type: "error",
       });
       return;
@@ -95,15 +96,15 @@ const PageInternalSubTable = forwardRef<
 
       if (filePath) {
         await writeTextFile(filePath, csvContent);
-        await message("CSV file saved successfully!", {
-          title: "Export Complete",
+        await message(zhCN.global.subtables.csvSaved, {
+          title: zhCN.global.subtables.exportComplete,
           type: "info",
         });
       }
     } catch (error) {
       console.error("Export failed:", error);
-      await message(`Failed to export CSV: ${error}`, {
-        title: "Export Error",
+      await message(`${zhCN.global.subtables.exportFailedPrefix}${error}`, {
+        title: zhCN.global.subtables.exportError,
         type: "error",
       });
     }
@@ -128,7 +129,7 @@ const PageInternalSubTable = forwardRef<
         }}
       >
         <p className="dark:text-white/50 text-black/50 text-xs">
-          Select a URL from the HTML table to view details
+          {zhCN.global.subtables.selectUrlToViewDetails}
         </p>
       </div>
     );
@@ -163,7 +164,7 @@ const PageInternalSubTable = forwardRef<
               }}
               className="bg-gray-100 dark:bg-brand-dark"
             >
-              Anchor Text
+              {zhCN.global.subtables.anchorText}
             </th>
             <th
               style={{
@@ -173,7 +174,7 @@ const PageInternalSubTable = forwardRef<
               }}
               className="bg-gray-100 dark:bg-brand-dark"
             >
-              Link
+              {zhCN.global.subtables.link}
             </th>
             <th
               style={{
@@ -183,7 +184,7 @@ const PageInternalSubTable = forwardRef<
               }}
               className="bg-gray-100 dark:bg-brand-dark"
             >
-              Status
+              {zhCN.global.subtables.status}
             </th>
           </tr>
         </thead>

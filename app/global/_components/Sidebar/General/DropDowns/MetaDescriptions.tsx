@@ -3,6 +3,7 @@ import useGlobalCrawlStore from "@/store/GlobalCrawlDataStore";
 import React, { useMemo, memo, useEffect, useRef, useState } from "react";
 import { debounce } from "lodash";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface DescriptionCounts {
   all: number; // Total unique descriptions
@@ -74,27 +75,27 @@ const MetaDescription = () => {
 
     return [
       {
-        label: "Total Description",
+        label: zhCN.global.sidebar.dropdowns.totalDescription,
         count: counts.all,
         percentage: calculatePercentage(counts.all, totalPages),
       },
       {
-        label: "Empty Description",
+        label: zhCN.global.sidebar.dropdowns.emptyDescription,
         count: counts.empty,
         percentage: calculatePercentage(counts.empty, totalPages),
       },
       {
-        label: "Duplicate Description",
+        label: zhCN.global.sidebar.dropdowns.duplicateDescription,
         count: counts.duplicate,
         percentage: calculatePercentage(counts.duplicate, totalPages),
       },
       {
-        label: "Over 155 Characters",
+        label: zhCN.global.sidebar.dropdowns.over155Characters,
         count: counts.long,
         percentage: calculatePercentage(counts.long, totalPages),
       },
       {
-        label: "Below 70 Characters",
+        label: zhCN.global.sidebar.dropdowns.below70Characters,
         count: counts.short,
         percentage: calculatePercentage(counts.short, totalPages),
       },
@@ -112,7 +113,7 @@ const MetaDescription = () => {
               <FiChevronRight size={14} />
             )}
           </span>
-          <span className="ml-1">Meta Description</span>
+          <span className="ml-1">{zhCN.global.sidebar.dropdowns.metaDescription}</span>
         </div>
       </div>
 

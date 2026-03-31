@@ -2,6 +2,7 @@
 import useGlobalCrawlStore from "@/store/GlobalCrawlDataStore";
 import React, { useMemo, useEffect, memo, useState } from "react";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface UrlCounts {
   total: number; // Total URLs analyzed
@@ -75,52 +76,52 @@ const URLinfo = () => {
 
     return [
       {
-        label: "Total",
+        label: zhCN.global.sidebar.dropdowns.total,
         count: counts.total,
         percentage: "100%",
       },
       {
-        label: "Non ASCII Characters",
+        label: zhCN.global.sidebar.dropdowns.nonAsciiCharacters,
         count: counts.nonAscii,
         percentage: calculatePercentage(counts.nonAscii, counts.total),
       },
       {
-        label: "Underscores",
+        label: zhCN.global.sidebar.dropdowns.underscores,
         count: counts.underscores,
         percentage: calculatePercentage(counts.underscores, counts.total),
       },
       {
-        label: "Uppercase",
+        label: zhCN.global.sidebar.dropdowns.uppercase,
         count: counts.uppercase,
         percentage: calculatePercentage(counts.uppercase, counts.total),
       },
       {
-        label: "Multiple Slashes",
+        label: zhCN.global.sidebar.dropdowns.multipleSlashes,
         count: counts.multipleSlashes,
         percentage: calculatePercentage(counts.multipleSlashes, counts.total),
       },
       {
-        label: "Repetitive Path",
+        label: zhCN.global.sidebar.dropdowns.repetitivePath,
         count: counts.repetitivePath,
         percentage: calculatePercentage(counts.repetitivePath, counts.total),
       },
       {
-        label: "Contains Space",
+        label: zhCN.global.sidebar.dropdowns.containsSpace,
         count: counts.containsSpaces,
         percentage: calculatePercentage(counts.containsSpaces, counts.total),
       },
       {
-        label: "Internal Search",
+        label: zhCN.global.sidebar.dropdowns.internalSearch,
         count: counts.internalSearch,
         percentage: calculatePercentage(counts.internalSearch, counts.total),
       },
       {
-        label: "Parameters",
+        label: zhCN.global.sidebar.dropdowns.parameters,
         count: counts.hasParameters,
         percentage: calculatePercentage(counts.hasParameters, counts.total),
       },
       {
-        label: "Over 115 Characters",
+        label: zhCN.global.sidebar.dropdowns.over115Characters,
         count: counts.tooLong,
         percentage: calculatePercentage(counts.tooLong, counts.total),
       },
@@ -145,7 +146,7 @@ const URLinfo = () => {
               <FiChevronRight size={14} />
             )}
           </span>
-          <span className="ml-1">URL</span>
+          <span className="ml-1">{zhCN.global.sidebar.dropdowns.url}</span>
         </div>
       </div>
 

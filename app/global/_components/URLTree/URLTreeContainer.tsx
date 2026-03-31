@@ -13,6 +13,7 @@ import {
 } from "@tabler/icons-react";
 import useGlobalCrawlStore from "@/store/GlobalCrawlDataStore";
 import TreeNodeContextMenu from "./TreeNodeContextMenu";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface TreeNode {
   label: string;
@@ -34,7 +35,7 @@ const URLTreeContainer = () => {
 
     const root: TreeNode = {
       value: "root",
-      label: "Website Root",
+      label: zhCN.global.sidebar.urlTree.root,
       children: [],
     };
     let totalPages = 0;
@@ -111,7 +112,7 @@ const URLTreeContainer = () => {
           className="text-gray-300 dark:text-gray-600 animate-pulse"
         />
         <Text size="sm" className="font-medium">
-          No crawl data available to generate tree.
+          {zhCN.global.sidebar.urlTree.empty}
         </Text>
       </div>
     );
@@ -124,12 +125,12 @@ const URLTreeContainer = () => {
           <div className="flex flex-col">
             <h2 className="text-sm font-bold dark:text-white flex items-center gap-1.5">
               <IconWorld size={16} className="text-blue-500" />
-              Site Tree
+              {zhCN.global.sidebar.urlTree.title}
             </h2>
           </div>
 
           <div className="flex items-center gap-2">
-            <Tooltip label="Total pages" position="bottom" withArrow>
+            <Tooltip label={zhCN.global.sidebar.urlTree.totalPages} position="bottom" withArrow>
               <div className="flex items-center gap-1 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded-full border border-blue-100 dark:border-blue-500/30">
                 <IconFiles size={10} className="text-blue-500" />
                 <span className="font-bold text-[10px] text-blue-600 dark:text-blue-400">
@@ -138,7 +139,7 @@ const URLTreeContainer = () => {
               </div>
             </Tooltip>
 
-            <Tooltip label="Total folders" position="bottom" withArrow>
+            <Tooltip label={zhCN.global.sidebar.urlTree.totalFolders} position="bottom" withArrow>
               <div className="flex items-center gap-1 bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded-full border border-amber-100 dark:border-amber-500/30">
                 <IconFolders size={10} className="text-amber-500" />
                 <span className="font-bold text-[10px] text-amber-600 dark:text-amber-400">
@@ -147,7 +148,7 @@ const URLTreeContainer = () => {
               </div>
             </Tooltip>
 
-            <Tooltip label="Maximum depth" position="bottom" withArrow>
+            <Tooltip label={zhCN.global.sidebar.urlTree.maxDepth} position="bottom" withArrow>
               <div className="flex items-center gap-1 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full border border-emerald-100 dark:border-emerald-500/30">
                 <IconArrowsVertical size={10} className="text-emerald-500" />
                 <span className="font-bold text-[10px] text-emerald-600 dark:text-emerald-400">

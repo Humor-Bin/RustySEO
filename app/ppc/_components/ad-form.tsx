@@ -11,6 +11,7 @@ import { ExtensionsEditor } from "./extensions-editor";
 import { CampaignSettings } from "./campaign-settings";
 import { exportAdsToCSV } from "@/utils/ad-export";
 import { importAdsFromCSV } from "@/utils/ad-import";
+import { zhCN } from "@/app/utils/zhCN";
 import { toast } from "sonner";
 
 import type { Ad, AdType, Sitelink, AdImage, AdExtension } from "@/types/ad";
@@ -173,7 +174,7 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
 
   const handleExport = () => {
     exportAdsToCSV([formData]);
-    toast.success("Ad exported as Google Ads CSV");
+    toast.success(zhCN.ppc.form.exportSuccess);
   };
 
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -186,15 +187,15 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
         const newAd = { ...formData, ...importedAds[0] };
         setFormData(newAd);
         setKeywordInput(newAd.keywords.join("\n"));
-        toast.success("Ad imported successfully");
+        toast.success(zhCN.ppc.form.importSuccess);
       }
     } catch (err) {
-      toast.error("Failed to import CSV. Check format.");
+      toast.error(zhCN.ppc.form.importFailed);
     }
   };
 
   const handleClear = () => {
-    if (confirm("Are you sure you want to clear all fields?")) {
+    if (confirm(zhCN.ppc.form.clearConfirm)) {
       setFormData({
         ...formData,
         name: "",
@@ -211,14 +212,14 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
         budget: 0,
       });
       setKeywordInput("");
-      toast.success("Form cleared");
+      toast.success(zhCN.ppc.form.cleared);
     }
   };
 
   const handleSave = () => {
     onSave(formData);
     localStorage.setItem("Ads", JSON.stringify(formData));
-    toast.success("Ad saved");
+    toast.success(zhCN.ppc.form.saved);
   };
 
   return (
@@ -227,10 +228,10 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
       <div className="flex-shrink-0 p-0 mb-2 pb-0 shadow-lg ">
         <div className="flex bg-white dark:bg-brand-darker p-1 px-3  w-full border border-gray-100 dark:border-white/5 shadow-sm overflow-x-auto custom-scrollbar no-scrollbar ">
           {[
-            { id: "content", label: "Content" },
-            { id: "assets", label: "Assets" },
-            { id: "targeting", label: "Targeting" },
-            { id: "settings", label: "Settings" },
+            { id: "content", label: zhCN.ppc.tabs.content },
+            { id: "assets", label: zhCN.ppc.tabs.assets },
+            { id: "targeting", label: zhCN.ppc.tabs.targeting },
+            { id: "settings", label: zhCN.ppc.tabs.settings },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -254,7 +255,7 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
             {/* AD TYPE SELECTION */}
             <div className="bg-white dark:bg-brand-darker/60 rounded-2xl border border-gray-100 dark:border-white/5 p-5 shadow-sm">
               <h5 className="text-[10px] font-black uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-4">
-                Select Ad Type
+                {zhCN.ppc.form.selectAdType}
               </h5>
               <div className="flex flex-wrap gap-8">
                 {["search", "pmax", "display"].map((type) => (
@@ -276,8 +277,8 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
                       className={`text-xs font-bold transition-colors ${formData.type === type ? "text-gray-900 dark:text-white" : "text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300"}`}
                     >
                       {type === "pmax"
-                        ? "Performance Max"
-                        : type.charAt(0).toUpperCase() + type.slice(1)}
+                        ? zhCN.ppc.adTypes.pmax
+                        : zhCN.ppc.adTypes[type as keyof typeof zhCN.ppc.adTypes]}
                     </span>
                   </label>
                 ))}
@@ -288,22 +289,22 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
             <div className="bg-white dark:bg-brand-darker/60 rounded-2xl border border-gray-100 dark:border-white/5 p-5 shadow-sm space-y-5">
               <div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                  Ad Creative
+                  {zhCN.ppc.form.creativeTitle}
                 </h3>
                 <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-black opacity-60">
-                  Define your messaging and landing page
+                  {zhCN.ppc.form.creativeDescription}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">
-                    Ad Name
+                    {zhCN.ppc.form.adName}
                   </label>
                   <input
                     value={formData.name}
                     onChange={handleNameChange}
-                    placeholder="Enter ad variation name"
+                    placeholder={zhCN.ppc.form.adNamePlaceholder}
                     className="w-full px-3 h-10 text-xs rounded-xl border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-brand-darker focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
                   />
                 </div>
@@ -311,12 +312,12 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
                 {(formData.type === "display" || formData.type === "pmax") && (
                   <div className="space-y-2">
                     <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">
-                      Business Name
+                      {zhCN.ppc.form.businessName}
                     </label>
                     <input
                       value={formData.businessName || ""}
                       onChange={handleBusinessNameChange}
-                      placeholder="Your brand name"
+                      placeholder={zhCN.ppc.form.businessNamePlaceholder}
                       maxLength={25}
                       className="w-full px-3 h-10 text-xs rounded-xl border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-brand-darker focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
                     />
@@ -326,7 +327,7 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
 
               <div className="space-y-2">
                 <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">
-                  Final URL
+                  {zhCN.ppc.form.finalUrl}
                 </label>
                 <input
                   value={formData.finalUrl}
@@ -340,7 +341,7 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
               <div className="space-y-4 pt-4 border-t border-gray-50 dark:border-white/5">
                 <div className="flex items-center justify-between">
                   <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">
-                    Headlines ({formData.headlines.length}/15)
+                    {zhCN.ppc.form.headlines} ({formData.headlines.length}/15)
                   </label>
                   <button
                     type="button"
@@ -359,7 +360,10 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
                         onChange={(e) =>
                           handleHeadlineChange(index, e.target.value)
                         }
-                        placeholder={`Headline ${index + 1}`}
+                        placeholder={zhCN.ppc.form.headlinePlaceholder.replace(
+                          "{index}",
+                          String(index + 1),
+                        )}
                         maxLength={30}
                         className="w-full pl-3 pr-16 h-10 text-xs rounded-xl border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-brand-darker focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
                       />
@@ -382,7 +386,7 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
               <div className="space-y-4 pt-4 border-t border-gray-50 dark:border-white/5">
                 <div className="flex items-center justify-between">
                   <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">
-                    Descriptions ({formData.descriptions.length}/4)
+                    {zhCN.ppc.form.descriptions} ({formData.descriptions.length}/4)
                   </label>
                   <button
                     type="button"
@@ -401,7 +405,10 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
                         onChange={(e) =>
                           handleDescriptionChange(index, e.target.value)
                         }
-                        placeholder={`Description ${index + 1}`}
+                        placeholder={zhCN.ppc.form.descriptionPlaceholder.replace(
+                          "{index}",
+                          String(index + 1),
+                        )}
                         maxLength={90}
                         rows={2}
                         className="w-full pl-3 pr-16 py-2.5 text-xs rounded-xl border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-brand-darker focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-medium resize-none text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
@@ -430,20 +437,20 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
             {(formData.type === "display" || formData.type === "pmax") && (
               <div className="bg-white dark:bg-brand-darker/60 rounded-2xl border border-gray-100 dark:border-white/5 p-6 shadow-sm">
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">
-                  Visual Creatives
+                  {zhCN.ppc.form.visualCreatives}
                 </h3>
                 <div className="space-y-8">
                   <ImageManager
-                    title="Marketing Images"
-                    description="Upload your high-quality brand visuals"
+                    title={zhCN.ppc.form.marketingImages}
+                    description={zhCN.ppc.form.marketingImagesDescription}
                     images={formData.images || []}
                     onChange={handleUpdateImages}
                     maxFiles={15}
                   />
                   <div className="pt-8 border-t border-gray-50 dark:border-white/5">
                     <ImageManager
-                      title="Logos"
-                      description="Add your square and landscape logos"
+                      title={zhCN.ppc.form.logos}
+                      description={zhCN.ppc.form.logosDescription}
                       images={formData.logos || []}
                       onChange={handleUpdateLogos}
                       maxFiles={5}
@@ -475,21 +482,21 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
           <div className="flex flex-col gap-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
             <div className="bg-white dark:bg-brand-darker/60 rounded-2xl border border-gray-100 dark:border-white/5 p-5 shadow-sm">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                Targeting & Keywords
+                {zhCN.ppc.form.targetingTitle}
               </h3>
               <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-black opacity-60 mb-6">
-                Define who should see your ads
+                {zhCN.ppc.form.targetingDescription}
               </p>
 
               <div className="space-y-4">
                 <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">
-                  Target Keywords (One per line)
+                  {zhCN.ppc.form.targetKeywords}
                 </label>
                 <textarea
                   value={keywordInput}
                   onChange={handleKeywordInputChange}
                   onBlur={handleKeywordsBlur}
-                  placeholder="e.g. digital marketing&#10;seo tools&#10;ad simulator"
+                  placeholder={zhCN.ppc.form.targetKeywordsPlaceholder}
                   className="w-full p-4 h-64 text-xs font-mono rounded-2xl border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-[#0a0a0b]/60 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all resize-none custom-scrollbar text-gray-900 dark:text-gray-100 placeholder:text-gray-400"
                 />
               </div>
@@ -508,10 +515,10 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
           <div className="flex flex-col gap-8 animate-in fade-in slide-in-from-bottom-2 duration-500">
             <div className="bg-white dark:bg-brand-darker/60 rounded-2xl border border-gray-100 dark:border-white/5 p-5 shadow-sm">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                Campaign Strategy
+                {zhCN.ppc.form.settingsTitle}
               </h3>
               <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-black opacity-60 mb-6">
-                Configure your budget and auction strategy
+                {zhCN.ppc.form.settingsDescription}
               </p>
               <CampaignSettings ad={formData} onChange={handleUpdateSettings} />
             </div>
@@ -526,7 +533,7 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
             onClick={onPreview}
             className="flex items-center gap-2 px-4 h-10 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-700 dark:text-gray-200 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
           >
-            <Eye className="h-4 w-4" /> <span>Preview</span>
+            <Eye className="h-4 w-4" /> <span>{zhCN.ppc.form.preview}</span>
           </button>
 
           <input
@@ -542,21 +549,21 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
             }
             className="flex items-center gap-2 px-4 h-10 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
           >
-            <Upload className="h-4 w-4" /> <span>Import</span>
+            <Upload className="h-4 w-4" /> <span>{zhCN.ppc.form.import}</span>
           </button>
 
           <button
             onClick={handleExport}
             className="flex items-center gap-2 px-4 h-10 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
           >
-            <Download className="h-4 w-4" /> <span>Export</span>
+            <Download className="h-4 w-4" /> <span>{zhCN.ppc.form.export}</span>
           </button>
 
           <button
             onClick={handleClear}
             className="flex items-center gap-2 px-4 h-10 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
           >
-            <RefreshCcw className="h-4 w-4" /> <span>Clear</span>
+            <RefreshCcw className="h-4 w-4" /> <span>{zhCN.ppc.form.clear}</span>
           </button>
         </div>
 
@@ -564,7 +571,7 @@ export function AdForm({ ad, onSave, onPreview, onChange }: AdFormProps) {
           onClick={handleSave}
           className="px-10 h-10 bg-brand-bright hover:bg-blue-700 text-white rounded-xl text-[11px] font-black uppercase tracking-widest   active:scale-95 transition-all transform hover:-translate-y-0.5"
         >
-          Save Campaign
+          {zhCN.ppc.form.saveCampaign}
         </button>
       </div>
     </div>

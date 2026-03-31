@@ -94,6 +94,7 @@ import { useExcelLoading } from "@/store/ServerLogsGlobalStore";
 import useGSCStatusStore from "@/store/GSCStatusStore";
 import { RankingsLogs } from "../Rankings/RankingsLogs";
 import FetchMatchGSC from "./utils/FetchMatchGSC";
+import { zhCN } from "@/app/utils/zhCN";
 
 export function LogAnalyzer() {
   const {
@@ -199,7 +200,7 @@ export function LogAnalyzer() {
   // Helper functions - memoized for performance
   const formatDate = useCallback((dateString: string) => {
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
+    return new Intl.DateTimeFormat("zh-CN", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -505,7 +506,7 @@ export function LogAnalyzer() {
 
       if (!filePath) {
         setIsExporting(false);
-        toast.error("Export cancelled.");
+        toast.error(zhCN.serverlogs.analyzer.exportCancelled);
         return;
       }
 
@@ -574,14 +575,14 @@ export function LogAnalyzer() {
       }
 
       setIsExporting(false);
-      toast.success("CSV exported successfully!");
-      message("CSV exported successfully!");
+      toast.success(zhCN.serverlogs.analyzer.exportSuccess);
+      message(zhCN.serverlogs.analyzer.exportSuccess);
     } catch (error) {
       setIsExporting(false);
       console.error("Export failed:", error);
       const errorMessage =
         error instanceof Error ? error.message : String(error);
-      toast.error(`Export failed: ${errorMessage}`);
+      toast.error(`${zhCN.serverlogs.analyzer.exportFailed}: ${errorMessage}`);
     }
   }, [filteredLogs, entries, formatResponseSize, ExcelLoaded]);
 
@@ -610,7 +611,7 @@ export function LogAnalyzer() {
   }
 
   function formatedNumber(num) {
-    return num.toLocaleString("en-UK", {
+    return num.toLocaleString("zh-CN", {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     });
@@ -685,7 +686,7 @@ export function LogAnalyzer() {
             <Input
               reset={resetFilters}
               type="search"
-              placeholder="Search by IP, path, user agent..."
+              placeholder={zhCN.serverlogs.analyzer.searchPlaceholder}
               className="pl-8 w-full dark:text-white"
               value={searchInput}
               onChange={handleSearchChange}
@@ -695,7 +696,7 @@ export function LogAnalyzer() {
               onClick={handleSearchClick}
               className="absolute right-2 border-brand-bright border hover:bg-brand-bright hover:text-white text-black bg-white dark:bg-brand-darker   h-6 min-w-16   top-2 rounded-l-md px-2 dark:text-white text-xs dark:hover:bg-brand-bright"
             >
-              search
+              {zhCN.serverlogs.analyzer.search}
             </button>
             {searchInput && (
               <X
@@ -720,7 +721,7 @@ export function LogAnalyzer() {
                   className="flex gap-2 dark:bg-brand-darker dark:text-white dark:border-brand-dark"
                 >
                   <Filter className="h-4 w-4" />
-                  Status
+                  {zhCN.serverlogs.analyzer.status}
                   {statusFilter.length > 0 && (
                     <Badge variant="secondary" className="ml-0">
                       {statusFilter.length}
@@ -733,7 +734,7 @@ export function LogAnalyzer() {
                 align="center"
                 className="w-48 m-0 bg-white dark:bg-brand-darker text-left dark:text-white dark:border-brand-dark max-h-64 overflow-y-auto"
               >
-                <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+                <DropdownMenuLabel>{zhCN.serverlogs.analyzer.filterByStatus}</DropdownMenuLabel>
 
                 <DropdownMenuSeparator />
 
@@ -758,12 +759,12 @@ export function LogAnalyzer() {
                     </Badge>
 
                     {code >= 200 && code < 300
-                      ? "Success"
+                      ? zhCN.serverlogs.analyzer.success
                       : code >= 300 && code < 400
-                        ? "Redirection"
+                        ? zhCN.serverlogs.analyzer.redirection
                         : code >= 400 && code < 500
-                          ? "Client Error"
-                          : "Server Error"}
+                          ? zhCN.serverlogs.analyzer.clientError
+                          : zhCN.serverlogs.analyzer.serverError}
                   </DropdownMenuCheckboxItem>
                 ))}
               </DropdownMenuContent>
@@ -778,7 +779,7 @@ export function LogAnalyzer() {
                   className="flex gap-2 dark:bg-brand-darker dark:text-white dark:border-brand-dark"
                 >
                   <Filter className="h-4 w-4" />
-                  Method
+                  {zhCN.serverlogs.analyzer.method}
                   {methodFilter.length > 0 && (
                     <Badge variant="secondary" className="ml-1">
                       {methodFilter.length}
@@ -791,7 +792,7 @@ export function LogAnalyzer() {
                 align="end"
                 className="bg-white dark:border-brand-dark dark:text-white dark:active:bg-brand-bright dark:bg-brand-darker"
               >
-                <DropdownMenuLabel>Filter by Method</DropdownMenuLabel>
+                <DropdownMenuLabel>{zhCN.serverlogs.analyzer.filterByMethod}</DropdownMenuLabel>
 
                 <DropdownMenuSeparator />
 
@@ -823,7 +824,7 @@ export function LogAnalyzer() {
                   className="flex gap-2 dark:bg-brand-darker dark:text-white dark:border-brand-dark"
                 >
                   <Filter className="h-4 w-4" />
-                  File Type
+                  {zhCN.serverlogs.analyzer.fileType}
                   {fileTypeFilter.length > 0 && (
                     <Badge variant="secondary" className="ml-1">
                       {fileTypeFilter.length}
@@ -836,7 +837,7 @@ export function LogAnalyzer() {
                 align="end"
                 className="bg-white dark:border-brand-dark dark:text-white dark:bg-brand-darker"
               >
-                <DropdownMenuLabel>Filter by File Type</DropdownMenuLabel>
+                <DropdownMenuLabel>{zhCN.serverlogs.analyzer.filterByFileType}</DropdownMenuLabel>
 
                 <DropdownMenuSeparator />
 
@@ -890,15 +891,15 @@ export function LogAnalyzer() {
               }
             >
               <SelectTrigger className="w-[125px] dark:bg-brand-darker dark:text-white">
-                <SelectValue placeholder="Bot/Human" />
+                <SelectValue placeholder={zhCN.serverlogs.analyzer.botHuman} />
               </SelectTrigger>
 
               <SelectContent>
-                <SelectItem value="all">All Requests</SelectItem>
+                <SelectItem value="all">{zhCN.serverlogs.analyzer.allRequests}</SelectItem>
 
-                <SelectItem value="bot">🤖 Robots</SelectItem>
+                <SelectItem value="bot">🤖 {zhCN.serverlogs.analyzer.robots}</SelectItem>
 
-                <SelectItem value="Human">🙋 Human</SelectItem>
+                <SelectItem value="Human">🙋 {zhCN.serverlogs.analyzer.human}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -913,13 +914,13 @@ export function LogAnalyzer() {
               }}
             >
               <SelectTrigger className="w-[125px] dark:bg-brand-darker dark:text-white">
-                <SelectValue placeholder="Paths" />
+                <SelectValue placeholder={zhCN.serverlogs.analyzer.pathMode} />
               </SelectTrigger>
 
               <SelectContent>
-                <SelectItem value="url">Path / URL</SelectItem>
+                <SelectItem value="url">{zhCN.serverlogs.analyzer.pathUrl}</SelectItem>
 
-                <SelectItem value="agent">User Agent</SelectItem>
+                <SelectItem value="agent">{zhCN.serverlogs.analyzer.userAgent}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -932,15 +933,15 @@ export function LogAnalyzer() {
               }
             >
               <SelectTrigger className="w-[120px] dark:bg-brand-darker dark:text-white">
-                <SelectValue placeholder="Bot/Human" />
+                <SelectValue placeholder={zhCN.serverlogs.analyzer.botHuman} />
               </SelectTrigger>
 
               <SelectContent>
-                <SelectItem value="all">All devices</SelectItem>
+                <SelectItem value="all">{zhCN.serverlogs.analyzer.allDevices}</SelectItem>
 
-                <SelectItem value="Desktop">Desktop</SelectItem>
+                <SelectItem value="Desktop">{zhCN.serverlogs.analyzer.desktop}</SelectItem>
 
-                <SelectItem value="Mobile">Mobile</SelectItem>
+                <SelectItem value="Mobile">{zhCN.serverlogs.analyzer.mobile}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -960,11 +961,11 @@ export function LogAnalyzer() {
               }}
             >
               <SelectTrigger className="w-[130px] dark:bg-brand-darker dark:text-white">
-                <SelectValue placeholder="Verification" />
+                <SelectValue placeholder={zhCN.serverlogs.analyzer.verification} />
               </SelectTrigger>
 
               <SelectContent>
-                <SelectItem value="all">All IPs</SelectItem>
+                <SelectItem value="all">{zhCN.serverlogs.analyzer.allIps}</SelectItem>
 
                 <SelectItem className="flex" value="verified">
                   <div className="flex items-center">
@@ -973,14 +974,14 @@ export function LogAnalyzer() {
                       size={17}
                     />
 
-                    <span className="ml-1 inline-block">Verified</span>
+                    <span className="ml-1 inline-block">{zhCN.serverlogs.analyzer.verified}</span>
                   </div>
                 </SelectItem>
 
                 <SelectItem value="unverified">
                   <div className="flex">
                     <BadgeInfo size={17} />{" "}
-                    <span className="ml-1">Unverified</span>
+                    <span className="ml-1">{zhCN.serverlogs.analyzer.unverified}</span>
                   </div>
                 </SelectItem>
               </SelectContent>
@@ -992,7 +993,7 @@ export function LogAnalyzer() {
               className="flex gap-2 dark:bg-brand-darker dark:border-brand-dark dark:text-white"
             >
               <RefreshCw className="h-4 w-4" />
-              Reset
+              {zhCN.serverlogs.analyzer.reset}
             </Button>
 
             <Button
@@ -1004,12 +1005,12 @@ export function LogAnalyzer() {
               {isExporting ? (
                 <>
                   <div className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
-                  Exporting...
+                  {zhCN.serverlogs.analyzer.exporting}
                 </>
               ) : (
                 <>
                   <Download className="h-4 w-4" />
-                  Export CSV
+                  {zhCN.serverlogs.analyzer.exportCsv}
                 </>
               )}
             </Button>
@@ -1033,7 +1034,7 @@ export function LogAnalyzer() {
                       <TableHead className="w-[140px] cursor-pointer">
                         <div className="flex space-x-2 items-center">
                           <span onClick={() => requestSort("ip")}>
-                            IP Address
+                            {zhCN.serverlogs.analyzer.ipAddress}
                           </span>
 
                           {sortConfig?.key === "ip" && (
@@ -1073,7 +1074,7 @@ export function LogAnalyzer() {
                         className="cursor-pointer text-center w-[40px]"
                         onClick={() => requestSort("browser")}
                       >
-                        Browser
+                        {zhCN.serverlogs.analyzer.browser}
                         {sortConfig?.key === "browser" && (
                           <ChevronDown
                             className={`ml-1 h-4 w-4 inline-block ${
@@ -1089,7 +1090,7 @@ export function LogAnalyzer() {
                         className="w-[200px] cursor-pointer text-left"
                         onClick={() => requestSort("timestamp")}
                       >
-                        Timestamp
+                        {zhCN.serverlogs.analyzer.timestamp}
                         {sortConfig?.key === "timestamp" && (
                           <ChevronDown
                             className={`ml-1 h-4 w-4 inline-block ${
@@ -1105,7 +1106,7 @@ export function LogAnalyzer() {
                         className="w-[60px] cursor-pointer"
                         onClick={() => requestSort("status")}
                       >
-                        Status
+                        {zhCN.serverlogs.analyzer.status}
                         {sortConfig?.key === "status" && (
                           <ChevronDown
                             className={`ml-1 h-4 w-4 inline-block ${
@@ -1121,7 +1122,7 @@ export function LogAnalyzer() {
                         className="cursor-pointer pl-7"
                         onClick={() => requestSort("path")}
                       >
-                        {showAgent ? "User Agent" : "Path"}
+                        {showAgent ? zhCN.serverlogs.analyzer.userAgent : zhCN.serverlogs.analyzer.path}
 
                         {sortConfig?.key === "path" && (
                           <ChevronDown
@@ -1142,24 +1143,24 @@ export function LogAnalyzer() {
                           onClick={cyclePosColumn}
                         >
                           {posColumn === "position"
-                            ? "Position"
+                            ? zhCN.serverlogs.analyzer.position
                             : posColumn === "clicks"
-                              ? "Clicks"
+                              ? zhCN.serverlogs.analyzer.clicks
                               : posColumn === "ctr"
                                 ? "CTR"
-                                : "Impr"}
+                                : zhCN.serverlogs.analyzer.impressionsShort}
                         </TableHead>
                       )}
 
                       <TableHead className="min-w-[50px] w-[50px] max-w-[100px] text-center">
-                        Segment
+                        {zhCN.serverlogs.analyzer.segment}
                       </TableHead>
 
                       <TableHead
                         className="w-[80px] cursor-pointer"
                         onClick={() => requestSort("file_type")}
                       >
-                        File Type
+                        {zhCN.serverlogs.analyzer.fileType}
                         {sortConfig?.key === "file_type" && (
                           <ChevronDown
                             className={`ml-1 h-4 w-4 inline-block ${
@@ -1176,7 +1177,7 @@ export function LogAnalyzer() {
                           className="w-[80px] cursor-pointer"
                           onClick={() => requestSort("responseSize")}
                         >
-                          Size
+                          {zhCN.serverlogs.analyzer.size}
                           {sortConfig?.key === "responseSize" && (
                             <ChevronDown
                               className={`ml-1 h-4 w-4 inline-block ${
@@ -1190,7 +1191,7 @@ export function LogAnalyzer() {
                       )}
 
                       <TableHead align="center" className="text-left w-[100px]">
-                        Crawler Type
+                        {zhCN.serverlogs.analyzer.crawlerType}
                       </TableHead>
                     </TableRow>
                   </TableHeader>
@@ -1238,7 +1239,7 @@ export function LogAnalyzer() {
                             verticalAlign: "middle",
                           }}
                         >
-                          No log entries found.
+                          {zhCN.serverlogs.analyzer.noEntries}
                         </TableCell>
                       </TableRow>
                     )}
@@ -1322,7 +1323,7 @@ function LogRow({
                 e.stopPropagation();
                 handleIP(log.ip);
               }}
-              title="Click to inspect IP"
+              title={zhCN.serverlogs.analyzer.inspectIp}
               className="absolute mr-2 text-blue-400 dark:text-blue-300/50 hover:scale-110 cursor-pointer"
               size={13}
             />
@@ -1467,13 +1468,13 @@ function LogRow({
               </TooltipTrigger>
               <TooltipContent>
                 <div className="flex items-center space-x-2 p-1">
-                  <span className="text-xs">Pos:</span>
+                  <span className="text-xs">{zhCN.serverlogs.analyzer.position}:</span>
                   <span className="font-bold">{log?.position || "-"}</span>
                   <span className="border-r border-gray-300 h-3" />
-                  <span className="text-xs">Clicks:</span>
+                  <span className="text-xs">{zhCN.serverlogs.analyzer.clicks}:</span>
                   <span className="font-bold">{log?.clicks || "-"}</span>
                   <span className="border-r border-gray-300 h-3" />
-                  <span className="text-xs">Impr:</span>
+                  <span className="text-xs">{zhCN.serverlogs.analyzer.impressionsShort}:</span>
                   <span className="font-bold">{log?.impressions || "-"}</span>
                   <span className="text-xs">CTR:</span>
                   <span className="font-bold">
@@ -1524,7 +1525,7 @@ function LogRow({
                 <div className="flex mb-2 space-x-2 items-center justify-between">
                   <div className="flex items-center space-x-1">
                     <h4 className="font-bold">
-                      {showAgent ? "Path" : "User Agent"}
+                      {showAgent ? zhCN.serverlogs.analyzer.path : zhCN.serverlogs.analyzer.userAgent}
                     </h4>
                     {showAgent ? (
                       <CopyIcon
@@ -1560,7 +1561,7 @@ function LogRow({
 
               <div className="flex flex-col">
                 <div className="flex space-x-2 items-center mb-2">
-                  <h4 className="font-bold">Referer</h4>
+                  <h4 className="font-bold">{zhCN.serverlogs.analyzer.referer}</h4>
                   {log?.referer && (
                     <CopyIcon
                       className="cursor-pointer hover:scale-105 active:scale-95"
@@ -1574,7 +1575,7 @@ function LogRow({
                 <div className="p-3 bg-brand-bright/20 dark:bg-gray-700 rounded-md h-full">
                   <p className="text-sm break-all">
                     {log.referer || (
-                      <span className="text-muted-foreground">No referer</span>
+                      <span className="text-muted-foreground">{zhCN.serverlogs.analyzer.noReferer}</span>
                     )}
                   </p>
                 </div>
@@ -1694,7 +1695,7 @@ function PaginationControls({
             indexOfLastItem,
             filteredLogs.length > 0 ? filteredLogs.length : entries.length,
           )}{" "}
-          of{" "}
+          {zhCN.serverlogs.analyzer.of}{" "}
           {filteredLogs.length > 0
             ? formatedNumber(filteredLogs.length)
             : entries.length}{" "}

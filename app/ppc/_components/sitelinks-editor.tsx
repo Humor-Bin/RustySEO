@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { Plus, Trash, ChevronDown, ChevronUp } from "lucide-react";
 import type { Sitelink } from "@/types/ad";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface SitelinksEditorProps {
   sitelinks: Sitelink[];
@@ -50,9 +51,9 @@ export function SitelinksEditor({ sitelinks, onChange }: SitelinksEditorProps) {
     <div className="space-y-4">
       <div className="flex justify-between items-center bg-gray-50/50 dark:bg-brand-dark/20 p-4 rounded-xl border border-gray-100 dark:border-white/5">
         <div>
-          <h4 className="text-sm font-bold text-gray-900 dark:text-white">Ad Sitelinks</h4>
+          <h4 className="text-sm font-bold text-gray-900 dark:text-white">{zhCN.ppc.sitelinks.title}</h4>
           <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase tracking-widest font-black opacity-60">
-            Add up to 6 secondary links below your main ad
+            {zhCN.ppc.sitelinks.description}
           </p>
         </div>
         <button
@@ -61,7 +62,7 @@ export function SitelinksEditor({ sitelinks, onChange }: SitelinksEditorProps) {
           disabled={sitelinks.length >= 6}
           className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg text-xs font-bold transition-all shadow-md shadow-blue-500/20 active:scale-95"
         >
-          <Plus className="h-3.5 w-3.5" /> <span>Add Sitelink</span>
+          <Plus className="h-3.5 w-3.5" /> <span>{zhCN.ppc.sitelinks.add}</span>
         </button>
       </div>
 
@@ -70,7 +71,7 @@ export function SitelinksEditor({ sitelinks, onChange }: SitelinksEditorProps) {
           <div className="p-4 bg-gray-100 dark:bg-white/5 rounded-full">
             <Plus className="h-6 w-6 text-gray-400" />
           </div>
-          <p className="text-xs font-bold text-gray-500">No sitelinks added yet</p>
+          <p className="text-xs font-bold text-gray-500">{zhCN.ppc.sitelinks.empty}</p>
         </div>
       ) : (
         <div className="space-y-3 px-1">
@@ -92,7 +93,7 @@ export function SitelinksEditor({ sitelinks, onChange }: SitelinksEditorProps) {
                     )}
                   </div>
                   <span className={`text-xs font-bold ${sitelink.title ? "text-gray-900 dark:text-white" : "text-gray-400 italic"}`}>
-                    {sitelink.title || "Untitled Sitelink"}
+                    {sitelink.title || zhCN.ppc.sitelinks.untitled}
                   </span>
                 </div>
                 <button
@@ -111,22 +112,22 @@ export function SitelinksEditor({ sitelinks, onChange }: SitelinksEditorProps) {
                 <div className="p-4 space-y-4 bg-white dark:bg-[#0a0a0b]/60">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">Link Text</label>
+                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">{zhCN.ppc.sitelinks.linkText}</label>
                       <input
                         value={sitelink.title}
                         onChange={(e) => handleUpdateSitelink(sitelink.id, "title", e.target.value)}
-                        placeholder="e.g., Shop Now"
+                        placeholder={zhCN.ppc.sitelinks.linkTextPlaceholder}
                         maxLength={25}
                         className="w-full px-3 h-9 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-brand-darker focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-medium placeholder:text-gray-400 text-gray-900 dark:text-gray-100"
                       />
                       <div className="flex justify-between items-center px-1">
-                        <span className="text-[9px] text-gray-500 dark:text-gray-400 uppercase font-bold opacity-50">Max 25 chars</span>
+                        <span className="text-[9px] text-gray-500 dark:text-gray-400 uppercase font-bold opacity-50">{zhCN.ppc.sitelinks.maxChars}</span>
                         <span className="text-[9px] text-gray-500 dark:text-gray-400 font-mono">{sitelink.title.length}/25</span>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">Link URL</label>
+                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">{zhCN.ppc.sitelinks.linkUrl}</label>
                       <input
                         value={sitelink.url}
                         onChange={(e) => handleUpdateSitelink(sitelink.id, "url", e.target.value)}
@@ -138,21 +139,21 @@ export function SitelinksEditor({ sitelinks, onChange }: SitelinksEditorProps) {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-gray-50 dark:border-white/5">
                     <div className="space-y-2">
-                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">Description Line 1</label>
+                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">{zhCN.ppc.sitelinks.description1}</label>
                       <input
                         value={sitelink.description1 || ""}
                         onChange={(e) => handleUpdateSitelink(sitelink.id, "description1", e.target.value)}
-                        placeholder="First descriptive line"
+                        placeholder={zhCN.ppc.sitelinks.description1Placeholder}
                         maxLength={35}
                         className="w-full px-3 h-9 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-brand-darker focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-medium placeholder:text-gray-400 text-gray-900 dark:text-gray-100"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">Description Line 2</label>
+                      <label className="text-[10px] uppercase font-black tracking-widest text-gray-400">{zhCN.ppc.sitelinks.description2}</label>
                       <input
                         value={sitelink.description2 || ""}
                         onChange={(e) => handleUpdateSitelink(sitelink.id, "description2", e.target.value)}
-                        placeholder="Second descriptive line"
+                        placeholder={zhCN.ppc.sitelinks.description2Placeholder}
                         maxLength={35}
                         className="w-full px-3 h-9 text-xs rounded-lg border border-gray-200 dark:border-white/10 bg-white dark:bg-brand-darker focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all font-medium placeholder:text-gray-400 text-gray-900 dark:text-gray-100"
                       />

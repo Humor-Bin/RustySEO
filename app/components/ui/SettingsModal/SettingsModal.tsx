@@ -14,14 +14,15 @@ import LinksSection from "./sections/LinksSection";
 import ExtractionSection from "./sections/ExtractionSection";
 import LogsSection from "./sections/LogsSection";
 import IntegrationsSection from "./sections/IntegrationsSection";
+import { zhCN } from "@/app/utils/zhCN";
 
 const tabs = [
-    { id: "crawler", label: "Crawler", icon: Bug },
-    { id: "network", label: "Network", icon: Globe },
-    { id: "links", label: "Links", icon: Link2 },
-    { id: "extraction", label: "Data", icon: FileText },
-    { id: "logs", label: "Logs", icon: ScrollText },
-    { id: "integrations", label: "Integrations", icon: Plug },
+    { id: "crawler", label: zhCN.settings.tabs.crawler, icon: Bug },
+    { id: "network", label: zhCN.settings.tabs.network, icon: Globe },
+    { id: "links", label: zhCN.settings.tabs.links, icon: Link2 },
+    { id: "extraction", label: zhCN.settings.tabs.extraction, icon: FileText },
+    { id: "logs", label: zhCN.settings.tabs.logs, icon: ScrollText },
+    { id: "integrations", label: zhCN.settings.tabs.integrations, icon: Plug },
 ];
 
 interface SettingsModalProps {
@@ -53,7 +54,7 @@ const SettingsModal = ({ close }: SettingsModalProps) => {
                     <div className="flex flex-col items-center gap-3">
                         <Loader size="sm" color="var(--brand-bright, #6366f1)" />
                         <Text size="xs" className="text-gray-400 dark:text-gray-500">
-                            Loading settings…
+                            {zhCN.settings.loading}
                         </Text>
                     </div>
                 </div>
@@ -68,16 +69,16 @@ const SettingsModal = ({ close }: SettingsModalProps) => {
                             <X className="w-5 h-5 text-red-400" />
                         </div>
                         <Text size="sm" className="text-red-400 font-medium">
-                            Failed to load settings
+                            {zhCN.settings.loadFailed}
                         </Text>
                         <Text size="xs" className="text-gray-400 max-w-[250px]">
-                            {error || "Unknown error"}
+                            {error || zhCN.settings.unknownError}
                         </Text>
                         <button
                             onClick={reloadSettings}
                             className="mt-2 px-3 py-1.5 text-xs font-medium rounded-lg bg-brand-bright/10 text-brand-bright hover:bg-brand-bright/20 transition-colors"
                         >
-                            Retry
+                            {zhCN.settings.retry}
                         </button>
                     </div>
                 </div>
@@ -117,13 +118,13 @@ const SettingsModal = ({ close }: SettingsModalProps) => {
                                 size="md"
                                 className="text-gray-900 dark:text-white tracking-tight"
                             >
-                                Settings
+                                {zhCN.settings.title}
                             </Text>
                             {saving && (
                                 <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-brand-bright/10">
                                     <div className="w-1.5 h-1.5 rounded-full bg-brand-bright animate-pulse" />
                                     <span className="text-[9px] font-bold text-brand-bright uppercase tracking-wider">
-                                        Saving
+                                        {zhCN.settings.saving}
                                     </span>
                                 </div>
                             )}
@@ -132,7 +133,7 @@ const SettingsModal = ({ close }: SettingsModalProps) => {
                             size="xs"
                             className="text-gray-500 dark:text-gray-400 font-medium"
                         >
-                            Configure crawler behavior and performance
+                            {zhCN.settings.subtitle}
                         </Text>
                     </div>
                 </div>

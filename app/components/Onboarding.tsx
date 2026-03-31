@@ -28,61 +28,55 @@ import {
 } from "@/components/ui/card";
 import confetti from "canvas-confetti";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { zhCN } from "@/app/utils/zhCN";
 
 const steps = [
   {
     id: 1,
-    title: "Welcome to RustySEO.",
-    description:
-      "Your complete marketing solution — built for SEO and GEO professionals who want it all, in one smart toolkit.",
+    title: zhCN.onboarding.steps[0].title,
+    description: zhCN.onboarding.steps[0].description,
     icon: Rocket,
     imageSrc: "icon.png",
   },
   {
     id: 2,
-    title: "Shallow Crawl (single page)",
-    description:
-      "Granular page analysis with AI-driven insights and performance recommendations. Identify and resolve issues with precision.",
+    title: zhCN.onboarding.steps[1].title,
+    description: zhCN.onboarding.steps[1].description,
     icon: FileCode,
     imageSrc: "shallow.png",
   },
   {
     id: 3,
-    title: "Deep Crawl (bulk)",
-    description:
-      "Crawl your entire website and get actionable insights. RustySEO detects errors and delivers smart solutions. Discover your website\'s deepest secrets.",
+    title: zhCN.onboarding.steps[2].title,
+    description: zhCN.onboarding.steps[2].description,
     icon: Layers,
     imageSrc: "deep.png",
   },
   {
     id: 4,
-    title: "Log Analyser",
-    description:
-      "A powerful feature that enables you to analyze your server logs (Apache/Nginx) and gain actionable insights. Discover crawler timings, visit frequencies, and content taxonomies.",
+    title: zhCN.onboarding.steps[3].title,
+    description: zhCN.onboarding.steps[3].description,
     icon: ScrollText,
     imageSrc: "log.png",
   },
   {
     id: 5,
-    title: "Connectors & Integrations",
-    description:
-      "Extend RustySEO\'s capabilities by integrating with your favorite tools — PageSpeed Insights, Google Search Console, Google Analytics, Microsoft Clarity, Power BI, and more.",
+    title: zhCN.onboarding.steps[4].title,
+    description: zhCN.onboarding.steps[4].description,
     icon: PlugZap,
     imageSrc: "integrations.png",
   },
   {
     id: 6,
-    title: "Keyword Tracking & Content Exploration",
-    description:
-      "Track your keywords, identify patterns and receive new content ideas and recommendations as you optimise your pages with contextual awareness.",
+    title: zhCN.onboarding.steps[5].title,
+    description: zhCN.onboarding.steps[5].description,
     icon: Key,
     imageSrc: "tracking.png",
   },
   {
     id: 7,
-    title: "And more...",
-    description:
-      "RustySEO offers a wide range of advanced features and integrations. Help us improve by contributing and giving us feedback.",
+    title: zhCN.onboarding.steps[6].title,
+    description: zhCN.onboarding.steps[6].description,
     icon: CheckCircle,
     imageSrc: "more.png",
   },
@@ -154,7 +148,7 @@ export default function Onboarding({ onComplete }) {
           <section className="w-full h-[450px] border-0 shadow-lg bg-white dark:bg-slate-900 rounded-lg overflow-hidden flex flex-col">
             <div className="bg-gradient-to-r relative flex h-10 from-blue-600 to-purple-600 text-white">
               <CardTitle className="text-2xl font-bold p-1.5 pl-4 text-white dark:text-white z-0">
-                Onboarding
+                {zhCN.onboarding.title}
               </CardTitle>
               {/* <X */}
               {/*   className="absolute right-4 top-2 cursor-pointer" */}
@@ -177,8 +171,8 @@ export default function Onboarding({ onComplete }) {
                   ))}
                 </div>
                 <div className="flex justify-between text-xs text-gray-500">
-                  <span>Start</span>
-                  <span>Finish</span>
+                  <span>{zhCN.onboarding.start}</span>
+                  <span>{zhCN.onboarding.finish}</span>
                 </div>
               </div>
 
@@ -214,20 +208,20 @@ export default function Onboarding({ onComplete }) {
                           <section className="w-full flex items-center">
                             <p className="text-sm text-gray-500">
                               {currentStep === 1
-                                ? "Let's get started with a few simple steps."
+                                ? zhCN.onboarding.steps[0].helper
                                 : currentStep === 2
-                                  ? "Perfect for on-page, off-page, and technical SEO."
+                                  ? zhCN.onboarding.steps[1].helper
                                   : currentStep === 3
-                                    ? "Great for bulk analysis and optimisation"
+                                    ? zhCN.onboarding.steps[2].helper
                                     : currentStep === 4
-                                      ? "Perfect for crawl budget analysis"
+                                      ? zhCN.onboarding.steps[3].helper
                                       : currentStep === 5
-                                        ? "A one-stop solution for all your SEO needs"
+                                        ? zhCN.onboarding.steps[4].helper
                                         : currentStep === 6
-                                          ? "Great for content optimisation"
+                                          ? zhCN.onboarding.steps[5].helper
                                           : currentStep === 7
-                                            ? "Enjoy it, and let us know what you think! Find us on "
-                                            : "Keep all your data in one place"}{" "}
+                                            ? zhCN.onboarding.steps[6].helper
+                                            : zhCN.onboarding.steps[0].helper}{" "}
                             </p>
                             {currentStep === 7 && (
                               <a
@@ -250,7 +244,7 @@ export default function Onboarding({ onComplete }) {
                                 steps[currentStep - 1]?.imageSrc ||
                                 "https://github.com/mascanho/RustySEO/raw/main/assets/hero.png"
                               }
-                              alt={`Illustration for ${steps[currentStep - 1]?.title}`}
+                              alt={`${zhCN.onboarding.imageAltPrefix}${steps[currentStep - 1]?.title}`}
                               className={`${currentStep === 1 ? "object-fit" : "object-cover"} w-full h-full`}
                             />
                           </div>
@@ -262,23 +256,23 @@ export default function Onboarding({ onComplete }) {
                           <div className="mb-4 p-4 rounded-full bg-gradient-to-r from-blue-100 to-purple-100">
                             <CheckCircle className="h-5 w-5 text-purple-600" />
                           </div>
-                          <h3 className="text-2xl font-bold mb-3">All Done!</h3>
+                          <h3 className="text-2xl font-bold mb-3">{zhCN.onboarding.allDone}</h3>
                           <p className="text-gray-600 mb-4">
-                            You ve completed the onboarding process.
+                            {zhCN.onboarding.completed}
                           </p>
                           <div className="flex space-x-2">
                             <Button
                               onClick={handleReset}
                               className="mt-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
                             >
-                              Start Over
+                              {zhCN.onboarding.startOver}
                             </Button>
                             <Button
                               variant="outline"
                               className="mt-2"
                               onClick={handleClose}
                             >
-                              Close
+                              {zhCN.onboarding.close}
                             </Button>
                           </div>
                         </div>
@@ -286,7 +280,7 @@ export default function Onboarding({ onComplete }) {
                           <div className="w-full h-[250px] relative rounded-lg overflow-hidden shadow-md">
                             <img
                               src="https://github.com/mascanho/RustySEO/raw/main/assets/hero.png"
-                              alt="Onboarding completed"
+                              alt={zhCN.onboarding.completed}
                               className="object-cover w-full h-full"
                             />
                           </div>
@@ -306,13 +300,13 @@ export default function Onboarding({ onComplete }) {
                   disabled={currentStep === 1}
                   className="flex items-center gap-1 dark:text-white dark:bg-brand-dark h-7"
                 >
-                  <ChevronLeft className="h-4 w-4 dark:text-white" /> Back
+                  <ChevronLeft className="h-4 w-4 dark:text-white" /> {zhCN.onboarding.back}
                 </Button>
                 <Button
                   onClick={handleNext}
                   className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 flex items-center gap-1 dark:text-white  h-7"
                 >
-                  {currentStep === steps.length ? "Finish" : "Next"}{" "}
+                  {currentStep === steps.length ? zhCN.onboarding.done : zhCN.onboarding.next}{" "}
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </CardFooter>

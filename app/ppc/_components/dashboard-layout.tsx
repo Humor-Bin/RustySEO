@@ -20,6 +20,7 @@ import {
   HelpCircle,
   Eye,
 } from "lucide-react";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -43,7 +44,7 @@ export function DashboardLayout({
         <SidebarTrigger className="mr-4 dark:text-white/50" />{" "}
         {/* Moved trigger here */}
         <div className="font-bold text-lg text-brand-bright">
-          Google Ads Simulator
+          {zhCN.ppc.layout.title}
         </div>
         {/* Add more header elements here if needed, e.g., user profile, notifications */}
       </header>
@@ -70,7 +71,7 @@ export function DashboardLayout({
                   onClick={() => onViewChange("dashboard")}
                 >
                   <LayoutDashboard className="h-4 w-4" />
-                  <span>Dashboard</span>
+                  <span>{zhCN.ppc.dashboard.headerDashboard}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -84,7 +85,7 @@ export function DashboardLayout({
                   }}
                 >
                   <FileText className="h-4 w-4" />
-                  <span>My Ads</span>
+                  <span>{zhCN.ppc.dashboard.myAds}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -93,7 +94,7 @@ export function DashboardLayout({
                   onClick={() => onViewChange("previews")}
                 >
                   <Eye className="h-4 w-4" />
-                  <span>Previews</span>
+                  <span>{zhCN.ppc.dashboard.headerPreviews}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {/* <SidebarMenuItem> */}
@@ -125,7 +126,7 @@ export function DashboardLayout({
                   onClick={onAddNew}
                 >
                   <PlusCircle className="h-4 w-4 mr-2" />
-                  New Ad
+                  {zhCN.ppc.dashboard.newAd}
                 </Button>
               )}
             </div>

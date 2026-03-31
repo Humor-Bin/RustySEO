@@ -1,4 +1,5 @@
 import type React from "react";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface SearchInputProps {
   value: string;
@@ -11,7 +12,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ value, onChange }) => {
       type="text"
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      placeholder="Search..."
+      placeholder={zhCN.global.searchPlaceholder}
       className="px-4 text-xs h-6 w-full dark:bg-brand-darker dark:text-white/50 dark:border-brand-dark border   focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
   );

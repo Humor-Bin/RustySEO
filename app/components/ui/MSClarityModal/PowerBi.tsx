@@ -1,5 +1,6 @@
 // @ts-nocheck
 "use client";
+import { zhCN } from "@/app/utils/zhCN";
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 
@@ -29,21 +30,21 @@ const PowerBiEmbed = ({ close }) => {
 
     // Basic URL validation
     if (!powerBiUrl) {
-      setError("Please enter a Power BI URL");
+      setError(zhCN.integrations.powerBi.required);
       return;
     }
 
     try {
       // Save to localStorage
       localStorage.setItem("powerBiUrl", powerBiUrl);
-      toast.success("Power BI URL saved successfully, reloading RustySEO...");
+      toast.success(zhCN.integrations.powerBi.saved);
       setSavedUrl(powerBiUrl); // Update savedUrl to reflect new URL
       setTimeout(() => {
         close();
         window.location.reload();
       }, 800); // Delay to ensure toast is displayed
     } catch (err) {
-      setError("Failed to save URL");
+      setError(zhCN.integrations.powerBi.saveFailed);
       console.error("Error saving Power BI URL:", err);
     }
   };
@@ -57,7 +58,7 @@ const PowerBiEmbed = ({ close }) => {
               htmlFor="powerbi-url"
               className="block text-sm font-medium mb-1"
             >
-              Power BI Report URL
+              {zhCN.integrations.powerBi.title}
             </label>
             <input
               type="url"
@@ -74,7 +75,7 @@ const PowerBiEmbed = ({ close }) => {
             />
             {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              Enter the full Power BI embed URL
+              {zhCN.integrations.powerBi.helper}
             </p>
           </div>
 
@@ -89,7 +90,7 @@ const PowerBiEmbed = ({ close }) => {
                 }}
                 className="px-4 py-0 h-7 text-sm bg-red-500 text-white rounded-md hover:bg-red-600 transition"
               >
-                Clear
+                {zhCN.integrations.powerBi.clear}
               </button>
             ) : (
               <button
@@ -97,14 +98,14 @@ const PowerBiEmbed = ({ close }) => {
                 onClick={close}
                 className="px-4 py-0 text-sm border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
               >
-                Cancel
+                {zhCN.integrations.powerBi.cancel}
               </button>
             )}
             <button
               type="submit"
               className="px-4 py-0 h-7 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
             >
-              Save & Embed
+              {zhCN.integrations.powerBi.save}
             </button>
           </div>
         </form>

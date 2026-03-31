@@ -25,6 +25,7 @@ import GSCConnectionWizard from "./GSCConnectionWizard";
 import { Button } from "@/components/ui/button";
 import { format, subDays, isValid, parse } from "date-fns";
 import { exportToCSV } from "@/app/utils/csvUtils";
+import { zhCN } from "@/app/utils/zhCN";
 
 // Interface defining the structure of a Keyword object
 interface GscUrl {
@@ -110,7 +111,7 @@ const GSCanalytics = () => {
       }
     } catch (error) {
       console.error("Failed to fetch GSC URLs from DB:", error);
-      toast.error("Failed to fetch GSC data");
+      toast.error(zhCN.integrations.gscAnalytics.fetchFailed);
       setGscData([]);
     } finally {
       setIsLoading(false);
@@ -125,7 +126,7 @@ const GSCanalytics = () => {
   const handleDownloadCSV = useCallback(async () => {
     try {
       if (displayData.length === 0) {
-        toast.error("No data available to download");
+        toast.error(zhCN.integrations.gscAnalytics.noData);
         return;
       }
 
@@ -143,19 +144,20 @@ const GSCanalytics = () => {
       }));
 
       await exportToCSV(csvData, "gsc_search_console_data");
-      toast.success("CSV file saved successfully!", {
-        description: "File has been saved to your selected location.",
+      toast.success(zhCN.integrations.gscAnalytics.csvSaved, {
+        description: zhCN.integrations.gscAnalytics.csvSavedDesc,
         duration: 4000,
       });
     } catch (error: any) {
       console.error("Error downloading CSV:", error);
       if (error.message === "Save dialog was cancelled") {
-        toast.info("Download cancelled", {
-          description: "You cancelled the file save dialog.",
+        toast.info(zhCN.integrations.gscAnalytics.downloadCancelled, {
+          description: zhCN.integrations.gscAnalytics.downloadCancelledDesc,
         });
       } else {
-        toast.error("Failed to download CSV file", {
-          description: error.message || "Please try again.",
+        toast.error(zhCN.integrations.gscAnalytics.downloadFailed, {
+          description:
+            error.message || zhCN.integrations.gscAnalytics.downloadFailedDesc,
         });
       }
     } finally {
@@ -167,7 +169,7 @@ const GSCanalytics = () => {
     console.log("Refreshing GSC data...");
     try {
       setIsLoading(true);
-      toast.info("Fetching latest data from Google Search Console...");
+      toast.info(zhCN.integrations.gscAnalytics.refreshing);
 
       const formattedStartDate = formatDateForInput(startDate);
       const formattedEndDate = formatDateForInput(endDate);
@@ -190,13 +192,15 @@ const GSCanalytics = () => {
       await handleFetchGSCdataFromDB();
 
       console.log("GSC refresh cycle completed");
-      toast.success("Search Console data updated");
+      toast.success(zhCN.integrations.gscAnalytics.refreshed);
     } catch (error) {
       console.error("Failed to refresh GSC data:", error);
       // Determine if error is an object with message or string
       const updateError =
         error instanceof Error ? error.message : String(error);
-      toast.error(`Failed to refresh Search Console data: ${updateError}`);
+      toast.error(
+        `${zhCN.integrations.gscAnalytics.refreshFailedPrefix}${updateError}`,
+      );
     } finally {
       setIsLoading(false);
     }
@@ -216,7 +220,7 @@ const GSCanalytics = () => {
     () => [
       {
         accessorKey: "query",
-        header: "Keyword",
+        header: zhCN.integrations.gscAnalytics.columns.keyword,
         cell: ({ row }) => (
           <DeepCrawlQueryContextMenu
             url={row.original.url}
@@ -234,22 +238,22 @@ const GSCanalytics = () => {
       },
       {
         accessorKey: "impressions",
-        header: "Impressions",
+        header: zhCN.integrations.gscAnalytics.columns.impressions,
         cell: ({ row }) => row.original.impressions.toLocaleString(),
       },
       {
         accessorKey: "clicks",
-        header: "Clicks",
+        header: zhCN.integrations.gscAnalytics.columns.clicks,
         cell: ({ row }) => row.original.clicks.toLocaleString(),
       },
       {
         accessorKey: "ctr",
-        header: "CTR",
+        header: zhCN.integrations.gscAnalytics.columns.ctr,
         cell: ({ row }) => `${(row.original.ctr * 100).toFixed(2)}%`,
       },
       {
         accessorKey: "position",
-        header: "Position",
+        header: zhCN.integrations.gscAnalytics.columns.position,
         cell: ({ row }) => {
           const position = Math.max(1, row.original.position);
           let colorClass = "";
@@ -261,7 +265,7 @@ const GSCanalytics = () => {
       },
       {
         accessorKey: "url",
-        header: "URL",
+        header: zhCN.integrations.gscAnalytics.columns.url,
         cell: ({ row }) => (
           <div
             className="max-w-[400px] truncate text-gray-500"
@@ -273,7 +277,7 @@ const GSCanalytics = () => {
       },
       {
         accessorKey: "date",
-        header: "Date",
+        header: zhCN.integrations.gscAnalytics.columns.date,
         cell: ({ row }) => {
           let formattedDate = row.original.date;
           try {
@@ -302,10 +306,13 @@ const GSCanalytics = () => {
             </div>
             <div className="flex items-baseline gap-2">
               <h1 className="text-lg font-bold dark:text-white leading-none">
-                Search Console
+                {zhCN.integrations.gscAnalytics.connectedTitle}
               </h1>
               <p className="text-xs text-gray-500 dark:text-gray-400 leading-none">
-                {`Connected to ${credentials?.url}`}
+                {zhCN.integrations.gscAnalytics.connectedTo.replace(
+                  "{url}",
+                  credentials?.url || "",
+                )}
               </p>
             </div>
           </div>
@@ -316,7 +323,7 @@ const GSCanalytics = () => {
               className="bg-brand-bright hover:bg-blue-700 text-white rounded-md px-3 h-7 flex items-center text-xs font-bold shadow-blue-500/20 transition-all active:scale-95"
             >
               <Plus className="h-3 w-3 mr-1.5" />
-              Reconnect
+              {zhCN.integrations.gscAnalytics.reconnect}
             </Button>
           </div>
         </div>
@@ -338,18 +345,16 @@ const GSCanalytics = () => {
                     <LogIn className="h-16 w-16 text-blue-600 dark:text-blue-400" />
                   </div>
                   <h1 className="text-3xl font-bold mb-4 dark:text-white">
-                    Connect Search Console
+                    {zhCN.integrations.gscAnalytics.emptyTitle}
                   </h1>
                   <p className="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed max-w-md">
-                    Integrate Google Search Console to see your website's
-                    performance, indexing status, and keyword rankings directly
-                    in RustySEO.
+                    {zhCN.integrations.gscAnalytics.emptyDescription}
                   </p>
                   <Button
                     onClick={openWizard}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 rounded-2xl text-lg font-bold shadow-lg shadow-blue-500/30 dark:shadow-none transition-all hover:scale-[1.02] active:scale-[0.98] group"
                   >
-                    Get Started
+                    {zhCN.integrations.gscAnalytics.getStarted}
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </motion.div>
@@ -376,7 +381,7 @@ const GSCanalytics = () => {
           <UniversalKeywordTable
             data={displayData}
             columns={columns}
-            searchPlaceholder="Search keywords or URL..."
+            searchPlaceholder={zhCN.integrations.gscAnalytics.searchPlaceholder}
             isLoading={isLoading}
             headerActions={
               <div className="flex items-center gap-2">
@@ -424,7 +429,7 @@ const GSCanalytics = () => {
                 <button
                   onClick={handleDownloadCSV}
                   className="h-9 w-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-brand-dark rounded-xl transition-all border border-transparent hover:border-gray-200 dark:hover:border-brand-dark text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                  title="Download CSV"
+                  title={zhCN.integrations.gscAnalytics.downloadTitle}
                   disabled={displayData.length === 0 || isDownloading}
                 >
                   {isDownloading ? (
@@ -437,7 +442,7 @@ const GSCanalytics = () => {
                 <button
                   onClick={handleRefreshGSC}
                   className="h-9 w-9 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-brand-dark rounded-xl transition-all border border-transparent hover:border-gray-200 dark:hover:border-brand-dark text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                  title="Refresh data"
+                  title={zhCN.integrations.gscAnalytics.refreshTitle}
                 >
                   <RefreshCw
                     className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}

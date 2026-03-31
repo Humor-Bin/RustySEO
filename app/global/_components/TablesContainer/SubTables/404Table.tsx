@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import debounce from "lodash/debounce";
+import { zhCN } from "@/app/utils/zhCN";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -445,7 +446,7 @@ const Table404 = ({ rows, rowHeight = 41, overscan = 10 }: TableCrawlProps) => {
       <div className="text-xs dark:bg-brand-darker sticky top-0 flex gap-2">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder={zhCN.global.subtables.searchPlaceholder}
           onChange={(e) => debouncedSearch(e.target.value)}
           className="w-full p-1 pl-2 dark:bg-brand-darker border dark:border-brand-dark dark:text-white border-gray-300 rounded"
         />

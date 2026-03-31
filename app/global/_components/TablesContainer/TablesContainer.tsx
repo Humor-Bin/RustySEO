@@ -37,6 +37,7 @@ import OpenGraphPreview from "./SubTables/OpenGraphPreview/OpenGraphPreview";
 import PageInternalSubTable from "./SubTables/PageLinksSubTable/PageInternalSubTable";
 import PageExternalSubTable from "./SubTables/PageLinksSubTable/PageExternalSubTable";
 import { invoke } from "@tauri-apps/api/core";
+import { zhCN } from "@/app/utils/zhCN";
 
 const BottomTableContent = ({ children, height }) => (
   <div
@@ -366,10 +367,10 @@ export default function Home() {
       case "Duplicated Titles":
         return;
       case "404 response":
-        return <div>Content for 404 response</div>;
+        return <div>{zhCN.global.tables.response404}</div>;
       // Add more cases as needed
       default:
-        return <div>Default Content</div>;
+        return <div>{zhCN.global.tables.defaultContent}</div>;
     }
   };
 
@@ -410,31 +411,31 @@ export default function Home() {
                 CSS
               </TabsTrigger>
               <TabsTrigger value="javascript" className="rounded-t-md">
-                Javascript
+                {zhCN.global.tables.javascript}
               </TabsTrigger>
               <TabsTrigger value="internalLinks" className="rounded-t-md">
-                Internal
+                {zhCN.global.tables.internal}
               </TabsTrigger>
               <TabsTrigger value="externalLinks" className="rounded-t-md">
-                External
+                {zhCN.global.tables.external}
               </TabsTrigger>
               <TabsTrigger value="images" className="rounded-t-md">
-                Images
+                {zhCN.global.tables.images}
               </TabsTrigger>
               <TabsTrigger value="keywords" className="rounded-t-md">
-                Keywords
+                {zhCN.global.tables.keywords}
               </TabsTrigger>
               <TabsTrigger value="cwv" className="rounded-t-md">
-                Core Web Vitals
+                {zhCN.global.tables.cwv}
               </TabsTrigger>{" "}
               <TabsTrigger value="search" className="rounded-t-md">
-                Custom Search
+                {zhCN.global.tables.customSearch}
               </TabsTrigger>
               <TabsTrigger value="redirects" className="rounded-t-md">
-                Redirects
+                {zhCN.global.tables.redirects}
               </TabsTrigger>
               <TabsTrigger value="files" className="rounded-t-md">
-                Files
+                {zhCN.global.tables.files}
               </TabsTrigger>
               {issuesView && (
                 <TabsTrigger value={issuesView} className="rounded-t-md">
@@ -500,7 +501,7 @@ export default function Home() {
             <TabsContent value="search" className="flex-grow overflow-hidden">
               <TableCrawl
                 rows={filteredCustomSearch}
-                tabName={"Custom Search"}
+                tabName={zhCN.global.tables.customSearch}
               />
             </TabsContent>
 
@@ -542,32 +543,32 @@ export default function Home() {
             <div className="relative">
               <TabsList className="w-full justify-start dark:bg-brand-darker dark:border-brand-dark border-t bg-slate-50 rounded-none">
                 <TabsTrigger value="details" className="rounded-t-md">
-                  Details
+                  {zhCN.global.tables.details}
                 </TabsTrigger>
                 <TabsTrigger value="inlinks" className="rounded-t-md">
-                  Inlinks
+                  {zhCN.global.tables.inlinks}
                 </TabsTrigger>
                 <TabsTrigger value="outlinks" className="rounded-t-md">
-                  Outlinks
+                  {zhCN.global.tables.outlinks}
                 </TabsTrigger>
                 <TabsTrigger value="images" className="rounded-t-md">
-                  Images
+                  {zhCN.global.tables.images}
                 </TabsTrigger>
                 <TabsTrigger value="schema" className="rounded-t-md">
-                  Schema
+                  {zhCN.global.tables.schema}
                 </TabsTrigger>
                 <TabsTrigger value="headers" className="rounded-t-md">
-                  Headers
+                  {zhCN.global.tables.headers}
                 </TabsTrigger>
                 <TabsTrigger value="opengraph" className="rounded-t-md">
-                  OpenGraph
+                  {zhCN.global.tables.opengraph}
                 </TabsTrigger>
 
                 <TabsTrigger value="pageInternal" className="rounded-t-md">
-                  Page Internal
+                  {zhCN.global.tables.pageInternal}
                 </TabsTrigger>
                 <TabsTrigger value="pageExternal" className="rounded-t-md">
-                  Page External
+                  {zhCN.global.tables.pageExternal}
                 </TabsTrigger>
                 {/* Export button for Inlinks tab */}
                 {activeBottomTab === "inlinks" && (
@@ -575,7 +576,7 @@ export default function Home() {
                     onClick={() => inlinksTableRef.current?.exportCSV?.()}
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-xs border border-brand-bright dark:border-brand-bright px-2 py-0.5 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors dark:text-white/80 bg-white dark:bg-brand-dark shadow-sm"
                   >
-                    Export
+                    导出
                   </button>
                 )}
 
@@ -585,7 +586,7 @@ export default function Home() {
                     onClick={() => outlinksTableRef.current?.exportCSV?.()}
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-xs border border-brand-bright dark:border-brand-bright px-2 py-0.5 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors dark:text-white/80 bg-white dark:bg-brand-dark shadow-sm"
                   >
-                    Export
+                    导出
                   </button>
                 )}
 
@@ -595,7 +596,7 @@ export default function Home() {
                     onClick={() => pageInternalTableRef.current?.exportCSV?.()}
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-xs border border-brand-bright dark:border-brand-bright px-2 py-0.5 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors dark:text-white/80 bg-white dark:bg-brand-dark shadow-sm"
                   >
-                    Export
+                    导出
                   </button>
                 )}
 
@@ -605,7 +606,7 @@ export default function Home() {
                     onClick={() => pageExternalTableRef.current?.exportCSV?.()}
                     className="absolute right-2 top-1/2 -translate-y-1/2 text-xs border border-brand-bright dark:border-brand-bright px-2 py-0.5 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors dark:text-white/80 bg-white dark:bg-brand-dark shadow-sm"
                   >
-                    Export
+                    导出
                   </button>
                 )}
               </TabsList>

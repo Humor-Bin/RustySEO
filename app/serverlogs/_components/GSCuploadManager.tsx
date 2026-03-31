@@ -19,6 +19,7 @@ import * as XLSX from "xlsx";
 import useGSCUploadStore from "@/store/GSCUploadStore";
 import { localStorageHandler } from "../util";
 import { useExcelLoading } from "@/store/ServerLogsGlobalStore";
+import { zhCN } from "@/app/utils/zhCN";
 
 export default function GSCuploadManager() {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +48,7 @@ export default function GSCuploadManager() {
       if (!file) return;
 
       if (!file.name.endsWith(".xlsx") && !file.name.endsWith(".csv")) {
-        toast.error("Please upload a .xlsx or .csv file");
+        toast.error(zhCN.serverlogs.gsc.uploadInvalid);
         return;
       }
 
@@ -71,10 +72,10 @@ export default function GSCuploadManager() {
 
         if ("Pages" in wb.Sheets) {
           toast.success(
-            "Google Sheets file detected. Please select a sheet to process",
+            zhCN.serverlogs.gsc.detected,
           );
         } else {
-          toast.error("No Pages data found in this file");
+          toast.error(zhCN.serverlogs.gsc.noPages);
         }
 
         if (wb.SheetNames.length === 1) {
@@ -116,7 +117,7 @@ export default function GSCuploadManager() {
     const jsonData = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
     setFilePreview({
-      fileName: fileName || "File",
+      fileName: fileName || zhCN.serverlogs.gsc.fileFallback,
       data: jsonData,
       processedAt: null,
     });
@@ -143,7 +144,7 @@ export default function GSCuploadManager() {
 
       if (selectedSheet !== "Pages") {
         toast.error(
-          "Please select a sheet with the right data. 'Pages' is required",
+          zhCN.serverlogs.gsc.selectPages,
         );
         return;
       }
@@ -151,11 +152,11 @@ export default function GSCuploadManager() {
       console.log(selectedSheet, "Selected sheet");
       await loadGscIntoMemory();
 
-      toast.success("File processed and loaded successfully");
+      toast.success(zhCN.serverlogs.gsc.processed);
     } catch (error) {
       console.error("Processing failed:", error);
       toast.error(
-        `Processing failed: ${error instanceof Error ? error.message : String(error)}`,
+        `${zhCN.serverlogs.gsc.processFailed}: ${error instanceof Error ? error.message : String(error)}`,
       );
 
       const status = false;
@@ -171,17 +172,17 @@ export default function GSCuploadManager() {
       const result = await invoke("load_gsc_from_database");
 
       // Handle different response formats
-      let message = "GSC data loaded into memory";
+      let message = zhCN.serverlogs.gsc.memoryLoaded;
 
       if (typeof result === "string") {
         message = result;
       } else if (result && result.message === "Loaded") {
-        message = `Loaded ${result.count} GSC entries into memory`;
+        message = `已加载 ${result.count} 条 GSC 记录到内存`;
 
         // Handle the local storage stuff
         localStorageHandler(result);
       } else if (typeof result === "number") {
-        message = `Loaded ${result} GSC entries into memory`;
+        message = `已加载 ${result} 条 GSC 记录到内存`;
       } else {
         const status = true;
         localStorageHandler(status);
@@ -195,7 +196,7 @@ export default function GSCuploadManager() {
       return result;
     } catch (error) {
       console.error("Failed to load GSC into memory:", error);
-      toast.error(`Failed to load into memory: ${error}`);
+      toast.error(`${zhCN.serverlogs.gsc.loadMemoryFailed}: ${error}`);
       throw error; // Re-throw to be caught by parent
     }
   };
@@ -261,7 +262,7 @@ export default function GSCuploadManager() {
           <div className="col-span-4 flex flex-col gap-4 h-full dark:text-white">
             <div className="h-full border dark:border-white/30 rounded-lg bg-muted/30 dark:bg-muted/10 p-4 flex flex-col gap-4">
               <h3 className="text-sm font-medium text-foreground">
-                File Upload
+                {zhCN.serverlogs.gsc.fileUpload}
               </h3>
 
               {!uploadedFile ? (
@@ -270,9 +271,9 @@ export default function GSCuploadManager() {
                     <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
                     <p className="text-xs text-muted-foreground">
                       <span className="font-semibold text-foreground">
-                        Click to upload
+                        {zhCN.serverlogs.gsc.clickUpload}
                       </span>{" "}
-                      or drag and drop
+                      {zhCN.serverlogs.gsc.dragDrop}
                     </p>
                     <p className="text-[10px] text-muted-foreground mt-1">
                       .xlsx or .csv
@@ -316,7 +317,7 @@ export default function GSCuploadManager() {
               {uploadedFile && sheets.length > 0 && (
                 <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
                   <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                    Select Sheet
+                    {zhCN.serverlogs.gsc.selectSheet}
                   </span>
                   <div className="flex flex-col gap-1 max-h-80 overflow-y-auto pr-1">
                     {sheets.map((sheet) => (
@@ -348,12 +349,12 @@ export default function GSCuploadManager() {
                   {isProcessing ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing...
+                      {zhCN.serverlogs.gsc.processing}
                     </>
                   ) : (
                     <>
                       <IoPlayCircleOutline className="mr-2 h-4 w-4" />
-                      Process Data
+                      {zhCN.serverlogs.gsc.processData}
                     </>
                   )}
                 </Button>
@@ -367,7 +368,7 @@ export default function GSCuploadManager() {
               <div className="flex items-center gap-2">
                 <h3 className="text-sm font-medium flex items-center gap-2 dark:text-white">
                   <FolderOpen className="w-4 h-4 text-brand-bright" />
-                  Data Preview
+                  {zhCN.serverlogs.gsc.preview}
                 </h3>
                 <div
                   className={`h-2 w-2 rounded-full bg-${localStorageExcel ? "green" : "red"}-500`}
@@ -375,7 +376,7 @@ export default function GSCuploadManager() {
               </div>
               {filePreview && (
                 <span className="text-xs text-muted-foreground dark:text-white">
-                  Loaded {filePreview.data?.length || 0} rows
+                  {zhCN.serverlogs.gsc.loadedRows} {filePreview.data?.length || 0} {zhCN.serverlogs.gsc.rows}
                 </span>
               )}
             </div>
@@ -419,7 +420,7 @@ export default function GSCuploadManager() {
                     <FileSpreadsheet className="w-8 h-8 opacity-50" />
                   </div>
                   <p className="text-sm dark:text-white/40">
-                    Select a file and sheet to preview data
+                    {zhCN.serverlogs.gsc.emptyPreview}
                   </p>
                 </div>
               )}

@@ -15,6 +15,7 @@ import {
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface InputZoneProps {
   handleDomainCrawl: (url: string) => void;
@@ -140,7 +141,7 @@ const InputZone = ({ handleDomainCrawl }: InputZoneProps) => {
             <input
               ref={inputRef}
               type="url"
-              placeholder="Analyze domain..."
+              placeholder={zhCN.global.input.placeholder}
               value={url}
               onFocus={() => {
                 setIsFocused(true);
@@ -188,7 +189,7 @@ const InputZone = ({ handleDomainCrawl }: InputZoneProps) => {
                   </div>
                 ) : (
                   <>
-                    <span>CRAWL </span>
+                    <span>{zhCN.global.input.crawl}</span>
                   </>
                 )}
               </button>
@@ -213,7 +214,7 @@ const InputZone = ({ handleDomainCrawl }: InputZoneProps) => {
                 <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400">
                   <FiClock className="text-[10px]" />
                   <span className="text-[9px] font-bold uppercase tracking-[0.2em]">
-                    Recently Crawled
+                    {zhCN.global.input.recent}
                   </span>
                 </div>
               </div>

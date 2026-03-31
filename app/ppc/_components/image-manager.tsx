@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import { Upload, X, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import type { AdImage } from "@/types/ad";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface ImageManagerProps {
     images: AdImage[];
@@ -31,7 +32,9 @@ export function ImageManager({
 
     const processFiles = (files: File[]) => {
         if (images.length + files.length > maxFiles) {
-            toast.error(`You can only upload up to ${maxFiles} images`);
+            toast.error(
+                zhCN.ppc.imageManager.maxFilesError.replace("{count}", String(maxFiles)),
+            );
             return;
         }
 
@@ -39,12 +42,16 @@ export function ImageManager({
 
         files.forEach((file) => {
             if (!file.type.startsWith("image/")) {
-                toast.error(`${file.name} is not an image file`);
+                toast.error(
+                    zhCN.ppc.imageManager.notImageError.replace("{name}", file.name),
+                );
                 return;
             }
 
             if (file.size > 5 * 1024 * 1024) {
-                toast.error(`${file.name} is too large (max 5MB)`);
+                toast.error(
+                    zhCN.ppc.imageManager.tooLargeError.replace("{name}", file.name),
+                );
                 return;
             }
 
@@ -122,10 +129,10 @@ export function ImageManager({
 
                 <div className="text-center">
                     <p className="text-sm font-bold text-gray-700 dark:text-gray-200">
-                        Click to upload or drag and drop
+                        {zhCN.ppc.imageManager.uploadPrompt}
                     </p>
                     <p className="text-[9px] text-gray-400 mt-1 uppercase tracking-[0.2em] font-black opacity-50">
-                        Up to {maxFiles} images (Max 5MB each)
+                        {zhCN.ppc.imageManager.uploadLimit.replace("{count}", String(maxFiles))}
                     </p>
                 </div>
             </div>

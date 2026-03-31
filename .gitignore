@@ -15,7 +15,6 @@
 
 # production
 /build
-/dist-linux
 
 # misc
 .DS_Store

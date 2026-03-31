@@ -26,6 +26,7 @@ import {
   YoutubePreview,
   DisplayPreview,
 } from "./ad-preview-examples";
+import { zhCN } from "@/app/utils/zhCN";
 
 import type { Ad } from "@/types/ad";
 
@@ -110,10 +111,10 @@ export function AdPreview({ ad, allAds, onSelectAd }: AdPreviewProps) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
         <h3 className="text-lg font-medium dark:text-white/50">
-          No ads available
+          {zhCN.ppc.preview.emptyTitle}
         </h3>
         <p className="text-sm text-muted-foreground mt-1 dark:text-white/50">
-          Create an ad to preview it here
+          {zhCN.ppc.preview.emptyDescription}
         </p>
       </div>
     );
@@ -217,21 +218,23 @@ export function AdPreview({ ad, allAds, onSelectAd }: AdPreviewProps) {
             </div>
             <div className="flex flex-col">
               <CardTitle className="text-base font-bold text-gray-900 dark:text-white">
-                RustySEO Preview
+                {zhCN.ppc.preview.title}
               </CardTitle>
               <div className="flex items-center gap-2 mt-0">
                 <Badge
                   variant="secondary"
                   className="bg-blue-100/50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-none px-1.5 py-0 text-[8px] uppercase font-bold tracking-wider shrink-0"
                 >
-                  Live
+                  {zhCN.ppc.preview.live}
                 </Badge>
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="text-[10px] text-muted-foreground font-bold truncate max-w-[120px]">
                     {ad.name}
                   </span>
                   <span className="text-[9px] font-black text-gray-400/80 bg-gray-100 dark:bg-white/5 px-2 py-0.5 rounded-full tabular-nums">
-                    AD {currentAdIndex + 1} OF {allAds.length}
+                    {zhCN.ppc.preview.adCount
+                      .replace("{current}", String(currentAdIndex + 1))
+                      .replace("{total}", String(allAds.length))}
                   </span>
                 </div>
               </div>
@@ -242,10 +245,10 @@ export function AdPreview({ ad, allAds, onSelectAd }: AdPreviewProps) {
             {viewMode === "single" && (
               <div className="flex bg-gray-100 dark:bg-brand-dark p-0.5 rounded-lg border border-gray-200 dark:border-white/5">
                 {[
-                  { id: "search", icon: Monitor, label: "Search" },
-                  { id: "display", icon: Target, label: "Display" },
-                  { id: "mobile", icon: Smartphone, label: "Mobile" },
-                  { id: "youtube", icon: Youtube, label: "YouTube" },
+                  { id: "search", icon: Monitor, label: zhCN.ppc.preview.modes.search },
+                  { id: "display", icon: Target, label: zhCN.ppc.preview.modes.display },
+                  { id: "mobile", icon: Smartphone, label: zhCN.ppc.preview.modes.mobile },
+                  { id: "youtube", icon: Youtube, label: zhCN.ppc.preview.modes.youtube },
                 ].map((item) => (
                   <button
                     key={item.id}
@@ -352,7 +355,7 @@ export function AdPreview({ ad, allAds, onSelectAd }: AdPreviewProps) {
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-blue-500"></div>
                         <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
-                          Headlines
+                          {zhCN.ppc.preview.headlines}
                         </span>
                         <span className="text-[10px] font-mono text-gray-500 bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded-md tabular-nums">
                           {headlineIndex + 1}/{maxHeadlineIndex + 1}
@@ -399,7 +402,7 @@ export function AdPreview({ ad, allAds, onSelectAd }: AdPreviewProps) {
                           key={i}
                           className="px-3 py-1 bg-white/50 dark:bg-gray-800/50 border border-gray-100 dark:border-white/5 rounded-lg text-[11px] font-semibold text-gray-600 dark:text-gray-400 shadow-sm truncate max-w-[140px]"
                         >
-                          {h || "Empty"}
+                          {h || zhCN.ppc.preview.empty}
                         </div>
                       ))}
                     </div>
@@ -410,7 +413,7 @@ export function AdPreview({ ad, allAds, onSelectAd }: AdPreviewProps) {
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-indigo-500"></div>
                         <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">
-                          Description
+                          {zhCN.ppc.preview.description}
                         </span>
                         <span className="text-[10px] font-mono text-gray-500 bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded-md tabular-nums">
                           {descriptionIndex + 1}/{maxDescriptionIndex + 1}
@@ -438,7 +441,7 @@ export function AdPreview({ ad, allAds, onSelectAd }: AdPreviewProps) {
                       </div>
                     </div>
                     <div className="px-3 py-2 bg-white/50 dark:bg-gray-800/50 border border-gray-100 dark:border-white/5 rounded-lg shadow-sm text-[11px] font-medium text-gray-500 dark:text-gray-400 italic line-clamp-1">
-                      "{currentDescription || "No description available"}"
+                      "{currentDescription || zhCN.ppc.preview.noDescription}"
                     </div>
                   </div>
                 </div>

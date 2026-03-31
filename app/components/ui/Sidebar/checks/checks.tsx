@@ -3,6 +3,7 @@ import useOnPageSeo from "@/store/storeOnPageSeo";
 import usePageSpeedStore from "@/store/StorePerformance";
 import { useEffect, useMemo, useCallback } from "react";
 import useContentStore from "@/store/storeContent";
+import { zhCheckNameMap } from "@/app/utils/zhCN";
 
 const useGetChecks = () => {
   // Extract all necessary state from Zustand store using a custom hook
@@ -108,7 +109,7 @@ const useGetChecks = () => {
   const checks = useMemo(() => {
     const createCheck = (id, name, condition) => ({
       id,
-      name,
+      name: zhCheckNameMap[name] || name,
       status: condition ? "Passed" : "Failed",
     });
 
@@ -165,7 +166,10 @@ const useGetChecks = () => {
       ),
       {
         id: "31",
-        name: readingLevelResults?.[0]?.[1] || "Reading Level",
+        name:
+          zhCheckNameMap[readingLevelResults?.[0]?.[1]] ||
+          readingLevelResults?.[0]?.[1] ||
+          zhCheckNameMap["Reading Level"],
         status: ["Very Easy", "Easy", "Fairly Easy", "Standard"].includes(
           readingLevelResults?.[0]?.[1],
         )

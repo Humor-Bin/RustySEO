@@ -10,6 +10,7 @@ import {
     SectionHeader,
 } from "../fields/SettingFields";
 import { Plug, BarChart3 } from "lucide-react";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface Props {
     settings: AppSettings;
@@ -19,13 +20,13 @@ interface Props {
 const IntegrationsSection = ({ settings, onUpdate }: Props) => (
     <div className="space-y-0.5">
         <SectionHeader
-            title="PageSpeed Insights"
+            title={zhCN.settings.sections.pageSpeedInsights}
             icon={<Plug className="w-3.5 h-3.5" />}
         />
 
         <SettingField
-            label="Bulk PageSpeed"
-            description="Fetch PSI data for all crawled pages"
+            label="批量 PageSpeed"
+            description="为所有已抓取页面拉取 PSI 数据"
         >
             <ToggleSwitch
                 checked={settings.page_speed_bulk}
@@ -34,13 +35,13 @@ const IntegrationsSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SectionHeader
-            title="Google Search Console"
+            title={zhCN.settings.sections.gsc}
             icon={<BarChart3 className="w-3.5 h-3.5" />}
         />
 
         <SettingField
-            label="GSC Row Limit"
-            description="Max rows fetched from Search Console"
+            label="GSC 行数上限"
+            description="从 Search Console 获取的最大行数"
         >
             <NumberInput
                 value={settings.gsc_row_limit}

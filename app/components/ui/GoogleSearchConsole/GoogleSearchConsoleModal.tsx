@@ -1,6 +1,7 @@
 // @ts-nocheck
 "use client";
 import openBrowserWindow from "@/app/Hooks/OpenBrowserWindow";
+import { zhCN } from "@/app/utils/zhCN";
 import { useFetch } from "@mantine/hooks";
 import { invoke } from "@tauri-apps/api/core";
 import React, { useCallback, useEffect, useId, useState } from "react";
@@ -21,23 +22,23 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
   const [errors, setErrors] = useState({});
 
   const searchTypes = [
-    { value: "domain", label: "Domain" },
-    { value: "site", label: "URL" },
+    { value: "domain", label: zhCN.integrations.gscModal.searchTypes.domain },
+    { value: "site", label: zhCN.integrations.gscModal.searchTypes.site },
   ];
 
   const durations = [
-    { value: "1 month", label: "1 Month" },
-    { value: "3 months", label: "3 Months" },
-    { value: "6 months", label: "6 Months" },
-    { value: "12 months", label: "12 Months" },
-    { value: "16 months", label: "16 Months" },
+    { value: "1 month", label: zhCN.integrations.gscModal.durations.oneMonth },
+    { value: "3 months", label: zhCN.integrations.gscModal.durations.threeMonths },
+    { value: "6 months", label: zhCN.integrations.gscModal.durations.sixMonths },
+    { value: "12 months", label: zhCN.integrations.gscModal.durations.twelveMonths },
+    { value: "16 months", label: zhCN.integrations.gscModal.durations.sixteenMonths },
   ];
 
   const rows = [
     { value: "1000", label: "1000" },
     { value: "5000", label: "5000" },
     { value: "10000", label: "10000" },
-    { value: "25000", label: "Max" },
+    { value: "25000", label: zhCN.integrations.gscModal.rows.max },
   ];
 
   const handleChange = (e) => {
@@ -51,26 +52,28 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.clientId.trim()) {
-      newErrors.clientId = "Client ID is required";
+      newErrors.clientId = zhCN.integrations.gscModal.errors.clientIdRequired;
     }
     if (!formData.projectId.trim()) {
-      newErrors.projectId = "Project ID is required";
+      newErrors.projectId = zhCN.integrations.gscModal.errors.projectIdRequired;
     }
     if (!formData.clientSecret.trim()) {
-      newErrors.clientSecret = "Client Secret is required";
+      newErrors.clientSecret =
+        zhCN.integrations.gscModal.errors.clientSecretRequired;
     }
     if (!formData.url.trim()) {
-      newErrors.url = "URL is required";
+      newErrors.url = zhCN.integrations.gscModal.errors.urlRequired;
     }
     if (!formData.propertyType) {
-      newErrors.propertyType = "Search Type is required";
+      newErrors.propertyType =
+        zhCN.integrations.gscModal.errors.propertyTypeRequired;
     }
     if (!formData.range) {
-      newErrors.range = "Duration is required";
+      newErrors.range = zhCN.integrations.gscModal.errors.rangeRequired;
     }
 
     if (!formData.rows) {
-      newErrors.rows = "Rows is required";
+      newErrors.rows = zhCN.integrations.gscModal.errors.rowsRequired;
     }
 
     setErrors(newErrors);
@@ -91,12 +94,12 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
           credentials: formData,
         }).then(() => {
           console.log("Credentials saved successfully");
-          toast.success("Credentials saved successfully");
+          toast.success(zhCN.integrations.gscModal.toasts.saved);
           close();
         });
       } catch (error) {
         console.error("Failed to save credentials:", error);
-        toast.error("Failed to save credentials");
+        toast.error(zhCN.integrations.gscModal.toasts.failed);
       }
     }
   };
@@ -105,14 +108,16 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
     <section>
       <div className="max-w-md mx-auto -mt-3 p-2 px-3 pb-5 bg-white dark:bg-brand-darker dark:text-white rounded-lg text-xs">
         <div className="flex items-center space-x-2">
-          <h2 className="text-lg font-semibold mb-5 ml-1">Enter Credentials</h2>
+          <h2 className="text-lg font-semibold mb-5 ml-1">
+            {zhCN.integrations.gscModal.title}
+          </h2>
           <span
             onClick={() =>
               openBrowserWindow("https://github.com/mascanho/RustySEO")
             }
             className="text-[10px] ml-1 pb-5  text-brand-bright underline cursor-pointer"
           >
-            (Instructions)
+            ({zhCN.integrations.gscModal.instructions})
           </span>
         </div>
 
@@ -122,7 +127,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
               htmlFor="projectId"
               className="block text-gray-700 text-[10px] font-bold mb-2 absolute -top-[8px] px-1 bg-white left-[10px] dark:bg-brand-darker dark:text-white"
             >
-              Project ID
+              {zhCN.integrations.gscModal.labels.projectId}
             </label>
             <input
               type="text"
@@ -135,7 +140,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
                   ? "border-red-500 focus:ring-red-200"
                   : "focus:ring-blue-200"
               }`}
-              placeholder="Enter Project ID"
+              placeholder={zhCN.integrations.gscModal.placeholders.projectId}
             />
             {errors.projectId && (
               <p className="text-red-500 text-sm mt-1">{errors.projectId}</p>
@@ -146,7 +151,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
               htmlFor="clientId"
               className="block text-gray-700 text-[10px] font-bold mb-2 absolute -top-[8px] px-1 bg-white left-[10px] dark:bg-brand-darker dark:text-white"
             >
-              Client ID
+              {zhCN.integrations.gscModal.labels.clientId}
             </label>
             <input
               type="text"
@@ -159,7 +164,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
                   ? "border-red-500 focus:ring-red-200"
                   : "focus:ring-blue-200"
               }`}
-              placeholder="Enter Client ID"
+              placeholder={zhCN.integrations.gscModal.placeholders.clientId}
             />
             {errors.clientId && (
               <p className="text-red-500 text-sm mt-1">{errors.clientId}</p>
@@ -170,7 +175,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
               htmlFor="clientSecret"
               className="block text-gray-700 text-[10px] font-bold mb-2 absolute -top-[8px] px-1 bg-white left-[10px] dark:bg-brand-darker dark:text-white"
             >
-              Client Secret
+              {zhCN.integrations.gscModal.labels.clientSecret}
             </label>
             <input
               type="password"
@@ -183,7 +188,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
                   ? "border-red-500 focus:ring-red-200"
                   : "focus:ring-blue-200"
               }`}
-              placeholder="Enter Client Secret"
+              placeholder={zhCN.integrations.gscModal.placeholders.clientSecret}
             />
             {errors.clientSecret && (
               <p className="text-red-500 text-sm mt-1">{errors.clientSecret}</p>
@@ -194,7 +199,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
               htmlFor="url"
               className="block text-gray-700 text-[10px] font-bold mb-2 absolute -top-[8px] px-1 bg-white left-[10px] dark:bg-brand-darker dark:text-white"
             >
-              URL
+              {zhCN.integrations.gscModal.labels.url}
             </label>
             <input
               type="text"
@@ -207,7 +212,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
                   ? "border-red-500 focus:ring-red-200"
                   : "focus:ring-blue-200"
               }`}
-              placeholder="Enter URL"
+              placeholder={zhCN.integrations.gscModal.placeholders.url}
             />
             {errors.url && (
               <p className="text-red-500 text-sm mt-1">{errors.url}</p>
@@ -218,7 +223,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
               htmlFor="propertyType"
               className="block text-gray-700 font-bold mb-2 dark:text-white"
             >
-              Property Type
+              {zhCN.integrations.gscModal.labels.propertyType}
             </label>
             <select
               id="propertyType"
@@ -231,7 +236,9 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
                   : "focus:ring-blue-200"
               }`}
             >
-              <option value="">Select a property type</option>
+              <option value="">
+                {zhCN.integrations.gscModal.placeholders.propertyType}
+              </option>
               {searchTypes.map((type) => (
                 <option key={type.value} value={type.value}>
                   {type.label}
@@ -247,7 +254,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
               htmlFor="range"
               className="block text-gray-700 font-bold mb-2 dark:text-white"
             >
-              Date Range
+              {zhCN.integrations.gscModal.labels.dateRange}
             </label>
             <select
               id="range"
@@ -260,7 +267,9 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
                   : "focus:ring-blue-200"
               }`}
             >
-              <option value="">Select a range</option>
+              <option value="">
+                {zhCN.integrations.gscModal.placeholders.range}
+              </option>
               {durations.map((range) => (
                 <option key={range.value} value={range.value}>
                   {range.label}
@@ -276,7 +285,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
                 htmlFor="rows"
                 className="block text-gray-700 font-bold mb-2 dark:text-white"
               >
-                Rows
+                {zhCN.integrations.gscModal.labels.rows}
               </label>
 
               <select
@@ -286,7 +295,9 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
                 onChange={handleChange}
                 className={`dark:text-white dark:bg-brand-darker w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-0 ${errors.rows ? "border-red-500 focus:ring-red-200" : "focus:ring-blue-200"}`}
               >
-                <option value="">Select a rows</option>
+                <option value="">
+                  {zhCN.integrations.gscModal.placeholders.rows}
+                </option>
                 {rows.map((rows) => (
                   <option key={rows.value} value={rows.value}>
                     {rows.label}
@@ -302,7 +313,7 @@ const GoogleSearchConsoleModal = ({ onSubmit, close }) => {
             type="submit"
             className="w-full active:scale-95  bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
           >
-            Confirm
+            {zhCN.integrations.gscModal.confirm}
           </button>
         </form>
       </div>

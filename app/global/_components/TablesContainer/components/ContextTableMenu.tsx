@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/context-menu";
 import { FaClipboard, FaKey, FaRegClipboard } from "react-icons/fa6";
 import { GoSearch } from "react-icons/go";
+import { zhCN } from "@/app/utils/zhCN";
 import { MdVerified } from "react-icons/md";
 import {
   IoLogoGoogle,
@@ -179,7 +180,7 @@ export default function ContextTableMenu({ children, data }) {
       <ContextMenuTrigger>{children}</ContextMenuTrigger>
       <ContextMenuContent className="text-xs rounded-sm p-0 m-0 dark:bg-brand-darker dark:border-brand-dark w-44">
         <ContextMenuItem onClick={handleCopyToClipboard} className="text-xs">
-          <FaRegClipboard className="mr-2" /> Copy URL
+          <FaRegClipboard className="mr-2" /> {zhCN.global.shared.copyUrl}
         </ContextMenuItem>
 
         <ContextMenuSeparator className="p-0 m-0 dark:bg-brand-dark" />
@@ -191,13 +192,13 @@ export default function ContextTableMenu({ children, data }) {
           rel="noreferrer"
         >
           <ContextMenuItem className="text-xs cursor-pointer w-full">
-            <PiGooglePodcastsLogo className="mr-2" /> Open URL
+            <PiGooglePodcastsLogo className="mr-2" /> {zhCN.global.shared.openUrl}
           </ContextMenuItem>
         </a>
 
         <ContextMenuSub>
           <ContextMenuSubTrigger className="text-xs">
-            <GoSearch className="mr-2" /> Search on...
+            <GoSearch className="mr-2" /> {zhCN.global.shared.searchOn}
           </ContextMenuSubTrigger>
           <ContextMenuSubContent className="w-48 text-xs dark:bg-brand-darker dark:border-brand-dark">
             {searchEngines.map((engine, index) => (

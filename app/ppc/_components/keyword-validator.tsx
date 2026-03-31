@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { AlertTriangle, Check } from "lucide-react";
 import type { Ad } from "@/types/ad";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface KeywordValidatorProps {
   validationResults: {
@@ -27,11 +28,11 @@ export function KeywordValidator({
             <Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
           </div>
           <h5 className="text-[11px] font-black uppercase tracking-widest text-emerald-800 dark:text-emerald-400">
-            Ad Copy Optimized
+            {zhCN.ppc.keywordValidator.optimizedTitle}
           </h5>
         </div>
         <p className="text-xs text-emerald-700 dark:text-emerald-400/80 leading-relaxed font-medium">
-          Brilliant! All of your targeted keywords are correctly included in your ad headlines and descriptions.
+          {zhCN.ppc.keywordValidator.optimizedDescription}
         </p>
       </div>
     );
@@ -44,12 +45,12 @@ export function KeywordValidator({
           <AlertTriangle className="h-3.5 w-3.5 text-orange-600 dark:text-orange-400" />
         </div>
         <h5 className="text-[11px] font-black uppercase tracking-widest text-orange-800 dark:text-orange-400">
-          Optimization Required
+          {zhCN.ppc.keywordValidator.requiredTitle}
         </h5>
       </div>
       <div className="space-y-2">
         <p className="text-xs text-orange-700 dark:text-orange-400/80 leading-relaxed font-medium">
-          The following keywords are currently missing from your ad creative:
+          {zhCN.ppc.keywordValidator.requiredDescription}
         </p>
         <div className="flex flex-wrap gap-1.5 mt-1">
           {validationResults.missingKeywords.map((keyword, index) => (

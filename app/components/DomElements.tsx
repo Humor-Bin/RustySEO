@@ -3,6 +3,7 @@ import React from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Popover, Text, Button } from "@mantine/core";
 import openBrowserWindow from "../Hooks/OpenBrowserWindow";
+import { zhCN, zhStatusMap } from "@/app/utils/zhCN";
 
 const DomElements = ({
   stat,
@@ -36,22 +37,22 @@ const DomElements = ({
   if (!stat) {
     label = "";
   } else if (nodeCount <= 800) {
-    label = "Optimal";
+    label = zhStatusMap.Optimal;
   } else if (nodeCount <= 1200) {
-    label = "Good";
+    label = zhStatusMap.Good;
   } else if (nodeCount <= 1500) {
-    label = "Average";
+    label = "一般";
   } else {
-    label = "Poor";
+    label = zhStatusMap.Poor;
   }
 
   // Determine the background color and text color based on the label
   const labelClass =
     {
-      Optimal: "bg-emerald-500 text-white",
-      Good: "bg-green-500 text-white",
-      Average: "bg-orange-500 text-white",
-      Poor: "bg-red-500 text-white",
+      [zhStatusMap.Optimal]: "bg-emerald-500 text-white",
+      [zhStatusMap.Good]: "bg-green-500 text-white",
+      一般: "bg-orange-500 text-white",
+      [zhStatusMap.Poor]: "bg-red-500 text-white",
     }[label] || "bg-gray-200 text-black";
 
   return (
@@ -185,7 +186,7 @@ const DomElements = ({
           onClick={() =>
             openBrowserWindow(
               "https://pagespeed.web.dev/report?url=" +
-              (url || "No URL provided"),
+              (url || zhCN.page.noUrlProvided),
             )
           }
           className="flex cursor-pointer"

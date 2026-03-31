@@ -9,6 +9,7 @@ import {
     SectionHeader,
 } from "../fields/SettingFields";
 import { Link2, Zap } from "lucide-react";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface Props {
     settings: AppSettings;
@@ -18,13 +19,13 @@ interface Props {
 const LinksSection = ({ settings, onUpdate }: Props) => (
     <div className="space-y-0.5">
         <SectionHeader
-            title="Link Processor"
+            title={zhCN.settings.sections.linkProcessor}
             icon={<Link2 className="w-3.5 h-3.5" />}
         />
 
         <SettingField
-            label="Max Concurrent Checks"
-            description="Parallel link status checks"
+            label="最大并发检查数"
+            description="并行执行链接状态检查"
         >
             <NumberInput
                 value={settings.links_max_concurrent_requests}
@@ -35,8 +36,8 @@ const LinksSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Initial Task Capacity"
-            description="Pre-allocated task slots"
+            label="初始任务容量"
+            description="预分配的任务槽位数量"
         >
             <NumberInput
                 value={settings.links_initial_task_capacity}
@@ -47,8 +48,8 @@ const LinksSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Max Retries"
-            description="Retry attempts for link checks"
+            label="最大重试次数"
+            description="链接检查失败后的重试次数"
         >
             <NumberInput
                 value={settings.links_max_retries}
@@ -59,8 +60,8 @@ const LinksSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Retry Delay"
-            description="Delay between retries"
+            label="重试延迟"
+            description="每次重试之间的等待时间"
         >
             <NumberInput
                 value={settings.links_retry_delay}
@@ -72,8 +73,8 @@ const LinksSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Request Timeout"
-            description="Per-link request timeout"
+            label="请求超时"
+            description="每个链接请求的超时时间"
         >
             <NumberInput
                 value={settings.links_request_timeout}
@@ -85,8 +86,8 @@ const LinksSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Jitter Factor"
-            description="Randomized delay factor (0.0-1.0)"
+            label="抖动系数"
+            description="随机延迟系数（0.0-1.0）"
         >
             <NumberInput
                 value={settings.links_jitter_factor}
@@ -99,8 +100,8 @@ const LinksSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Pool Idle Timeout"
-            description="Connection pool idle timeout"
+            label="连接池空闲超时"
+            description="连接池中空闲连接的超时时间"
         >
             <NumberInput
                 value={settings.links_pool_idle_timeout}
@@ -112,8 +113,8 @@ const LinksSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Max Idle per Host"
-            description="Max idle connections per host"
+            label="每主机最大空闲连接"
+            description="每个主机允许的最大空闲连接数"
         >
             <NumberInput
                 value={settings.links_max_idle_per_host}

@@ -21,22 +21,23 @@ import {
 import useGlobalCrawlStore from "@/store/GlobalCrawlDataStore";
 import { listen } from "@tauri-apps/api/event";
 import { debounce } from "lodash";
+import { zhCN } from "@/app/utils/zhCN";
 
 const chartConfig = {
   crawled: {
-    label: "Crawled",
+    label: zhCN.global.sidebar.charts.crawled,
     color: "hsl(210, 100%, 50%)", // Blue
   },
   failed4xx: {
-    label: "4XX Errors",
+    label: zhCN.global.sidebar.charts.errors4xx,
     color: "hsl(210, 100%, 65%)", // Medium Blue
   },
   failed5xx: {
-    label: "5XX Errors",
+    label: zhCN.global.sidebar.charts.errors5xx,
     color: "hsl(210, 100%, 80%)", // Light Blue
   },
   queued: {
-    label: "Queued",
+    label: zhCN.global.sidebar.charts.queued,
     color: "hsl(210, 100%, 90%)", // Very Light Blue
   },
 } satisfies ChartConfig;
@@ -150,22 +151,22 @@ function OverviewChart() {
 
     return [
       {
-        browser: "Crawled",
+        browser: zhCN.global.sidebar.charts.crawled,
         visitors: hasData ? crawled : 1,
         fill: "hsl(210, 100%, 50%)",
       },
       {
-        browser: "4XX Errors",
+        browser: zhCN.global.sidebar.charts.errors4xx,
         visitors: hasData ? errors4xx : 0,
         fill: "hsl(210, 100%, 65%)",
       },
       {
-        browser: "5XX Errors",
+        browser: zhCN.global.sidebar.charts.errors5xx,
         visitors: hasData ? errors5xx : 0,
         fill: "hsl(210, 100%, 80%)",
       },
       {
-        browser: "Queued",
+        browser: zhCN.global.sidebar.charts.queued,
         visitors: hasData ? queued : 0,
         fill: "hsl(210, 100%, 90%)",
       },
@@ -212,7 +213,7 @@ function OverviewChart() {
             textAnchor="middle"
             dominantBaseline="middle"
             className="dark:text-white"
-            aria-label="Total Pages"
+            aria-label={zhCN.global.sidebar.charts.totalPages}
             role="text"
           >
             <tspan
@@ -228,7 +229,7 @@ function OverviewChart() {
               y={(viewBox.cy || 0) + 24}
               className="fill-muted-foreground dark:fill-white/50 dark:text-white"
             >
-              Pages
+              {zhCN.global.sidebar.charts.pages}
             </tspan>
           </text>
         );
@@ -241,7 +242,7 @@ function OverviewChart() {
   return (
     <Card className="flex flex-col dark:bg-gray-900 bg-slate-100 border-0 shadow-none">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Latest Crawl</CardTitle>
+        <CardTitle>{zhCN.global.sidebar.charts.latestCrawl}</CardTitle>
         <CardDescription>{`${new Date().toLocaleString("default", {
           month: "long",
           day: "numeric",
@@ -275,12 +276,17 @@ function OverviewChart() {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-xs dark:text-white/50">
         <div className="leading-none text-muted-foreground">
-          This session has recorded {sessionCrawls || 0} crawls.
+          {zhCN.global.sidebar.charts.sessionRecordedCrawls.replace(
+            "{count}",
+            String(sessionCrawls || 0),
+          )}
         </div>
         <div className="flex items-center gap-3 font-medium leading-none">
           {/* WARNING: Something strange on this It is not adding up with the CSV doenload */}
-          With a total of {[totalPagesCrawledInSession + crawlData.length] || 0}{" "}
-          pages analyzed
+          {zhCN.global.sidebar.charts.totalPagesAnalyzed.replace(
+            "{count}",
+            String(totalPagesCrawledInSession + (crawlData?.length || 0)),
+          )}
           <TrendingUp className="h-5 w-4" aria-hidden="true" />
         </div>
       </CardFooter>

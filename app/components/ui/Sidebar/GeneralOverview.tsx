@@ -16,6 +16,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import useOnPageSeo from "@/store/storeOnPageSeo";
+import { zhCN, zhStatusMap } from "@/app/utils/zhCN";
 
 export default function GeneralOverview({
   pageSpeed,
@@ -71,7 +72,7 @@ export default function GeneralOverview({
               <CollapsibleTrigger className="w-full text-left group sticky top-0 bg-white dark:bg-brand-darker z-20">
                 <div className="flex items-center  text-xs cursor-pointer font-semibold dark:text-slate-400 pl-2 py-1">
                   <CollapsibleChevron />
-                  <span className="ml-2">Core Web Vitals</span>
+                  <span className="ml-2">{zhCN.sidebar.groups.coreWebVitals}</span>
                 </div>
               </CollapsibleTrigger>
               <CollapsibleContent className="relative z-0">
@@ -108,7 +109,7 @@ export default function GeneralOverview({
                         </span>
                         {iconsGray ? (
                           <span className="text-black/50 dark:text-white/50">
-                            n/a
+                            {zhCN.sidebar.notAvailable}
                           </span>
                         ) : (
                           <span
@@ -118,7 +119,7 @@ export default function GeneralOverview({
                                 : "text-red-500"
                             }`}
                           >
-                            {check.status}
+                            {zhStatusMap[check.status] || check.status}
                           </span>
                         )}
                       </div>
@@ -133,7 +134,7 @@ export default function GeneralOverview({
               <CollapsibleTrigger className="w-full text-left group sticky top-0 bg-white dark:bg-brand-darker z-20">
                 <div className="flex items-center  text-xs cursor-pointer font-semibold dark:text-slate-400 pl-2 py-1">
                   <CollapsibleChevron />
-                  <span className="ml-2">SEO</span>
+                  <span className="ml-2">{zhCN.sidebar.groups.seo}</span>
                 </div>
               </CollapsibleTrigger>
               <CollapsibleContent className="relative z-0">
@@ -170,7 +171,7 @@ export default function GeneralOverview({
                         </span>
                         {!pageTitle && (
                           <span className="text-black/50 dark:text-white/50">
-                            n/a
+                            {zhCN.sidebar.notAvailable}
                           </span>
                         )}
                         <span
@@ -182,7 +183,9 @@ export default function GeneralOverview({
                             pageTitle.length <= 0 && "text-gray-400"
                           }`}
                         >
-                          {pageTitle.length ? check.status : "n/a"}
+                          {pageTitle.length
+                            ? zhStatusMap[check.status] || check.status
+                            : zhCN.sidebar.notAvailable}
                         </span>
                       </div>
                     </div>
@@ -196,7 +199,7 @@ export default function GeneralOverview({
               <CollapsibleTrigger className="w-full text-left group sticky top-0 bg-white dark:bg-brand-darker z-20">
                 <div className="flex items-center text-xs cursor-pointer font-semibold dark:text-slate-400 pl-2 py-1">
                   <CollapsibleChevron />
-                  <span className="ml-2">Content</span>
+                  <span className="ml-2">{zhCN.sidebar.groups.content}</span>
                 </div>
               </CollapsibleTrigger>
               <CollapsibleContent className="relative z-0">
@@ -233,7 +236,7 @@ export default function GeneralOverview({
                         </span>
                         {!pageTitle && (
                           <span className="text-black/50 dark:text-white/50">
-                            n/a
+                            {zhCN.sidebar.notAvailable}
                           </span>
                         )}
                         <span
@@ -245,7 +248,9 @@ export default function GeneralOverview({
                             pageTitle.length <= 0 && "text-gray-400"
                           }`}
                         >
-                          {pageTitle.length ? check.status : "n/a"}
+                          {pageTitle.length
+                            ? zhStatusMap[check.status] || check.status
+                            : zhCN.sidebar.notAvailable}
                         </span>
                       </div>
                     </div>
@@ -259,14 +264,14 @@ export default function GeneralOverview({
       <footer className="absolute bottom-0 z-10 w-full font-bold p-1 px-5 bg-brand-dark dark:bg-blue-950 text-white flex justify-center space-x-10">
         <div className="flex items-center">
           <FaCheckCircle className="mr-1 text-green-500" />
-          <span>Passed: </span>{" "}
+          <span>{zhCN.sidebar.passed}:</span>{" "}
           <span className="font-bold ml-1">
             {iconsGray ? "-" : passedChecks.length}
           </span>
         </div>
         <div className="flex items-center">
           <span className="flex items-center">
-            <FaTimesCircle className="mr-1 text-red-500" /> Failed:
+            <FaTimesCircle className="mr-1 text-red-500" /> {zhCN.sidebar.failed}:
           </span>{" "}
           <span className="font-bold ml-1">
             {iconsGray ? "-" : failedChecks.length}

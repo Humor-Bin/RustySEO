@@ -9,6 +9,7 @@ import {
     SectionHeader,
 } from "../fields/SettingFields";
 import { ScrollText, Upload } from "lucide-react";
+import { zhCN } from "@/app/utils/zhCN";
 
 interface Props {
     settings: AppSettings;
@@ -18,13 +19,13 @@ interface Props {
 const LogsSection = ({ settings, onUpdate }: Props) => (
     <div className="space-y-0.5">
         <SectionHeader
-            title="Log Processing"
+            title={zhCN.settings.sections.logProcessing}
             icon={<ScrollText className="w-3.5 h-3.5" />}
         />
 
         <SettingField
-            label="Log Batch Size"
-            description="Logs processed per batch"
+            label="日志批次大小"
+            description="每批处理的日志数量"
         >
             <NumberInput
                 value={settings.log_batchsize}
@@ -35,8 +36,8 @@ const LogsSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Log Chunk Size"
-            description="Lines per log chunk"
+            label="日志分块大小"
+            description="每个日志块包含的行数"
         >
             <NumberInput
                 value={settings.log_chunk_size}
@@ -47,8 +48,8 @@ const LogsSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Stream Sleep"
-            description="Duration between stream iterations"
+            label="流式间隔"
+            description="两次流处理循环之间的间隔"
         >
             <NumberInput
                 value={settings.log_sleep_stream_duration}
@@ -60,8 +61,8 @@ const LogsSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Log Capacity"
-            description="Buffer capacity for logs"
+            label="日志容量"
+            description="日志缓冲区容量"
         >
             <NumberInput
                 value={settings.log_capacity}
@@ -72,8 +73,8 @@ const LogsSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SettingField
-            label="Project Chunk Size"
-            description="Chunk size for log projects"
+            label="项目分块大小"
+            description="日志项目的分块大小"
         >
             <NumberInput
                 value={settings.log_project_chunk_size}
@@ -84,13 +85,13 @@ const LogsSection = ({ settings, onUpdate }: Props) => (
         </SettingField>
 
         <SectionHeader
-            title="File Upload"
+            title={zhCN.settings.sections.fileUpload}
             icon={<Upload className="w-3.5 h-3.5" />}
         />
 
         <SettingField
-            label="Max Upload Size"
-            description="Maximum log file upload size"
+            label="最大上传体积"
+            description="日志文件允许上传的最大大小"
         >
             <NumberInput
                 value={settings.log_file_upload_size}
